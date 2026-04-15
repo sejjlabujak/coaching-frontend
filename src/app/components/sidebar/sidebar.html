@@ -1,0 +1,26 @@
+<div class="sidebar-wrapper" [class.is-collapsed]="!isExpanded">
+  <div class="header-section">
+    @if (isExpanded) {
+    <div class="logo-section">
+      <mat-icon aria-hidden="true" fontIcon="sports_basketball"></mat-icon>
+      <span class="logo-text">CoachPro</span>
+    </div>
+    }
+
+    <button class="toggle-btn" (click)="toggleSidebar()" [aria-label]="isExpanded ? 'Collapse sidebar' : 'Expand sidebar'">
+      <mat-icon [fontIcon]="isExpanded ? 'chevron_left' : 'menu'"></mat-icon>
+    </button>
+  </div>
+
+  <mat-nav-list>
+    @for (item of menuItems; track item.label) {
+    <a mat-list-item [routerLink]="item.route" routerLinkActive="active-link" [title]="item.label">
+      <mat-icon matListItemIcon [fontIcon]="item.icon" aria-hidden="true"></mat-icon>
+
+      @if (isExpanded) {
+      <span matListItemTitle>{{ item.label }}</span>
+      }
+    </a>
+    }
+  </mat-nav-list>
+</div>

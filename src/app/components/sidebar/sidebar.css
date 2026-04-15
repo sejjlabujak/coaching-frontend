@@ -1,0 +1,60 @@
+:host {
+  --sidebar-width: 200px;
+  display: block;
+  height: 100vh;
+  background-color: var(--primary-red);
+  color: var(--color-white);
+  transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  width: 100%;
+  overflow: hidden;
+}
+
+:host:has(.is-collapsed) {
+  /* No longer needed since width is controlled by parent */
+}
+
+.sidebar-wrapper {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
+  transition: width 0.3s ease;
+}
+
+.header-section {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px;
+  min-height: 80px;
+}
+
+.toggle-btn {
+  background: transparent;
+  border: none;
+  color: white;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 8px;
+  border-radius: 50%;
+  transition: background 0.2s;
+}
+
+.toggle-btn:hover {
+  background: rgba(255, 255, 255, 0.1);
+}
+
+.logo-section {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  overflow: hidden;
+  white-space: nowrap;
+}
+
+.mat-mdc-list-item {
+  margin: 4px 8px !important;
+  border-radius: 8px !important;
+}
