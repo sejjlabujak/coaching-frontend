@@ -1,0 +1,17 @@
+<mat-toolbar class="top-header">
+  <span class="spacer"></span>
+
+  <div class="header-actions">
+    <span class="current-date">
+      {{ currentDate | date:'MMMM d, y' }}
+    </span>
+
+    <button mat-icon-button title="Profile">
+      <mat-icon>person_outline</mat-icon>
+    </button>
+
+    <button mat-icon-button title="Logout">
+      <mat-icon>logout</mat-icon>
+    </button>
+  </div>
+</mat-toolbar>

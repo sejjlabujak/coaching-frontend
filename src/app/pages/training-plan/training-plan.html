@@ -1,0 +1,20 @@
+<mat-sidenav-container class="app-container">
+  <mat-sidenav
+    mode="side"
+    opened
+    [style.width.px]="isSidebarExpanded ? 200 : 70"
+    #drawer
+  >
+    <sidebar (expandedChange)="onExpandedChange($event)"></sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content
+    class="main-content"
+    [style.marginLeft.px]="isSidebarExpanded ? 200 : 70"
+  >
+    <header></header>
+    <div class="page-wrapper">
+      <calendar></calendar>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

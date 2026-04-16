@@ -1,0 +1,18 @@
+
+.example-button-row .mat-mdc-button-base {
+  margin: 8px 8px 8px 0;
+}
+
+::host ::ng-deep .mat-mdc-button-base {
+  background-color: var(--primary-red) !important;
+}
+
+
+:host ::ng-deep .mat-mdc-button-base,
+:host ::ng-deep .mat-tonal-button {
+  background-color: var(--primary-red) !important;
+  color: var(--color-white) !important;
+  border-radius: 10px !important;
+  padding: 24px;
+}
+
