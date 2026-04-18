@@ -1,0 +1,118 @@
+:host {
+  overflow-x: hidden;
+}
+
+.dialog-container {
+  padding: 32px;
+  width: 450px;
+  max-width: 100%;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.dialog-header {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.dialog-title {
+  font-size: 1.4rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.dialog-subtitle {
+  font-size: 0.95rem;
+  color: var(--primary-red);
+  font-weight: 500;
+  margin: 0;
+}
+
+.dialog-description {
+  font-size: 0.95rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+.options-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 16px;
+}
+
+.option-card {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  padding: 20px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 12px;
+  background: #fff;
+  cursor: pointer;
+  text-align: left;
+  transition: border-color 0.2s, box-shadow 0.2s;
+  font-family: inherit;
+}
+
+.option-card:hover {
+  border-color: var(--primary-red);
+  box-shadow: 0 4px 12px rgba(128, 0, 0, 0.08);
+}
+
+.option-icon {
+  width: 44px;
+  height: 44px;
+  border-radius: 10px;
+  background: #f3f4f6;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: #374151;
+}
+
+.option-icon--red {
+  background: #fef2f2;
+  color: var(--primary-red);
+}
+
+.option-icon mat-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+.option-title {
+  font-size: 0.9rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0;
+}
+
+.option-desc {
+  font-size: 0.82rem;
+  color: #6b7280;
+  margin: 0;
+  line-height: 1.5;
+}
+
+.btn-cancel {
+  background: #f3f4f6;
+  color: #374151;
+  border: none;
+  border-radius: 8px;
+  padding: 12px;
+  font-size: 0.95rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background 0.2s;
+  font-family: inherit;
+}
+
+.btn-cancel:hover {
+  background: #e5e7eb;
+}

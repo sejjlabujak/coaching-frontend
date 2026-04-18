@@ -1,0 +1,17 @@
+<div class="drill-library-sidebar">
+  <div class="sidebar-header">
+    <span>Drill Library</span>
+  </div>
+  <search-input></search-input>
+  <div class="recommendations-section">
+    <div class="recommendations-title">AI Recommendations</div>
+    <drill-card
+      *ngFor="let rec of recommendations"
+      [drill]="rec"
+      [isSidebarMode]="true"
+      (addDrill)="onDrillAdd($event)"
+      [isMaxDuration]="isMaxDuration"
+    ></drill-card>
+  </div>
+</div>
+

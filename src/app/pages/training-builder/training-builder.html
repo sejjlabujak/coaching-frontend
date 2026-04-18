@@ -1,0 +1,63 @@
+<mat-sidenav-container class="app-container">
+  <mat-sidenav
+    mode="side"
+    opened
+    [style.width.px]="isSidebarExpanded ? 200 : 70"
+    #drawer
+  >
+    <sidebar (expandedChange)="onExpandedChange($event)"></sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content
+    class="main-content"
+    [style.marginLeft.px]="isSidebarExpanded ? 200 : 70"
+  >
+    <header></header>
+
+    <div class="page-wrapper">
+      <div class="builder-content">
+
+        <div class="builder-header">
+          <h2>Training Session Builder</h2>
+          <button-2>Save to Calendar</button-2>
+        </div>
+
+        <div class="progress-section">
+          <progress-tracker [duration]="totalDuration" [goal]="90"></progress-tracker>
+        </div>
+
+        <div class="builder-body">
+
+          <div class="drill-sequence-panel">
+            <div class="drill-sequence-header">
+              <span>Drill Sequence</span>
+              <button-2 [disabled]="isMaxDuration">+ Add Custom Drill</button-2>
+            </div>
+            <div
+              cdkDropList
+              #drillList="cdkDropList"
+              [cdkDropListData]="drills"
+              class="drill-sequence-list"
+            >
+              <drill-card
+                *ngFor="let drill of drills"
+                cdkDrag
+                [drill]="drill"
+                [isSidebarMode]="false"
+                (deleteDrill)="onDeleteDrill($event)"
+                (durationChanged)="onDurationChanged($event)"
+              ></drill-card>
+            </div>
+          </div>
+
+          <div class="drill-library-panel">
+            <drill-library-sidebar
+              (drillAdded)="onDrillAdd($event)"
+              [isMaxDuration]="isMaxDuration"
+            ></drill-library-sidebar>
+          </div>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>

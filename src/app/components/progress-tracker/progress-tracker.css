@@ -1,0 +1,15 @@
+:host {
+  display: block;
+  background: #fff;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  padding: 20px 24px;
+  margin-bottom: 24px;
+}
+
+.progress-label {
+  font-size: 15px;
+  font-weight: 500;
+  color: var(--primary-blue);
+  margin-bottom: 8px;
+}
