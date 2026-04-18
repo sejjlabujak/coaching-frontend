@@ -1,1 +1,11 @@
-<button matButton="tonal"><ng-content></ng-content></button>
+<!--<button-->
+<!--  mat-button="tonal"-->
+<!--  [disabled]="disabled"-->
+<!--  [class.btn-regular]="type === 'regular'"-->
+<!--  [class.btn-cancel]="type === 'cancel'"-->
+<!--  class="custom-button">-->
+<!--  <ng-content></ng-content>-->
+<!--</button>-->
+<button mat-button [disabled]="disabled">
+  <ng-content></ng-content>
+</button>

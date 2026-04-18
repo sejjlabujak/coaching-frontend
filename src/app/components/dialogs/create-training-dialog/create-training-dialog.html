@@ -1,0 +1,76 @@
+<div class="dialog-container">
+  <h2 class="dialog-title">Create New Training Plan</h2>
+
+  <div class="form-group">
+    <label class="form-label">Date:</label>
+    <input
+      class="form-input"
+      type="date"
+      [value]="dateString"
+      (change)="onDateChange($any($event.target).value)"
+    />
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Training Duration:</label>
+    <input
+      class="form-input"
+      type="number"
+      placeholder="e.g., 60 minutes"
+      [ngModel]="formData().duration"
+      (ngModelChange)="onFieldChange('duration', $event)"
+    />
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Training Focus:</label>
+    <div class="select-wrapper">
+      <select
+        class="form-select"
+        [ngModel]="formData().focus"
+        (ngModelChange)="onFieldChange('focus', $event)"
+      >
+        <option *ngFor="let opt of focusOptions" [value]="opt">{{ opt }}</option>
+      </select>
+      <mat-icon class="select-arrow">expand_more</mat-icon>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Intensity:</label>
+    <div class="select-wrapper">
+      <select
+        class="form-select"
+        [ngModel]="formData().intensity"
+        (ngModelChange)="onFieldChange('intensity', $event)"
+      >
+        <option *ngFor="let opt of intensityOptions" [value]="opt">{{ opt | titlecase }}</option>
+      </select>
+      <mat-icon class="select-arrow">expand_more</mat-icon>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Age Group:</label>
+    <div class="select-wrapper">
+      <select
+        class="form-select"
+        [ngModel]="formData().ageGroup"
+        (ngModelChange)="onFieldChange('ageGroup', $event)"
+      >
+        <option *ngFor="let opt of groupOptions" [value]="opt">{{ opt | titlecase }}</option>
+      </select>
+      <mat-icon class="select-arrow">expand_more</mat-icon>
+    </div>
+  </div>
+
+  <div id="modal-button-div">
+  <button-2
+    class="btn-generate"
+    [disabled]="!isFormValid()"
+    (click)="onGenerate()"
+  >
+    Generate Training Plan
+  </button-2>
+  </div>
+</div>

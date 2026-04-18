@@ -1,0 +1,41 @@
+<div class="dialog-container">
+  <h2 class="dialog-title">{{ event.title }}</h2>
+
+  <div class="detail-row">
+    <span class="detail-label">Date:</span>
+    <span class="detail-value">{{ event.date | date:'MMMM d, yyyy' }}</span>
+  </div>
+
+  <div class="detail-row">
+    <span class="detail-label">Duration:</span>
+    <span class="detail-value">{{ event.duration }} minutes</span>
+  </div>
+
+  <div class="detail-row">
+    <span class="detail-label">Intensity:</span>
+    <span class="intensity-badge" [ngClass]="'intensity-' + event.intensity?.toLowerCase()">
+      {{ event.intensity }}
+    </span>
+  </div>
+
+  <div class="detail-row focus-row">
+    <span class="detail-label">Focus:</span>
+  </div>
+  <p class="focus-text">{{ event.focus }}</p>
+
+  <div class="detail-row drills-label-row">
+    <span class="detail-label">Drills:</span>
+  </div>
+  <ul class="drills-list">
+    <li *ngFor="let drill of event.drills">{{ drill.name }}</li>
+  </ul>
+
+  <div class="dialog-actions">
+    <button-2 (click)="onReuse()">
+      <mat-icon>content_copy</mat-icon>
+      Reuse
+    </button-2>
+    <button-2 type="cancel" (click)="onEditPlan()">Edit Plan</button-2>
+    <button-2 type="cancel" (click)="onClose()">Close</button-2>
+  </div>
+</div>

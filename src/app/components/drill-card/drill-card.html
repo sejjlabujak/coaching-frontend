@@ -1,0 +1,57 @@
+<!-- Main List Mode -->
+<div *ngIf="!isSidebarMode" class="drill-card-main" [class.dragging]="isDragging">
+  <div class="drill-card-header">
+    <div class="drill-info">
+      <h3 class="drill-title">{{ drill.title }}</h3>
+      <div class="drill-meta">
+        <span class="drill-level" *ngIf="drill.level">{{ drill.level }}</span>
+        <div class="drill-duration-input-inline">
+          <input
+            [id]="'duration-' + drill.id"
+            type="number"
+            class="duration-input-inline"
+            [value]="drill.duration || ''"
+            (change)="onDurationChange($event)"
+            placeholder="Duration (min)"
+            min="0"
+          />
+          <span class="duration-unit">min</span>
+        </div>
+      </div>
+    </div>
+    <button
+      mat-icon-button
+      class="delete-btn"
+      (click)="onDeleteClick()"
+      title="Delete drill"
+    >
+      <mat-icon>delete_outline</mat-icon>
+    </button>
+  </div>
+
+  <div *ngIf="drill.description" class="drill-description">
+    {{ drill.description }}
+  </div>
+
+  <div *ngIf="drill.equipment && drill.equipment.length" class="drill-equipment">
+    <strong>Equipment:</strong>
+    <span class="equipment-list">{{ drill.equipment.join(', ') }}</span>
+  </div>
+</div>
+
+<!-- Sidebar Mode (Condensed) -->
+<div *ngIf="isSidebarMode" class="drill-card-sidebar">
+  <div class="sidebar-card-content">
+    <h4 class="sidebar-drill-title">{{ drill.title }}</h4>
+    <span class="sidebar-drill-tag" *ngIf="drill.tag">{{ drill.tag }}</span>
+  </div>
+  <button
+    mat-icon-button
+    class="add-btn"
+    (click)="onAddClick()"
+    title="Add to training"
+    [disabled]="isMaxDuration"
+  >
+    <mat-icon>add</mat-icon>
+  </button>
+</div>

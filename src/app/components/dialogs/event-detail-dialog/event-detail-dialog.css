@@ -1,0 +1,98 @@
+.dialog-container {
+  padding: 32px;
+  min-width: 460px;
+  max-width: 540px;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.dialog-title {
+  font-size: 1.5rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 24px 0;
+}
+
+.detail-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 12px;
+}
+
+.detail-label {
+  font-size: 0.95rem;
+  font-weight: 500;
+  color: #6b7280;
+  min-width: 80px;
+}
+
+.detail-value {
+  font-size: 0.95rem;
+  color: #111827;
+}
+
+.intensity-badge {
+  display: inline-block;
+  padding: 3px 12px;
+  border-radius: 5px;
+  font-size: 0.8rem;
+  font-weight: 700;
+  letter-spacing: 0.05em;
+  text-transform: uppercase;
+}
+
+.intensity-high {
+  background: var(--primary-red);
+  color: #fff;
+}
+
+.intensity-medium {
+  background: #f59e0b;
+  color: #fff;
+}
+
+.intensity-low {
+  background: #10b981;
+  color: #fff;
+}
+
+.focus-row {
+  margin-bottom: 4px;
+}
+
+.focus-text {
+  font-size: 0.95rem;
+  color: #374151;
+  margin: 0 0 16px 0;
+  padding-left: 0;
+}
+
+.drills-label-row {
+  margin-bottom: 8px;
+}
+
+.drills-list {
+  list-style: disc;
+  margin: 0 0 28px 20px;
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.drills-list li {
+  font-size: 0.95rem;
+  color: #374151;
+}
+
+.dialog-actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 8px;
+}
+
+button-2 mat-icon {
+  font-size: 12px;
+  width: 12px;
+  height: 12px;
+}

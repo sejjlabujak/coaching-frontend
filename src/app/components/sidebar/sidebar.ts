@@ -23,9 +23,8 @@ export class SidebarComponent {
 
   menuItems = [
     { icon: 'dashboard', label: 'Dashboard', route: '/dashboard' },
+    { icon: 'groups', label: 'Roster', route: '/roster' },
     { icon: 'fitness_center', label: 'Drills', route: '/drills' },
-    { icon: 'calendar_month', label: 'Plan', route: '/calendar' },
-    { icon: 'groups', label: 'Teams', route: '/teams' },
-    { icon: 'settings', label: 'Settings', route: '/settings' },
+    { icon: 'calendar_month', label: 'Planner', route: '/planner' },
   ];
 }

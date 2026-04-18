@@ -1,0 +1,49 @@
+<div class="dialog-container">
+  <h2 class="dialog-title">Select Training to Reuse</h2>
+
+  <div class="search-wrapper">
+    <mat-icon class="search-icon">search</mat-icon>
+    <input
+      class="search-input"
+      type="text"
+      placeholder="Search by title, focus, or drills..."
+      [ngModel]="searchQuery()"
+      (ngModelChange)="onSearch($event)"
+    />
+  </div>
+
+  <div class="events-list">
+    <div
+      class="event-card"
+      *ngFor="let event of filteredEvents()"
+      [class.selected]="isSelected(event)"
+      (click)="onSelectEvent(event)"
+    >
+      <h3 class="event-card-title">{{ event.title }}</h3>
+      <p class="event-card-meta">Duration: {{ event.duration }} minutes</p>
+      <p class="event-card-meta">Focus: {{ event.focus }}</p>
+      <div class="event-card-footer">
+        <span class="intensity-badge intensity-{{ event.intensity?.toLowerCase() }}">
+          {{ event.intensity }}
+        </span>
+        <span class="drills-count">{{ event.drills?.length }} drills</span>
+      </div>
+    </div>
+
+    <div class="empty-state" *ngIf="filteredEvents().length === 0">
+      <mat-icon>search_off</mat-icon>
+      <p>No trainings found matching your search.</p>
+    </div>
+  </div>
+
+  <div class="dialog-actions">
+    <button-2 type="cancel" (click)="onCancel()">Cancel</button-2>
+    <button-2
+      class="btn-next"
+      [disabled]="!selectedEvent()"
+      (click)="onNext()"
+    >
+      Next
+    </button-2>
+  </div>
+</div>

@@ -1,0 +1,28 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <h2 class="dialog-title">Schedule Training</h2>
+    <p class="dialog-subtitle">{{ data.date | date:'MMMM d, yyyy' }}</p>
+  </div>
+
+  <p class="dialog-description">How would you like to schedule this session?</p>
+
+  <div class="options-grid">
+    <button class="option-card" (click)="onUseExisting()">
+      <div class="option-icon">
+        <mat-icon>content_copy</mat-icon>
+      </div>
+      <h3 class="option-title">Use Existing Practice</h3>
+      <p class="option-desc">Select a past training session as a template. You can modify it before scheduling.</p>
+    </button>
+
+    <button class="option-card" (click)="onGenerateNew()">
+      <div class="option-icon option-icon--red">
+        <mat-icon>auto_awesome</mat-icon>
+      </div>
+      <h3 class="option-title">Generate New Practice</h3>
+      <p class="option-desc">Configure session details and generate a new training plan with drills.</p>
+    </button>
+  </div>
+
+  <button-2 type="cancel" (click)="onCancel()">Cancel</button-2>
+</div>
