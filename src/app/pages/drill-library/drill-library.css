@@ -1,0 +1,204 @@
+.app-container {
+  height: 100vh;
+  width: 100vw;
+  overflow: hidden;
+}
+
+.main-content {
+  display: flex !important;
+  flex-direction: column !important;
+  height: 100vh !important;
+  overflow: hidden !important;
+  padding: 0 !important;
+  background-color: var(--color-bg-light);
+}
+
+.page-wrapper {
+  flex: 1;
+  overflow-y: auto;
+  overflow-x: hidden;
+}
+
+.page-content {
+  padding: 32px 40px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  max-width: 1100px;
+  width: 100%;
+  box-sizing: border-box;
+}
+
+/* Page header */
+.page-header {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+}
+
+.page-title {
+  font-size: 1.75rem;
+  font-weight: 700;
+  color: #111827;
+  margin: 0 0 4px 0;
+}
+
+.page-subtitle {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 0;
+}
+
+/* Filters */
+.filters-row {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  flex-wrap: wrap;
+}
+
+.search-wrapper {
+  flex: 1;
+  min-width: 220px;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  padding: 10px 16px;
+  background: #fff;
+  transition: border-color 0.2s;
+}
+
+.search-wrapper:focus-within {
+  border-color: var(--primary-red);
+}
+
+.search-icon {
+  color: #9ca3af;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  flex-shrink: 0;
+}
+
+.search-input {
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 0.95rem;
+  color: #374151;
+  background: transparent;
+  font-family: inherit;
+}
+
+.search-input::placeholder {
+  color: #9ca3af;
+}
+
+.select-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.filter-select {
+  appearance: none;
+  -webkit-appearance: none;
+  border: 1.5px solid #d1d5db;
+  border-radius: 8px;
+  padding: 10px 40px 10px 16px;
+  font-size: 0.9rem;
+  color: #374151;
+  background: #fff;
+  outline: none;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.2s;
+  white-space: nowrap;
+}
+
+.filter-select:focus {
+  border-color: var(--primary-red);
+}
+
+.select-arrow {
+  position: absolute;
+  right: 10px;
+  color: #6b7280;
+  pointer-events: none;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+/* Drill list */
+.drills-list {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+}
+
+.drill-wrapper {
+  background: #fff;
+  border-radius: 12px;
+  border: 1px solid #e5e7eb;
+  margin-bottom: 12px;
+  overflow: hidden;
+  transition: box-shadow 0.2s;
+}
+
+.drill-wrapper:hover {
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.07);
+}
+
+/* Override drill-card styles to remove its own shadow/margin inside wrapper */
+.drill-wrapper ::ng-deep .drill-card-main {
+  border-radius: 0;
+  box-shadow: none;
+  margin-bottom: 0;
+  border-left: none;
+}
+
+.drill-meta-row {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  padding: 0 24px 14px 24px;
+  font-size: 0.85rem;
+  color: #6b7280;
+}
+
+.meta-sep {
+  color: #d1d5db;
+}
+
+/* Empty state */
+.empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+  padding: 60px 20px;
+  color: #9ca3af;
+  text-align: center;
+}
+
+.empty-state mat-icon {
+  font-size: 48px;
+  width: 48px;
+  height: 48px;
+}
+
+.empty-state p {
+  font-size: 1rem;
+  margin: 0;
+}
+
+.paginator-row {
+  display: flex;
+  justify-content: flex-end;
+  padding-top: 8px;
+}
+

@@ -1,8 +1,10 @@
+
+
 import { Input, Output, EventEmitter, ChangeDetectionStrategy, Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { Drill } from '../../models/drill.model';
+import { Drill } from '../../models/drill-model';
 
 @Component({
   selector: 'drill-card',
@@ -17,9 +19,13 @@ export class DrillCardComponent {
   @Input() isSidebarMode: boolean = false;
   @Input() isDragging: boolean = false;
   @Input() isMaxDuration: boolean = false;
+
   @Output() addDrill = new EventEmitter<Drill>();
   @Output() deleteDrill = new EventEmitter<string>();
+  @Output() editDrill = new EventEmitter<string>(); // ← NEW
   @Output() durationChanged = new EventEmitter<{ drillId: string; duration: number }>();
+
+  isExpanded = false;
 
   onAddClick(): void {
     if (this.isMaxDuration) return;
@@ -32,16 +38,22 @@ export class DrillCardComponent {
     }
   }
 
+  onEditClick(): void {
+    if (this.drill.id) {
+      this.editDrill.emit(this.drill.id);
+    }
+  }
+
+  onToggleExpand(): void {
+    this.isExpanded = !this.isExpanded;
+  }
+
   onDurationChange(event: Event): void {
     const input = event.target as HTMLInputElement;
     const duration = parseInt(input.value, 10);
-
     if (!isNaN(duration) && duration >= 0 && this.drill.id) {
       this.drill.duration = duration;
-      this.durationChanged.emit({
-        drillId: this.drill.id,
-        duration: duration,
-      });
+      this.durationChanged.emit({ drillId: this.drill.id, duration });
     }
   }
 }

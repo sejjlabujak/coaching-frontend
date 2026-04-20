@@ -13,10 +13,6 @@
   border-left: 4px solid transparent;
 }
 
-.drill-card-main:hover {
-  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
-}
-
 .drill-card-main.dragging {
   opacity: 0.5;
   transform: scale(0.98);
@@ -98,15 +94,6 @@
   white-space: nowrap;
 }
 
-.delete-btn {
-  color: #dc3545;
-  flex-shrink: 0;
-}
-
-.delete-btn:hover {
-  background: rgba(220, 53, 69, 0.1);
-}
-
 .drill-description {
   font-size: 14px;
   color: #555;
@@ -170,10 +157,10 @@
   border: 1px solid #e8eaed;
 }
 
-.drill-card-sidebar:hover {
-  background: #f0f2f5;
-  border-color: #dadce0;
-}
+/*.drill-card-sidebar:hover {*/
+/*  background: #f0f2f5;*/
+/*  border-color: #dadce0;*/
+/*}*/
 
 .sidebar-card-content {
   flex: 1;
@@ -198,18 +185,105 @@
   margin-top: 4px;
 }
 
-.add-btn {
-  color: #800000;
-  flex-shrink: 0;
-}
-
-.add-btn:hover {
-  background: rgba(128, 0, 0, 0.1);
-}
 .drill-card {
   display: flex;
   justify-content: space-between;
 }
+/* Action buttons */
+.card-actions {
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+
+.expand-btn,
+.edit-btn,
+.delete-btn {
+  color: #6b7280;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  line-height: 40px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.expand-btn:hover:not([disabled]),
+.edit-btn:hover:not([disabled]),
+.delete-btn:hover:not([disabled]) {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.expand-btn:active:not([disabled]),
+.edit-btn:active:not([disabled]),
+.delete-btn:active:not([disabled]) {
+  background-color: #e5e7eb;
+  color: #111827;
+}
+
+.expand-btn[disabled],
+.edit-btn[disabled],
+.delete-btn[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+.delete-btn {
+  color: #dc2626;
+}
+
+.delete-btn:hover:not([disabled]) {
+  background-color: #fee2e2;
+  color: #991b1b;
+}
+
+.delete-btn:active:not([disabled]) {
+  background-color: #fecaca;
+  color: #7f1d1d;
+}
+
+.edit-btn mat-icon,
+.expand-btn mat-icon,
+.delete-btn mat-icon,
+.add-btn mat-icon {
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.add-btn {
+  color: #6b7280;
+  width: 40px;
+  height: 40px;
+  min-width: 40px;
+  min-height: 40px;
+  border-radius: 6px;
+  transition: all 0.2s ease;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.add-btn:hover:not([disabled]) {
+  background-color: #f3f4f6;
+  color: #374151;
+}
+
+.add-btn:active:not([disabled]) {
+  background-color: #e5e7eb;
+  color: #111827;
+}
+
+.add-btn[disabled] {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
 .learnMoreBtn {
   background-color: transparent;
   color: var(--primary-blue);

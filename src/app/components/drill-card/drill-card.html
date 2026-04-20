@@ -1,4 +1,3 @@
-<!-- Main List Mode -->
 <div *ngIf="!isSidebarMode" class="drill-card-main" [class.dragging]="isDragging">
   <div class="drill-card-header">
     <div class="drill-info">
@@ -12,28 +11,48 @@
             class="duration-input-inline"
             [value]="drill.duration || ''"
             (change)="onDurationChange($event)"
-            placeholder="Duration (min)"
+            placeholder="—"
             min="0"
           />
           <span class="duration-unit">min</span>
         </div>
       </div>
     </div>
-    <button
-      mat-icon-button
-      class="delete-btn"
-      (click)="onDeleteClick()"
-      title="Delete drill"
-    >
-      <mat-icon>delete_outline</mat-icon>
-    </button>
+
+    <!-- Action buttons -->
+    <div class="card-actions">
+      <button
+        mat-icon-button
+        class="expand-btn"
+        (click)="onToggleExpand()"
+        [title]="isExpanded ? 'Collapse' : 'Expand'"
+      >
+        <mat-icon>{{ isExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        class="edit-btn"
+        (click)="onEditClick()"
+        title="Edit drill"
+      >
+        <mat-icon>edit</mat-icon>
+      </button>
+      <button
+        mat-icon-button
+        class="delete-btn"
+        (click)="onDeleteClick()"
+        title="Delete drill"
+      >
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+    </div>
   </div>
 
-  <div *ngIf="drill.description" class="drill-description">
+  <div *ngIf="drill.description && isExpanded" class="drill-description">
     {{ drill.description }}
   </div>
 
-  <div *ngIf="drill.equipment && drill.equipment.length" class="drill-equipment">
+  <div *ngIf="drill.equipment && drill.equipment.length && isExpanded" class="drill-equipment">
     <strong>Equipment:</strong>
     <span class="equipment-list">{{ drill.equipment.join(', ') }}</span>
   </div>
