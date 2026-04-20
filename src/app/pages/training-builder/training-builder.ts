@@ -7,7 +7,7 @@ import { HeaderComponent } from '../../components/header/header';
 import { ProgressTrackerComponent } from '../../components/progress-tracker/progress-tracker';
 import { DrillCardComponent } from '../../components/drill-card/drill-card';
 import { DrillLibrarySidebarComponent } from '../../components/drill-library-sidebar/drill-library-sidebar';
-import { Drill } from '../../models/drill.model';
+import { Drill } from '../../models/drill-model';
 import { Button } from '../../components/button/button';
 
 

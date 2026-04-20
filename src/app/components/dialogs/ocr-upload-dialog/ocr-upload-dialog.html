@@ -1,0 +1,117 @@
+<!-- ══ STEP: UPLOAD ══════════════════════════════════════════════════════════ -->
+<ng-container *ngIf="step() === 'upload'">
+  <div class="upload-dialog">
+    <div
+      class="drop-zone"
+      [class.drag-over]="isDragOver()"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave()"
+      (drop)="onDrop($event)"
+      (click)="onBrowseClick()"
+    >
+      <mat-icon class="upload-icon">upload</mat-icon>
+      <h3 class="upload-title">Upload Drill PDF/Image</h3>
+      <p class="upload-hint">Drag and drop your file here, or click to browse</p>
+      <button class="browse-btn" (click)="onBrowseClick(); $event.stopPropagation()">
+        Browse Files
+      </button>
+      <p class="upload-meta">Supported format: PDF, JPG, PNG &bull; Max size: 10MB</p>
+    </div>
+
+    <div class="error-msg" *ngIf="errorMessage()">
+      <mat-icon>error_outline</mat-icon>
+      {{ errorMessage() }}
+    </div>
+
+    <input
+      #fileInput
+      type="file"
+      accept=".pdf,application/pdf,image/*"
+      class="hidden-input"
+      (change)="onFileSelected($event)"
+    />
+  </div>
+</ng-container>
+
+<!-- ══ STEP: PROCESSING ══════════════════════════════════════════════════════ -->
+<ng-container *ngIf="step() === 'processing'">
+  <div class="processing-view">
+    <div class="processing-body">
+      <mat-spinner diameter="48" color="warn"></mat-spinner>
+      <p class="processing-label">{{ processingMessage() }}</p>
+      <p class="processing-file">{{ fileName() }}</p>
+    </div>
+  </div>
+</ng-container>
+
+<!-- ══ STEP: REVIEW ══════════════════════════════════════════════════════════ -->
+<ng-container *ngIf="step() === 'review'">
+  <div class="review-view">
+
+    <div class="pdf-panel">
+      <div class="pdf-panel-header">
+        <mat-icon class="pdf-icon">picture_as_pdf</mat-icon>
+        <div>
+          <div class="pdf-filename">{{ fileName() }}</div>
+          <div class="pdf-page-label">Page 1 of 1</div>
+        </div>
+      </div>
+      <div class="canvas-wrapper">
+        <canvas #pdfCanvas class="pdf-render-canvas"></canvas>
+        <canvas #overlayCanvas class="overlay-highlights-canvas"></canvas>
+      </div>
+      <div class="ai-note">
+        <mat-icon>check_circle</mat-icon>
+        AI has extracted key information (highlighted in yellow)
+      </div>
+    </div>
+
+    <div class="form-panel">
+      <h2 class="form-title">Review &amp; Edit Drill Information</h2>
+
+      <div class="form-group">
+        <label class="form-label">Drill Name</label>
+        <input
+          class="form-input"
+          type="text"
+          [(ngModel)]="editFormData.title"
+        />
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Description</label>
+        <textarea
+          class="form-input form-textarea"
+          rows="4"
+          [(ngModel)]="editFormData.description"
+        ></textarea>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Category</label>
+        <div class="select-wrapper">
+          <select class="form-select" [(ngModel)]="editFormData.category">
+            <option *ngFor="let opt of categoryOptions" [value]="opt">{{ opt }}</option>
+          </select>
+          <mat-icon class="select-arrow">expand_more</mat-icon>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Complexity</label>
+        <div class="select-wrapper">
+          <select class="form-select" [(ngModel)]="editFormData.complexity">
+            <option *ngFor="let opt of complexityOptions" [value]="opt">{{ opt }}</option>
+          </select>
+          <mat-icon class="select-arrow">expand_more</mat-icon>
+        </div>
+      </div>
+
+      <div class="form-actions">
+        <button-2 type="cancel" (click)="onDiscard()">Discard</button-2>
+        <button-2 (click)="onConfirm()">Confirm &amp; Add to Library</button-2>
+      </div>
+    </div>
+
+  </div>
+</ng-container>

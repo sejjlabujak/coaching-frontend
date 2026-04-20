@@ -1,0 +1,99 @@
+<div class="edit-form">
+
+  <div class="form-group full-width">
+    <label class="form-label">Drill Name</label>
+    <input
+      class="form-input"
+      type="text"
+      [ngModel]="formData().title"
+      (ngModelChange)="onFieldChange('title', $event)"
+    />
+  </div>
+
+  <div class="form-group full-width">
+    <label class="form-label">Description</label>
+    <textarea
+      class="form-input form-textarea"
+      rows="3"
+      [ngModel]="formData().description"
+      (ngModelChange)="onFieldChange('description', $event)"
+    ></textarea>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label">Focus</label>
+      <div class="select-wrapper">
+        <select
+          class="form-select"
+          [ngModel]="formData().focus"
+          (ngModelChange)="onFieldChange('focus', $event)"
+        >
+          <option *ngFor="let opt of focusOptions" [value]="opt">{{ opt }}</option>
+        </select>
+        <mat-icon class="select-arrow">expand_more</mat-icon>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Intensity</label>
+      <div class="select-wrapper">
+        <select
+          class="form-select"
+          [ngModel]="formData().intensity"
+          (ngModelChange)="onFieldChange('intensity', $event)"
+        >
+          <option *ngFor="let opt of intensityOptions" [value]="opt">{{ opt | titlecase }}</option>
+        </select>
+        <mat-icon class="select-arrow">expand_more</mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group full-width">
+    <label class="form-label">Equipment</label>
+    <input
+      class="form-input"
+      type="text"
+      placeholder="e.g. Basketball, Cones"
+      [ngModel]="equipmentString"
+      (ngModelChange)="onEquipmentChange($event)"
+    />
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label">Age Group</label>
+      <div class="select-wrapper">
+        <select
+          class="form-select"
+          [ngModel]="formData().ageGroup"
+          (ngModelChange)="onFieldChange('ageGroup', $event)"
+        >
+          <option *ngFor="let opt of ageGroupOptions" [value]="opt">{{ opt }}</option>
+        </select>
+        <mat-icon class="select-arrow">expand_more</mat-icon>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Complexity</label>
+      <div class="select-wrapper">
+        <select
+          class="form-select"
+          [ngModel]="formData().level"
+          (ngModelChange)="onFieldChange('level', $event)"
+        >
+          <option *ngFor="let opt of levelOptions" [value]="opt">{{ opt }}</option>
+        </select>
+        <mat-icon class="select-arrow">expand_more</mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <button-2 type="cancel" (click)="onCancel()">Cancel</button-2>
+    <button-2 (click)="onSave()">Save</button-2>
+  </div>
+
+</div>
