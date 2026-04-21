@@ -18,6 +18,7 @@ import { PdfOcrService } from '../../../services/ocr-upload-service';
 import { DrillLibraryService } from '../../../services/drill-library-service';
 import { OcrParsedDrill,OcrWord, PdfImportStep } from '../../../models/ocr-result-model';
 import { LibraryDrill } from '../../../models/library-drill-model';
+import { AgeSelection } from '../../../models/training-event-model';
 @Component({
   selector: 'app-pdf-import-dialog',
   standalone: true,
@@ -56,7 +57,9 @@ export class OcrUploadDialog implements OnDestroy {
     description: '',
     category: 'Offense',
     complexity: 'Beginner' as 'Beginner' | 'Intermediate' | 'Advanced',
+    ageGroup: 'U16' as AgeSelection,
   };
+  ageGroupOptions: AgeSelection[] = ['U10', 'U12', 'U14', 'U16', 'U18', 'Senior'];
 
   categoryOptions = [
     'Shooting',
@@ -133,26 +136,17 @@ export class OcrUploadDialog implements OnDestroy {
       words = await this.ocrService.runOcr(offscreenCanvas);
     }
 
-    console.log('WORDS:', words.map((w) => w.text).join(' '));
-
     this.processingMessage.set('Running OCR...');
     this.cdr.detectChanges();
 
-    console.log('RAW WORDS:', words.map((w) => w.text).join(' '));
-
     const parsed = this.ocrService.parseDrillFromWords(words);
-    console.log('PARSED:', parsed);
-    console.log(
-      'WORDS za highlight:',
-      words.map((w) => `"${w.text}" [${w.bbox.x0},${w.bbox.y0}]`),
-    );
-    console.log('PARSED highlighted:', parsed.highlightedWords.length);
     this.parsedDrill.set(parsed);
 
     this.editFormData.title = parsed.title;
     this.editFormData.description = parsed.description;
     this.editFormData.category = parsed.category;
     this.editFormData.complexity = parsed.complexity;
+    this.editFormData.ageGroup = 'U16';
 
     this.step.set('review');
 
@@ -180,7 +174,7 @@ export class OcrUploadDialog implements OnDestroy {
       description: form.description,
       focus: form.category as any,
       intensity: 'MEDIUM',
-      ageGroup: 'U16',
+      ageGroup: form.ageGroup,
       tag: `#${form.category}`,
       level: form.complexity,
       equipment: [],

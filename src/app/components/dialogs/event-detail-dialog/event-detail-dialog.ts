@@ -11,6 +11,7 @@ import { TrainingEvent, EventDetailData } from '../../../models/training-event-m
 import { SelectTrainingDialogComponent } from '../select-training-dialog/select-training-dialog';
 import { Button } from '../../button/button';
 import { Router } from '@angular/router';
+import { BuilderStateService } from '../../../services/builder-state-service';
 
 @Component({
   selector: 'app-event-detail-dialog',
@@ -25,6 +26,7 @@ export class EventDetailDialogComponent {
   readonly data = inject<EventDetailData>(MAT_DIALOG_DATA);
   readonly dialog = inject(MatDialog);
   private readonly router = inject(Router);
+  private readonly builderState = inject(BuilderStateService);
 
   get event(): TrainingEvent {
     return this.data.event;
@@ -32,15 +34,11 @@ export class EventDetailDialogComponent {
 
   onReuse(): void {
     this.dialogRef.close();
-    this.dialog.open(SelectTrainingDialogComponent, {
-      width: '640px',
-      maxHeight: '90vh',
-      data: { targetDate: new Date() },
-    });
+    this.router.navigate(['/training-builder']);
   }
 
   onEditPlan(): void {
-    // Navigate to Training Builder with this event's data
+    this.builderState.setExistingEvent(this.event);
     this.dialogRef.close({ action: 'edit', event: this.event });
     this.router.navigate(['/training-builder']);
   }

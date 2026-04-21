@@ -185,4 +185,11 @@ export class TrainingService {
   getNextId(): number {
     return Math.max(...this.events.map((e) => e.id)) + 1;
   }
+
+  updateEvent(updated: TrainingEvent): void {
+    const index = this.events.findIndex((e) => e.id === updated.id);
+    if (index !== -1) {
+      this.events[index] = updated;
+    }
+  }
 }

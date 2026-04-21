@@ -1,4 +1,117 @@
-<!-- Main List Mode -->
+<!--&lt;!&ndash; Main List Mode &ndash;&gt;-->
+<!--<mat-sidenav-container class="app-container">-->
+<!--  <mat-sidenav-->
+<!--    mode="side"-->
+<!--    opened-->
+<!--    [style.width.px]="isSidebarExpanded ? 200 : 70"-->
+<!--  >-->
+<!--    <sidebar (expandedChange)="onExpandedChange($event)"></sidebar>-->
+<!--  </mat-sidenav>-->
+
+<!--  <mat-sidenav-content-->
+<!--    class="main-content"-->
+<!--    [style.marginLeft.px]="isSidebarExpanded ? 200 : 70"-->
+<!--  >-->
+<!--    <header></header>-->
+
+<!--    <div class="page-wrapper">-->
+<!--      <div class="page-content">-->
+
+<!--        <div class="page-header">-->
+<!--          <div class="page-header-text">-->
+<!--            <h2 class="page-title">Drill Library</h2>-->
+<!--            <p class="page-subtitle">Manage your drill collection and import new drills from PDF</p>-->
+<!--          </div>-->
+<!--          <button-2 (click)="onImportFromPdf()">+ Import New Drill</button-2>-->
+<!--        </div>-->
+
+<!--        <div class="filters-row">-->
+<!--          <div class="search-wrapper">-->
+<!--            <mat-icon class="search-icon">search</mat-icon>-->
+<!--            <input-->
+<!--              class="search-input"-->
+<!--              type="text"-->
+<!--              placeholder="Search..."-->
+<!--              [value]="filters.search"-->
+<!--              (input)="onSearchChange($any($event.target).value)"-->
+<!--            />-->
+<!--          </div>-->
+
+<!--          <div class="select-wrapper">-->
+<!--            <select class="filter-select" [value]="filters.focus" (change)="onFocusChange($any($event.target).value)">-->
+<!--              <option *ngFor="let opt of focusOptions" [value]="opt">{{ opt }}</option>-->
+<!--            </select>-->
+<!--            <mat-icon class="select-arrow">expand_more</mat-icon>-->
+<!--          </div>-->
+
+<!--          <div class="select-wrapper">-->
+<!--            <select class="filter-select" [value]="filters.intensity" (change)="onIntensityChange($any($event.target).value)">-->
+<!--              <option *ngFor="let opt of intensityOptions" [value]="opt">-->
+<!--                {{ opt === 'All Intensity' ? 'All Intensity' : (opt | titlecase) }}-->
+<!--              </option>-->
+<!--            </select>-->
+<!--            <mat-icon class="select-arrow">expand_more</mat-icon>-->
+<!--          </div>-->
+
+<!--          <div class="select-wrapper">-->
+<!--            <select class="filter-select" [value]="filters.ageGroup" (change)="onAgeGroupChange($any($event.target).value)">-->
+<!--              <option *ngFor="let opt of ageGroupOptions" [value]="opt">{{ opt }}</option>-->
+<!--            </select>-->
+<!--            <mat-icon class="select-arrow">expand_more</mat-icon>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="drills-list">-->
+<!--          <div class="drill-wrapper" *ngFor="let drill of pagedDrills">-->
+
+<!--            &lt;!&ndash; Drill card row &ndash;&gt;-->
+<!--            <div class="drill-card-row">-->
+<!--              <drill-card-->
+<!--                [drill]="toDrill(drill)"-->
+<!--                [isSidebarMode]="false"-->
+<!--                (deleteDrill)="onDeleteDrill($event)"-->
+<!--                (durationChanged)="onDurationChanged($event)"-->
+<!--                (editDrill)="onEditDrill($event)"-->
+<!--              ></drill-card>-->
+<!--            </div>-->
+
+<!--            <div class="drill-meta-row">-->
+<!--              <span class="meta-item">Focus: {{ drill.focus }}</span>-->
+<!--              <span class="meta-sep">|</span>-->
+<!--              <span class="meta-item">Intensity: {{ drill.intensity | titlecase }}</span>-->
+<!--            </div>-->
+
+<!--            &lt;!&ndash; Inline edit form — shown when this drill is being edited &ndash;&gt;-->
+<!--            <drill-edit-form-->
+<!--              *ngIf="editingDrillId === drill.id"-->
+<!--              [drill]="drill"-->
+<!--              (save)="onSaveEdit($event)"-->
+<!--              (cancel)="onCancelEdit()"-->
+<!--            ></drill-edit-form>-->
+
+<!--          </div>-->
+
+<!--          <div class="empty-state" *ngIf="filteredDrills.length === 0">-->
+<!--            <mat-icon>search_off</mat-icon>-->
+<!--            <p>No drills found matching your filters.</p>-->
+<!--          </div>-->
+<!--        </div>-->
+
+<!--        <div class="paginator-row" *ngIf="totalDrills > 0">-->
+<!--          <app-paginator-->
+<!--            [length]="totalDrills"-->
+<!--            [pageIndex]="pageIndex"-->
+<!--            [pageSize]="pageSize"-->
+<!--            [pageSizeOptions]="pageSizeOptions"-->
+<!--            (page)="onPageChange($event)"-->
+<!--          ></app-paginator>-->
+<!--        </div>-->
+
+<!--      </div>-->
+<!--    </div>-->
+<!--  </mat-sidenav-content>-->
+<!--</mat-sidenav-container>-->
+
 <mat-sidenav-container class="app-container">
   <mat-sidenav
     mode="side"
@@ -26,16 +139,13 @@
         </div>
 
         <div class="filters-row">
-          <div class="search-wrapper">
-            <mat-icon class="search-icon">search</mat-icon>
-            <input
-              class="search-input"
-              type="text"
-              placeholder="Search..."
-              [value]="filters.search"
-              (input)="onSearchChange($any($event.target).value)"
-            />
-          </div>
+          <!-- Reusable search component -->
+          <app-search-input
+            class="search-field-wrapper"
+            placeholder="Search drills..."
+            [debounceMs]="300"
+            (searchChange)="onSearchChange($event)"
+          ></app-search-input>
 
           <div class="select-wrapper">
             <select class="filter-select" [value]="filters.focus" (change)="onFocusChange($any($event.target).value)">
@@ -63,8 +173,6 @@
 
         <div class="drills-list">
           <div class="drill-wrapper" *ngFor="let drill of pagedDrills">
-
-            <!-- Drill card row -->
             <div class="drill-card-row">
               <drill-card
                 [drill]="toDrill(drill)"
@@ -81,14 +189,12 @@
               <span class="meta-item">Intensity: {{ drill.intensity | titlecase }}</span>
             </div>
 
-            <!-- Inline edit form — shown when this drill is being edited -->
             <drill-edit-form
               *ngIf="editingDrillId === drill.id"
               [drill]="drill"
               (save)="onSaveEdit($event)"
               (cancel)="onCancelEdit()"
             ></drill-edit-form>
-
           </div>
 
           <div class="empty-state" *ngIf="filteredDrills.length === 0">

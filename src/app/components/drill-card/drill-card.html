@@ -29,7 +29,9 @@
       >
         <mat-icon>{{ isExpanded ? 'expand_less' : 'expand_more' }}</mat-icon>
       </button>
+      <!-- Edit button - hidden in session mode -->
       <button
+        *ngIf="showEditButton && !isSessionMode"
         mat-icon-button
         class="edit-btn"
         (click)="onEditClick()"
@@ -37,13 +39,14 @@
       >
         <mat-icon>edit</mat-icon>
       </button>
+      <!-- Delete/Remove button -->
       <button
         mat-icon-button
         class="delete-btn"
         (click)="onDeleteClick()"
-        title="Delete drill"
+        [title]="isSessionMode ? 'Remove from session' : 'Delete drill'"
       >
-        <mat-icon>delete_outline</mat-icon>
+        <mat-icon>{{ isSessionMode ? 'remove_circle_outline' : 'delete_outline' }}</mat-icon>
       </button>
     </div>
   </div>

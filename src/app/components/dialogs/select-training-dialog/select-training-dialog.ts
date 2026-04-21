@@ -1,18 +1,18 @@
 import { ChangeDetectionStrategy, Component, inject, signal, computed } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { FormsModule } from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { TrainingEvent, SelectTrainingData } from '../../../models/training-event-model';
 import { TrainingService } from '../../../services/training-service';
+import { SearchInputComponent } from '../../search/search-input.component';
 import { Button } from '../../button/button';
 import { Router } from '@angular/router';
+import { BuilderStateService } from '../../../services/builder-state-service';
 
 @Component({
   selector: 'app-select-training-dialog',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatButtonModule, MatDialogModule, MatIconModule, Button],
+  imports: [CommonModule, MatDialogModule, MatIconModule, SearchInputComponent, Button],
   templateUrl: './select-training-dialog.html',
   styleUrl: './select-training-dialog.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -22,6 +22,7 @@ export class SelectTrainingDialogComponent {
   readonly data = inject<SelectTrainingData>(MAT_DIALOG_DATA);
   private readonly trainingService = inject(TrainingService);
   private readonly router = inject(Router);
+  private readonly builderState = inject(BuilderStateService);
 
   searchQuery = signal('');
   selectedEvent = signal<TrainingEvent | null>(null);
@@ -46,6 +47,7 @@ export class SelectTrainingDialogComponent {
 
   onNext(): void {
     if (this.selectedEvent()) {
+      this.builderState.setDate(this.data.targetDate);
       this.dialogRef.close({
         action: 'reuse',
         event: this.selectedEvent(),

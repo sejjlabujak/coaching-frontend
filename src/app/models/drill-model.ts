@@ -5,7 +5,7 @@ export interface Drill {
   category?: string;
   description?: string;
   equipment?: string[];
-  duration?: number; // in minutes
+  duration?: number;
   level?: 'Beginner' | 'Intermediate' | 'Advanced';
 }
 
