@@ -1,28 +1,37 @@
 .drill-library-sidebar {
-  width: 380px;
+  width: 100%;
   background: #fff;
   border-radius: 12px;
-  box-shadow: 0 2px 8px rgba(0,0,0,0.04);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
   padding: 20px;
   display: flex;
   flex-direction: column;
-  gap: 24px;
+  gap: 16px;
+  box-sizing: border-box;
 }
 
 .sidebar-header {
   font-size: 1.2rem;
   font-weight: 600;
-  margin-bottom: 12px;
+  color: #111827;
 }
 
 .recommendations-section {
-  margin-top: 16px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
 }
 
 .recommendations-title {
   font-size: 1rem;
   font-weight: 500;
-  color: #a00;
-  margin-bottom: 12px;
+  color: var(--primary-red);
+  margin-bottom: 8px;
 }
 
+.empty-state {
+  padding: 16px;
+  text-align: center;
+  color: #9ca3af;
+  font-size: 0.875rem;
+}

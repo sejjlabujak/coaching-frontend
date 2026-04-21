@@ -3,7 +3,6 @@
     mode="side"
     opened
     [style.width.px]="isSidebarExpanded ? 200 : 70"
-    #drawer
   >
     <sidebar (expandedChange)="onExpandedChange($event)"></sidebar>
   </mat-sidenav>
@@ -18,8 +17,31 @@
       <div class="builder-content">
 
         <div class="builder-header">
-          <h2>Training Session Builder</h2>
-          <button-2>Save to Calendar</button-2>
+          <div class="title-group">
+            <h2>Training Session Builder</h2>
+            <input
+              class="session-title-input"
+              type="text"
+              placeholder="Enter session title..."
+              [(ngModel)]="sessionTitle"
+            />
+          </div>
+          <div class="header-right">
+            <!-- Inline date picker shown when no date selected -->
+            <div class="date-picker-inline" *ngIf="showDatePicker">
+              <input
+                class="date-input"
+                type="date"
+                [(ngModel)]="manualDate"
+              />
+              <button class="confirm-date-btn" (click)="onManualDateConfirm()">Confirm & Save</button>
+              <button class="cancel-date-btn" (click)="onManualDateCancel()">Cancel</button>
+            </div>
+            <span class="selected-date" *ngIf="targetDate && !showDatePicker">
+              📅 {{ targetDate | date:'MMMM d, yyyy' }}
+            </span>
+            <button-2 (click)="saveToCalendar()">Save to Calendar</button-2>
+          </div>
         </div>
 
         <div class="progress-section">
@@ -27,23 +49,23 @@
         </div>
 
         <div class="builder-body">
-
           <div class="drill-sequence-panel">
             <div class="drill-sequence-header">
               <span>Drill Sequence</span>
-              <button-2 [disabled]="isMaxDuration">+ Add Custom Drill</button-2>
             </div>
             <div
               cdkDropList
-              #drillList="cdkDropList"
               [cdkDropListData]="drills"
               class="drill-sequence-list"
+              (cdkDropListDropped)="drop($event)"
             >
               <drill-card
                 *ngFor="let drill of drills"
                 cdkDrag
                 [drill]="drill"
                 [isSidebarMode]="false"
+                [isSessionMode]="true"
+                [showEditButton]="false"
                 (deleteDrill)="onDeleteDrill($event)"
                 (durationChanged)="onDurationChanged($event)"
               ></drill-card>

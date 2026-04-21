@@ -202,3 +202,8 @@
   padding-top: 8px;
 }
 
+.search-field-wrapper {
+  flex: 1;
+  min-width: 220px;
+}
+

@@ -13,18 +13,12 @@ import {
   IntensityLevel,
   AgeSelection,
 } from '../../../models/training-event-model';
+import { BuilderStateService } from '../../../services/builder-state-service';
 
 @Component({
   selector: 'app-create-training-dialog',
   standalone: true,
-  imports: [
-    CommonModule,
-    FormsModule,
-    MatButtonModule,
-    MatDialogModule,
-    MatIconModule,
-    Button,
-  ],
+  imports: [CommonModule, FormsModule, MatButtonModule, MatDialogModule, MatIconModule, Button],
   templateUrl: './create-training-dialog.html',
   styleUrl: './create-training-dialog.css',
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -33,6 +27,7 @@ export class CreateTrainingDialogComponent {
   readonly dialogRef = inject(MatDialogRef<CreateTrainingDialogComponent>);
   readonly data = inject<EmptySlotData>(MAT_DIALOG_DATA);
   private readonly router = inject(Router);
+  private readonly builderState = inject(BuilderStateService);
 
   focusOptions: TrainingFocus[] = [
     'Shooting',

@@ -1,16 +1,11 @@
 <div class="dialog-container">
   <h2 class="dialog-title">Select Training to Reuse</h2>
 
-  <div class="search-wrapper">
-    <mat-icon class="search-icon">search</mat-icon>
-    <input
-      class="search-input"
-      type="text"
-      placeholder="Search by title, focus, or drills..."
-      [ngModel]="searchQuery()"
-      (ngModelChange)="onSearch($event)"
-    />
-  </div>
+  <app-search-input
+    placeholder="Search by title, focus, or drills..."
+    [debounceMs]="200"
+    (searchChange)="onSearch($event)"
+  ></app-search-input>
 
   <div class="events-list">
     <div
@@ -39,7 +34,6 @@
   <div class="dialog-actions">
     <button-2 type="cancel" (click)="onCancel()">Cancel</button-2>
     <button-2
-      class="btn-next"
       [disabled]="!selectedEvent()"
       (click)="onNext()"
     >

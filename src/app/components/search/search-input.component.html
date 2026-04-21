@@ -1,4 +1,9 @@
-<div class="search-input-wrapper">
-  <input class="search-input" type="text" placeholder="Search drills..." />
-</div>
-
+<mat-form-field class="search-field" appearance="outline" subscriptSizing="dynamic">
+  <mat-icon matPrefix class="search-prefix-icon">search</mat-icon>
+  <input
+    matInput
+    [formControl]="searchControl"
+    [placeholder]="placeholder"
+    autocomplete="off"
+    >
+</mat-form-field>

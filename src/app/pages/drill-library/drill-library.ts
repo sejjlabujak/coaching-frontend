@@ -9,6 +9,7 @@ import { HeaderComponent } from '../../components/header/header';
 import { DrillCardComponent } from '../../components/drill-card/drill-card';
 import { DrillEditFormComponent } from '../../components/drill-form/drill-form';
 import { PaginatorComponent } from '../../components/paginator/paginator';
+import { SearchInputComponent } from '../../components/search/search-input.component';
 import { Button } from '../../components/button/button';
 import { DrillLibraryService } from '../../services/drill-library-service';
 import { LibraryDrill } from '../../models/library-drill-model';
@@ -31,6 +32,7 @@ import { OcrUploadDialog } from '../../components/dialogs/ocr-upload-dialog/ocr-
     DrillCardComponent,
     DrillEditFormComponent,
     PaginatorComponent,
+    SearchInputComponent,
     Button,
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
@@ -42,7 +44,6 @@ export class DrillLibraryComponent {
   pageSize = 5;
   pageSizeOptions = [5, 10, 20];
   readonly dialog = inject(MatDialog);
-
   readonly libraryService = inject(DrillLibraryService);
 
   get filteredDrills(): LibraryDrill[] {
@@ -118,11 +119,8 @@ export class DrillLibraryComponent {
     this.clampPageIndex();
   }
 
-  onDurationChanged(event: { drillId: string; duration: number }): void {
-    // handled in-place by drill-card
-  }
+  onDurationChanged(event: { drillId: string; duration: number }): void {}
 
-  // Called from drill-card's editDrill output — toggles the inline form
   onEditDrill(drillId: string): void {
     this.editingDrillId = this.editingDrillId === drillId ? null : drillId;
   }

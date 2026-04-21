@@ -107,6 +107,16 @@
         </div>
       </div>
 
+      <div class="form-group">
+        <label class="form-label">Age Group</label>
+        <div class="select-wrapper">
+          <select class="form-select" [(ngModel)]="editFormData.ageGroup">
+            <option *ngFor="let opt of ageGroupOptions" [value]="opt">{{ opt }}</option>
+          </select>
+          <mat-icon class="select-arrow">expand_more</mat-icon>
+        </div>
+      </div>
+
       <div class="form-actions">
         <button-2 type="cancel" (click)="onDiscard()">Discard</button-2>
         <button-2 (click)="onConfirm()">Confirm &amp; Add to Library</button-2>

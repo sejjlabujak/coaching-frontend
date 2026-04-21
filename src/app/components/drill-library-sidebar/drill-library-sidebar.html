@@ -1,17 +1,27 @@
+
 <div class="drill-library-sidebar">
   <div class="sidebar-header">
     <span>Drill Library</span>
   </div>
-  <search-input></search-input>
+
+  <app-search-input
+    placeholder="Search drills..."
+    [debounceMs]="300"
+    (searchChange)="onSearch($event)"
+  ></app-search-input>
+
   <div class="recommendations-section">
     <div class="recommendations-title">AI Recommendations</div>
     <drill-card
-      *ngFor="let rec of recommendations"
+      *ngFor="let rec of filteredRecommendations"
       [drill]="rec"
       [isSidebarMode]="true"
       (addDrill)="onDrillAdd($event)"
       [isMaxDuration]="isMaxDuration"
     ></drill-card>
+
+    <div class="empty-state" *ngIf="filteredRecommendations.length === 0">
+      <p>No drills match your search.</p>
+    </div>
   </div>
 </div>
-

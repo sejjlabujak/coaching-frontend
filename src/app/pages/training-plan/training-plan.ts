@@ -4,7 +4,6 @@ import { SidebarComponent } from '../../components/sidebar/sidebar';
 import { CalendarComponent } from '../../components/calendar/calendar';
 import { HeaderComponent } from '../../components/header/header';
 import { MatSidenavModule } from '@angular/material/sidenav';
-import { ModalComponent} from "../../components/modal/modal";
 @Component({
   selector: 'training-plan',
   standalone: true,
@@ -14,7 +13,6 @@ import { ModalComponent} from "../../components/modal/modal";
     CalendarComponent,
     HeaderComponent,
     MatSidenavModule,
-    ModalComponent,
   ],
   templateUrl: './training-plan.html',
   styleUrl: './training-plan.css',

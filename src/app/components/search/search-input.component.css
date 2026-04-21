@@ -1,19 +1,68 @@
-.search-input-wrapper {
-  width: 90%;
-  margin-bottom: 12px;
+:host {
+  display: block;
 }
 
-.search-input {
+.search-field {
   width: 100%;
-  padding: 10px 14px;
-  border-radius: 8px;
-  border: 1px solid #e0e0e0;
-  font-size: 1rem;
-  background: #f8f9fb;
-  outline: none;
-  transition: border 0.2s;
-}
-.search-input:focus {
-  border: 1.5px solid #a00;
 }
 
+/* Outline border */
+.search-field ::ng-deep .mdc-notched-outline__leading,
+.search-field ::ng-deep .mdc-notched-outline__notch,
+.search-field ::ng-deep .mdc-notched-outline__trailing {
+  border-color: #d1d5db !important;
+  border-radius: 8px;
+}
+
+.search-field ::ng-deep .mat-mdc-form-field-flex {
+  border-radius: 8px;
+  background: #fff;
+}
+
+/* Focus state */
+.search-field.mat-focused ::ng-deep .mdc-notched-outline__leading,
+.search-field.mat-focused ::ng-deep .mdc-notched-outline__notch,
+.search-field.mat-focused ::ng-deep .mdc-notched-outline__trailing {
+  border-color: var(--primary-red) !important;
+  border-width: 1.5px !important;
+}
+
+/* Remove label space since we use placeholder only */
+.search-field ::ng-deep .mat-mdc-form-field-infix {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+  min-height: unset;
+}
+
+.search-field ::ng-deep .mat-mdc-text-field-wrapper {
+  padding: 0 8px 0 4px;
+}
+
+.search-prefix-icon {
+  color: #9ca3af;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  margin-right: 6px;
+}
+
+/* Input text */
+.search-field ::ng-deep input.mat-mdc-input-element {
+  font-size: 0.95rem;
+  color: #374151;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+}
+
+.search-field ::ng-deep input::placeholder {
+  color: #9ca3af;
+}
+
+/* Remove bottom underline/ripple from outline variant */
+.search-field ::ng-deep .mdc-line-ripple {
+  display: none;
+}
+
+/* Remove default form-field bottom padding */
+.search-field ::ng-deep .mat-mdc-form-field-subscript-wrapper {
+  display: none;
+}
