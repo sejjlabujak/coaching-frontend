@@ -1,6 +1,6 @@
 import { Injectable, signal, computed } from '@angular/core';
-import { LibraryDrill, DrillLibraryFilters } from '../models/library-drill-model';
-import { TrainingFocus, IntensityLevel, AgeSelection } from '../models/training-event-model';
+import { LibraryDrill, DrillLibraryFilters } from '../models/library-drill.model';
+import { TrainingFocus, IntensityLevel, AgeSelection } from '../models/training-event.model';
 
 @Injectable({ providedIn: 'root' })
 export class DrillLibraryService {

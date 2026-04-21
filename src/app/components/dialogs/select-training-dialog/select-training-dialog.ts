@@ -2,12 +2,12 @@ import { ChangeDetectionStrategy, Component, inject, signal, computed } from '@a
 import { CommonModule } from '@angular/common';
 import { MatDialogModule, MatDialogRef, MAT_DIALOG_DATA } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { TrainingEvent, SelectTrainingData } from '../../../models/training-event-model';
-import { TrainingService } from '../../../services/training-service';
+import { TrainingEvent, SelectTrainingData } from '../../../models/training-event.model';
+import { TrainingService } from '../../../services/training.service';
 import { SearchInputComponent } from '../../search/search-input.component';
 import { Button } from '../../button/button';
 import { Router } from '@angular/router';
-import { BuilderStateService } from '../../../services/builder-state-service';
+import { BuilderStateService } from '../../../services/builder-state.service';
 
 @Component({
   selector: 'app-select-training-dialog',

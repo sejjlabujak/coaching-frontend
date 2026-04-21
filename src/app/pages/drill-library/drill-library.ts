@@ -11,9 +11,9 @@ import { DrillEditFormComponent } from '../../components/drill-form/drill-form';
 import { PaginatorComponent } from '../../components/paginator/paginator';
 import { SearchInputComponent } from '../../components/search/search-input.component';
 import { Button } from '../../components/button/button';
-import { DrillLibraryService } from '../../services/drill-library-service';
-import { LibraryDrill } from '../../models/library-drill-model';
-import { Drill } from '../../models/drill-model';
+import { DrillLibraryService } from '../../services/drill-library.service';
+import { LibraryDrill } from '../../models/library-drill.model';
+import { Drill } from '../../models/drill.model';
 import { MatDialog } from '@angular/material/dialog';
 import { OcrUploadDialog } from '../../components/dialogs/ocr-upload-dialog/ocr-upload-dialog';
 

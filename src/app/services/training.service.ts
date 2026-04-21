@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { TrainingEvent, TrainingDrill } from '../models/training-event-model';
+import { TrainingEvent, TrainingDrill } from '../models/training-event.model';
 
 @Injectable({ providedIn: 'root' })
 export class TrainingService {

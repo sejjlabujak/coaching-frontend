@@ -12,8 +12,8 @@ import {
   TrainingFocus,
   IntensityLevel,
   AgeSelection,
-} from '../../../models/training-event-model';
-import { BuilderStateService } from '../../../services/builder-state-service';
+} from '../../../models/training-event.model';
+import { BuilderStateService } from '../../../services/builder-state.service';
 
 @Component({
   selector: 'app-create-training-dialog',

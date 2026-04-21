@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, Output, EventEmitter, Input } from 
 import { CommonModule } from '@angular/common';
 import { SearchInputComponent } from '../search/search-input.component';
 import { DrillCardComponent } from '../drill-card/drill-card';
-import { Drill } from '../../models/drill-model';
+import { Drill } from '../../models/drill.model';
 
 @Component({
   selector: 'drill-library-sidebar',

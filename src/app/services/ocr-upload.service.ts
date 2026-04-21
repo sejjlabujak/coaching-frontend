@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { OcrParsedDrill, OcrWord } from '../models/ocr-result-model';
+import { OcrParsedDrill, OcrWord } from '../models/ocr-result.model';
 
 @Injectable({ providedIn: 'root' })
 export class PdfOcrService {

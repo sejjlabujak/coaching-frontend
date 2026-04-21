@@ -1,8 +1,8 @@
 import { ChangeDetectionStrategy, Component, signal, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
-import { TrainingEvent } from '../../models/training-event-model';
-import { TrainingService } from '../../services/training-service';
+import { TrainingEvent } from '../../models/training-event.model';
+import { TrainingService } from '../../services/training.service';
 import { EventDetailDialogComponent } from '../dialogs/event-detail-dialog/event-detail-dialog';
 import { EmptySlotDialogComponent } from '../dialogs/empty-slot-dialog/empty-slot-dialog';
 import { Button } from '../button/button';

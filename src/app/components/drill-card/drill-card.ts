@@ -4,7 +4,7 @@ import { Input, Output, EventEmitter, ChangeDetectionStrategy, Component } from 
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
 import { MatButtonModule } from '@angular/material/button';
-import { Drill } from '../../models/drill-model';
+import { Drill } from '../../models/drill.model';
 
 @Component({
   selector: 'drill-card',
