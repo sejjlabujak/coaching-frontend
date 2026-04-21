@@ -8,7 +8,7 @@ import {
   MatDialog,
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { EmptySlotData } from '../../../models/training-event-model';
+import { EmptySlotData } from '../../../models/training-event.model';
 import { SelectTrainingDialogComponent } from '../select-training-dialog/select-training-dialog';
 import { CreateTrainingDialogComponent } from '../create-training-dialog/create-training-dialog';
 

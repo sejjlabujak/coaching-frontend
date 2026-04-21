@@ -1,7 +1,7 @@
 // src/app/services/builder-state.service.ts
 import { Injectable, signal } from '@angular/core';
-import { TrainingEvent } from '../models/training-event-model';
-import { Drill } from '../models/drill-model';
+import { TrainingEvent } from '../models/training-event.model';
+import { Drill } from '../models/drill.model';
 
 @Injectable({ providedIn: 'root' })
 export class BuilderStateService {

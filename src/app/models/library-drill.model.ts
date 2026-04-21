@@ -1,4 +1,4 @@
-import { IntensityLevel, TrainingFocus, AgeSelection } from './training-event-model';
+import { IntensityLevel, TrainingFocus, AgeSelection } from './training-event.model';
 
 export interface LibraryDrill {
   id: string;

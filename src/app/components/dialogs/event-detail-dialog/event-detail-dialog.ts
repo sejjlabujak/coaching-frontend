@@ -7,11 +7,11 @@ import {
   MatDialog,
 } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
-import { TrainingEvent, EventDetailData } from '../../../models/training-event-model';
+import { TrainingEvent, EventDetailData } from '../../../models/training-event.model';
 import { SelectTrainingDialogComponent } from '../select-training-dialog/select-training-dialog';
 import { Button } from '../../button/button';
 import { Router } from '@angular/router';
-import { BuilderStateService } from '../../../services/builder-state-service';
+import { BuilderStateService } from '../../../services/builder-state.service';
 
 @Component({
   selector: 'app-event-detail-dialog',

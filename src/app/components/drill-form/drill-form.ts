@@ -11,8 +11,8 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Button } from '../button/button';
-import { LibraryDrill } from '../../models/library-drill-model';
-import { TrainingFocus, IntensityLevel, AgeSelection } from '../../models/training-event-model';
+import { LibraryDrill } from '../../models/library-drill.model';
+import { TrainingFocus, IntensityLevel, AgeSelection } from '../../models/training-event.model';
 
 @Component({
   selector: 'drill-edit-form',

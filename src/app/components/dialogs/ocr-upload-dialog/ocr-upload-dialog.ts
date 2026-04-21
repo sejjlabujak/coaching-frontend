@@ -14,11 +14,11 @@ import { MatDialogModule, MatDialogRef } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { Button } from '../../../components/button/button';
-import { PdfOcrService } from '../../../services/ocr-upload-service';
-import { DrillLibraryService } from '../../../services/drill-library-service';
-import { OcrParsedDrill,OcrWord, PdfImportStep } from '../../../models/ocr-result-model';
-import { LibraryDrill } from '../../../models/library-drill-model';
-import { AgeSelection } from '../../../models/training-event-model';
+import { PdfOcrService } from '../../../services/ocr-upload.service';
+import { DrillLibraryService } from '../../../services/drill-library.service';
+import { OcrParsedDrill,OcrWord, PdfImportStep } from '../../../models/ocr-result.model';
+import { LibraryDrill } from '../../../models/library-drill.model';
+import { AgeSelection } from '../../../models/training-event.model';
 @Component({
   selector: 'app-pdf-import-dialog',
   standalone: true,

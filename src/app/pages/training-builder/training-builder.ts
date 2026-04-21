@@ -20,10 +20,10 @@ import { ProgressTrackerComponent } from '../../components/progress-tracker/prog
 import { DrillCardComponent } from '../../components/drill-card/drill-card';
 import { DrillLibrarySidebarComponent } from '../../components/drill-library-sidebar/drill-library-sidebar';
 import { Button } from '../../components/button/button';
-import { Drill } from '../../models/drill-model';
-import { TrainingEvent } from '../../models/training-event-model';
-import { BuilderStateService } from '../../services/builder-state-service';
-import { TrainingService } from '../../services/training-service';
+import { Drill } from '../../models/drill.model';
+import { TrainingEvent } from '../../models/training-event.model';
+import { BuilderStateService } from '../../services/builder-state.service';
+import { TrainingService } from '../../services/training.service';
 
 @Component({
   selector: 'training-builder',
