@@ -63,6 +63,7 @@
               <drill-card
                 [drill]="toDrill(drill)"
                 [isSidebarMode]="false"
+                [minutesEdit]="false"
                 (deleteDrill)="onDeleteDrill($event)"
                 (durationChanged)="onDurationChanged($event)"
                 (editDrill)="onEditDrill($event)"
@@ -70,6 +71,8 @@
             </div>
 
             <div class="drill-meta-row">
+              <span class="meta-item">{{ drill.duration }} min</span>
+              <span class="meta-sep">|</span>
               <span class="meta-item">Focus: {{ drill.focus }}</span>
               <span class="meta-sep">|</span>
               <span class="meta-item">Intensity: {{ drill.intensity | titlecase }}</span>

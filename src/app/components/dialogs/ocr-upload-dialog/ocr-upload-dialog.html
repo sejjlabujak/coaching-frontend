@@ -1,4 +1,4 @@
-<!-- ══ STEP: UPLOAD ══════════════════════════════════════════════════════════ -->
+<!-- STEP: UPLOAD -->
 <ng-container *ngIf="step() === 'upload'">
   <div class="upload-dialog">
     <div
@@ -15,7 +15,7 @@
       <button class="browse-btn" (click)="onBrowseClick(); $event.stopPropagation()">
         Browse Files
       </button>
-      <p class="upload-meta">Supported format: PDF, JPG, PNG &bull; Max size: 10MB</p>
+      <p class="upload-meta">Supported: PDF, JPG, PNG</p>
     </div>
 
     <div class="error-msg" *ngIf="errorMessage()">
@@ -33,7 +33,7 @@
   </div>
 </ng-container>
 
-<!-- ══ STEP: PROCESSING ══════════════════════════════════════════════════════ -->
+<!-- STEP: PROCESSING -->
 <ng-container *ngIf="step() === 'processing'">
   <div class="processing-view">
     <div class="processing-body">
@@ -44,54 +44,40 @@
   </div>
 </ng-container>
 
-<!-- ══ STEP: REVIEW ══════════════════════════════════════════════════════════ -->
+<!-- STEP: REVIEW -->
 <ng-container *ngIf="step() === 'review'">
   <div class="review-view">
 
-    <div class="pdf-panel">
-      <div class="pdf-panel-header">
-        <mat-icon class="pdf-icon">picture_as_pdf</mat-icon>
-        <div>
-          <div class="pdf-filename">{{ fileName() }}</div>
-          <div class="pdf-page-label">Page 1 of 1</div>
-        </div>
-      </div>
-      <div class="canvas-wrapper">
-        <canvas #pdfCanvas class="pdf-render-canvas"></canvas>
-        <canvas #overlayCanvas class="overlay-highlights-canvas"></canvas>
-      </div>
-      <div class="ai-note">
-        <mat-icon>check_circle</mat-icon>
-        AI has extracted key information (highlighted in yellow)
-      </div>
-    </div>
-
     <div class="form-panel">
-      <h2 class="form-title">Review &amp; Edit Drill Information</h2>
+      <h2 class="form-title">
+        Review Drill {{ currentDrillNumber }} of {{ totalDrills }}
+      </h2>
 
       <div class="form-group">
         <label class="form-label">Drill Name</label>
-        <input
-          class="form-input"
-          type="text"
-          [(ngModel)]="editFormData.title"
-        />
+        <input class="form-input" type="text" [(ngModel)]="editFormData.title" />
       </div>
 
       <div class="form-group">
         <label class="form-label">Description</label>
-        <textarea
-          class="form-input form-textarea"
-          rows="4"
-          [(ngModel)]="editFormData.description"
-        ></textarea>
+        <textarea class="form-input form-textarea" rows="4" [(ngModel)]="editFormData.description"></textarea>
       </div>
 
       <div class="form-group">
-        <label class="form-label">Category</label>
+        <label class="form-label">Focus</label>
         <div class="select-wrapper">
           <select class="form-select" [(ngModel)]="editFormData.category">
             <option *ngFor="let opt of categoryOptions" [value]="opt">{{ opt }}</option>
+          </select>
+          <mat-icon class="select-arrow">expand_more</mat-icon>
+        </div>
+      </div>
+
+      <div class="form-group">
+        <label class="form-label">Intensity</label>
+        <div class="select-wrapper">
+          <select class="form-select" [(ngModel)]="editFormData.intensity">
+            <option *ngFor="let opt of intensityOptions" [value]="opt">{{ opt }}</option>
           </select>
           <mat-icon class="select-arrow">expand_more</mat-icon>
         </div>
@@ -111,15 +97,25 @@
         <label class="form-label">Age Group</label>
         <div class="select-wrapper">
           <select class="form-select" [(ngModel)]="editFormData.ageGroup">
+            <option [value]="null">Unknown</option>
             <option *ngFor="let opt of ageGroupOptions" [value]="opt">{{ opt }}</option>
           </select>
           <mat-icon class="select-arrow">expand_more</mat-icon>
         </div>
       </div>
 
+      <div class="form-group">
+        <label class="form-label">Equipment</label>
+        <input class="form-input" type="text" [(ngModel)]="editFormData.equipment"
+               placeholder="e.g. basketball, cones" />
+      </div>
+
       <div class="form-actions">
-        <button-2 type="cancel" (click)="onDiscard()">Discard</button-2>
-        <button-2 (click)="onConfirm()">Confirm &amp; Add to Library</button-2>
+        <button-2 type="cancel" (click)="onSkip()">Skip</button-2>
+        <button-2 type="cancel" (click)="onSaveAll()">Save All Remaining</button-2>
+        <button-2 (click)="onConfirm()">
+          {{ currentDrillIndex < totalDrills - 1 ? 'Next Drill' : 'Save All' }}
+        </button-2>
       </div>
     </div>
 

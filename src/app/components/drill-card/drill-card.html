@@ -4,7 +4,7 @@
       <h3 class="drill-title">{{ drill.title }}</h3>
       <div class="drill-meta">
         <span class="drill-level" *ngIf="drill.level">{{ drill.level }}</span>
-        <div class="drill-duration-input-inline">
+        <div *ngIf="minutesEdit" class="drill-duration-input-inline">
           <input
             [id]="'duration-' + drill.id"
             type="number"

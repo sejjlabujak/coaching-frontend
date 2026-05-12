@@ -1,12 +1,18 @@
-import { ChangeDetectionStrategy, Component, signal, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  signal,
+  inject,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { TrainingEvent } from '../../models/training-event.model';
 import { TrainingService } from '../../services/training.service';
+import { SessionBackendService } from '../../services/session-backend.service';
 import { EventDetailDialogComponent } from '../dialogs/event-detail-dialog/event-detail-dialog';
 import { EmptySlotDialogComponent } from '../dialogs/empty-slot-dialog/empty-slot-dialog';
 import { Button } from '../button/button';
-import { SelectTrainingDialogComponent } from '../dialogs/select-training-dialog/select-training-dialog';
 import { CreateTrainingDialogComponent } from '../dialogs/create-training-dialog/create-training-dialog';
 
 @Component({
@@ -27,6 +33,8 @@ export class CalendarComponent {
 
   private readonly dialog = inject(MatDialog);
   private readonly trainingService = inject(TrainingService);
+  private readonly sessionBackend = inject(SessionBackendService);
+  private readonly cdr = inject(ChangeDetectorRef);
 
   get currentMonthLabel(): string {
     return new Date(this.viewYear(), this.viewMonth(), 1).toLocaleString('en-US', {
@@ -64,6 +72,7 @@ export class CalendarComponent {
     } else {
       this.viewMonth.update((m) => m - 1);
     }
+    this.loadMonth();
   }
 
   nextMonth(): void {
@@ -73,6 +82,13 @@ export class CalendarComponent {
     } else {
       this.viewMonth.update((m) => m + 1);
     }
+    this.loadMonth();
+  }
+
+  private loadMonth(): void {
+    // month + 1 because JS months are 0-indexed but backend expects 1-indexed
+    this.trainingService.loadMonth(this.viewMonth() + 1, this.viewYear());
+    this.cdr.markForCheck();
   }
 
   selectDay(day: number): void {
@@ -80,13 +96,37 @@ export class CalendarComponent {
     const events = this.getEvents(day);
 
     if (events.length > 0) {
-      // Open event detail for first event on that day
-      this.dialog.open(EventDetailDialogComponent, {
-        width: '560px',
-        data: { event: events[0] },
+      // Load full detail from backend before opening dialog
+      this.sessionBackend.getSessionById(events[0].id).subscribe({
+        next: (detail) => {
+          const fullEvent: TrainingEvent = {
+            id: detail.id!,
+            title: detail.title,
+            date: clickedDate,
+            color: 'red',
+            duration: detail.duration,
+            intensity: detail.intensity as any,
+            focus: detail.focus,
+            ageGroup: detail.ageGroup as any,
+            drills: (detail.drills ?? []).map((d) => ({
+              id: d.id ?? 0,
+              name: d.title,
+            })),
+          };
+          this.dialog.open(EventDetailDialogComponent, {
+            width: '560px',
+            data: { event: fullEvent },
+          });
+        },
+        error: () => {
+          // Fallback: open with basic info
+          this.dialog.open(EventDetailDialogComponent, {
+            width: '560px',
+            data: { event: events[0] },
+          });
+        },
       });
     } else {
-      // Open empty slot dialog
       this.dialog.open(EmptySlotDialogComponent, {
         width: '520px',
         data: { date: clickedDate },
@@ -96,9 +136,33 @@ export class CalendarComponent {
 
   openEventDetail(event: TrainingEvent, $mouseEvent: MouseEvent): void {
     $mouseEvent.stopPropagation();
-    this.dialog.open(EventDetailDialogComponent, {
-      width: '560px',
-      data: { event },
+    this.sessionBackend.getSessionById(event.id).subscribe({
+      next: (detail) => {
+        const fullEvent: TrainingEvent = {
+          id: detail.id!,
+          title: detail.title,
+          date: event.date,
+          color: 'red',
+          duration: detail.duration,
+          intensity: detail.intensity as any,
+          focus: detail.focus,
+          ageGroup: detail.ageGroup as any,
+          drills: (detail.drills ?? []).map((d) => ({
+            id: d.id ?? 0,
+            name: d.title,
+          })),
+        };
+        this.dialog.open(EventDetailDialogComponent, {
+          width: '560px',
+          data: { event: fullEvent },
+        });
+      },
+      error: () => {
+        this.dialog.open(EventDetailDialogComponent, {
+          width: '560px',
+          data: { event },
+        });
+      },
     });
   }
 

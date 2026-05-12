@@ -19,8 +19,9 @@ export class DrillCardComponent {
   @Input() isSidebarMode: boolean = false;
   @Input() isDragging: boolean = false;
   @Input() isMaxDuration: boolean = false;
-  @Input() showEditButton: boolean = true; // ← Hide edit in training builder
-  @Input() isSessionMode: boolean = false; // ← If true, delete removes from session, not from DB
+  @Input() showEditButton: boolean = true;
+  @Input() isSessionMode: boolean = false;
+  @Input() minutesEdit : boolean = true;
 
   @Output() addDrill = new EventEmitter<Drill>();
   @Output() deleteDrill = new EventEmitter<string>();
