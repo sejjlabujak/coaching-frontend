@@ -1,0 +1,77 @@
+.analysis-container {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 8px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.analysis-header {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.trending-icon {
+  color: var(--primary, #800000);
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+}
+
+.analysis-title {
+  font-size: 1.125rem;
+  font-weight: 600;
+  color: var(--foreground, #1f2937);
+  margin: 0;
+}
+
+.analysis-content {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.analysis-section {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.section-label {
+  font-size: 0.875rem;
+  color: var(--foreground, #1f2937);
+  font-weight: 600;
+}
+
+.section-text {
+  font-size: 0.875rem;
+  color: var(--muted-foreground, #6b7280);
+  margin: 0;
+  line-height: 1.5;
+}
+
+.create-plan-btn {
+  width: 100%;
+  padding: 12px 24px !important;
+  margin-top: 8px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .analysis-container {
+    padding: 16px;
+    gap: 12px;
+  }
+
+  .analysis-title {
+    font-size: 1rem;
+  }
+}
+

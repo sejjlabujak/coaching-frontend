@@ -1,0 +1,87 @@
+.player-card {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 8px;
+  padding: 16px;
+  cursor: pointer;
+  transition: all 0.3s ease;
+  text-align: center;
+  width: 100%;
+
+  &:hover {
+    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+  }
+}
+
+.player-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.player-avatar {
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  background: var(--secondary, #0ea5e9);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  margin-bottom: 12px;
+  font-size: 28px;
+}
+
+.player-name {
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--foreground, #1f2937);
+  margin: 0 0 4px 0;
+}
+
+.player-position {
+  font-size: 0.8rem;
+  color: var(--muted-foreground, #6b7280);
+  margin: 0 0 12px 0;
+}
+
+.status-badge {
+  display: inline-block;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.75rem;
+  font-weight: 500;
+}
+
+.status-active {
+  background: #dbeafe;
+  color: #0369a1;
+}
+
+.status-injured {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+/* Responsive */
+@media (max-width: 768px) {
+  .player-card {
+    padding: 12px;
+  }
+
+  .player-avatar {
+    width: 50px;
+    height: 50px;
+    font-size: 24px;
+  }
+
+  .player-name {
+    font-size: 0.85rem;
+  }
+
+  .player-position {
+    font-size: 0.75rem;
+  }
+}
+

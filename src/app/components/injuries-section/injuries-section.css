@@ -1,0 +1,146 @@
+.injuries-container {
+  background: var(--card-bg, #ffffff);
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 8px;
+  padding: 16px;
+}
+
+.injuries-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 12px;
+}
+
+.injuries-header h4 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: var(--foreground, #1f2937);
+}
+
+.add-btn {
+  padding: 4px 8px;
+  min-width: auto;
+}
+
+.injuries-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.injury-item {
+  padding: 8px 0;
+}
+
+.injury-view {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+}
+
+.injury-status {
+  display: inline-block;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.injury-status.status-out {
+  background: #fee2e2;
+  color: #991b1b;
+}
+
+.injury-status.status-healed {
+  background: #dbeafe;
+  color: #0369a1;
+}
+
+.injury-info {
+  flex: 1;
+  font-size: 0.85rem;
+  color: var(--muted-foreground, #6b7280);
+}
+
+.injury-info strong {
+  color: var(--foreground, #1f2937);
+}
+
+.recovery-info {
+  font-size: 0.75rem;
+  margin-top: 2px;
+}
+
+.injury-actions {
+  display: flex;
+  gap: 4px;
+}
+
+.icon-btn {
+  padding: 4px 8px;
+  background: transparent;
+  border: none;
+  cursor: pointer;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background 0.2s;
+}
+
+.icon-btn:hover {
+  background: var(--accent-bg, #f3f4f6);
+}
+
+.icon-btn mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+.injury-edit {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  padding: 8px;
+  background: var(--accent-bg, #f9fafb);
+  border-radius: 4px;
+  border-top: 1px solid var(--border-color, #e5e7eb);
+}
+
+.new-injury {
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-top: 1px solid var(--border-color, #e5e7eb);
+}
+
+.edit-field {
+  padding: 6px 8px;
+  border: 1px solid var(--border-color, #e5e7eb);
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-family: inherit;
+}
+
+.edit-field:focus {
+  outline: none;
+  border-color: var(--primary, #800000);
+  box-shadow: 0 0 0 2px rgba(128, 0, 0, 0.1);
+}
+
+.button-group {
+  display: flex;
+  gap: 8px;
+}
+
+.flex-1 {
+  flex: 1;
+}
+
+.full-width {
+  width: 100%;
+}
+

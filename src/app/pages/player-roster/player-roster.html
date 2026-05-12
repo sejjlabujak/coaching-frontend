@@ -1,0 +1,177 @@
+<mat-sidenav-container class="app-container">
+  <mat-sidenav
+    mode="side"
+    opened
+    [style.width.px]="isSidebarExpanded ? 200 : 70"
+    #drawer
+  >
+    <sidebar (expandedChange)="onExpandedChange($event)"></sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content
+    class="main-content"
+    [style.marginLeft.px]="isSidebarExpanded ? 200 : 70"
+  >
+    <header></header>
+
+    <div class="page-wrapper">
+      <!-- Page Header -->
+      <div class="page-header">
+        <div>
+          <h2 class="page-title">Player Roster</h2>
+          <p class="page-subtitle">
+            Manage your team and track individual player performance
+          </p>
+        </div>
+      </div>
+
+      <!-- Filters -->
+      <div class="filters-section">
+        <select [(ngModel)]="statusFilter" class="filter-select">
+          <option value="all">All Status</option>
+          <option value="active">Active</option>
+          <option value="injured">Injured</option>
+        </select>
+
+        <select [(ngModel)]="positionFilter" class="filter-select">
+          <option>All Positions</option>
+          <option>Point Guard</option>
+          <option>Shooting Guard</option>
+          <option>Small Forward</option>
+          <option>Power Forward</option>
+          <option>Center</option>
+        </select>
+
+        <select [(ngModel)]="selectionFilter" class="filter-select">
+          <option>All Selections</option>
+          <option>U14</option>
+          <option>U16</option>
+          <option>U18</option>
+          <option>Senior</option>
+        </select>
+      </div>
+
+      <!-- Players Grid -->
+      <div class="players-grid">
+        <button
+          *ngFor="let player of filteredPlayers"
+          (click)="onPlayerSelect(player)"
+          class="player-button"
+        >
+          <app-player-card [player]="player"></app-player-card>
+        </button>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+<!-- Player Detail Modal -->
+<div *ngIf="selectedPlayer" class="modal-overlay" (click)="closeModal()">
+  <div class="modal-content" (click)="$event.stopPropagation()">
+    <!-- Modal Header -->
+    <div class="modal-header">
+      <button (click)="closeModal()" class="close-btn">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
+
+    <!-- Modal Body -->
+    <div class="modal-body">
+      <!-- Top Section: Image + Info + Injuries -->
+      <div class="top-section">
+        <!-- Player Image -->
+        <div class="player-image">
+          <mat-icon>person</mat-icon>
+        </div>
+
+        <!-- Player Information -->
+        <div class="info-card">
+          <h4>Player Information</h4>
+          <div class="info-list">
+            <div class="info-row">
+              <span class="label">Name:</span>
+              <span class="value">{{ selectedPlayer.name }}</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Age:</span>
+              <span class="value">22</span>
+            </div>
+            <div class="info-row">
+              <span class="label">Position:</span>
+              <span class="value">{{ selectedPlayer.position }}</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Injuries History -->
+        <app-injuries-section
+          [injuries]="injuries"
+          (injuriesChange)="onInjuriesChange($event)"
+        ></app-injuries-section>
+      </div>
+
+      <!-- Season Filters -->
+      <div class="filters-section">
+        <select [(ngModel)]="selectedSeason" class="filter-select">
+          <option>2025-2026</option>
+          <option>2024-2025</option>
+          <option>2023-2024</option>
+        </select>
+        <select [(ngModel)]="selectedVsTeam" class="filter-select">
+          <option>All Teams</option>
+          <option>Lakers</option>
+          <option>Warriors</option>
+          <option>Celtics</option>
+        </select>
+      </div>
+
+      <!-- Statistics Table -->
+      <div class="stats-table-wrapper">
+        <table class="stats-table">
+          <thead>
+            <tr>
+              <th>Game</th>
+              <th>%</th>
+              <th>FG%</th>
+              <th>2PT%</th>
+              <th>3PT%</th>
+              <th>FT%</th>
+              <th>PTS</th>
+              <th>AS</th>
+              <th>RB</th>
+              <th>ORB</th>
+              <th>DRB</th>
+              <th>FO</th>
+              <th>EFF</th>
+              <th>+/-</th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr *ngFor="let stat of gameStats; let i = index" class="stat-row">
+              <td>{{ stat.game }}</td>
+              <td class="number">{{ stat.pct }}</td>
+              <td class="number">{{ stat.fg }}</td>
+              <td class="number">{{ stat.twoP }}</td>
+              <td class="number">{{ stat.threeP }}</td>
+              <td class="number">{{ stat.ft }}</td>
+              <td class="number">{{ stat.pts }}</td>
+              <td class="number">{{ stat.as }}</td>
+              <td class="number">{{ stat.rb }}</td>
+              <td class="number">{{ stat.orb }}</td>
+              <td class="number">{{ stat.drb }}</td>
+              <td class="number">{{ stat.fo }}</td>
+              <td class="number">{{ stat.eff }}</td>
+              <td class="number">+{{ i + 3 }}</td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+
+      <!-- Performance Chart -->
+      <app-player-performance-chart
+        [metrics]="radarData"
+      ></app-player-performance-chart>
+    </div>
+  </div>
+</div>
+

@@ -1,0 +1,46 @@
+<mat-sidenav-container class="app-container">
+  <mat-sidenav
+    mode="side"
+    opened
+    [style.width.px]="isSidebarExpanded ? 200 : 70"
+    #drawer
+  >
+    <sidebar (expandedChange)="onExpandedChange($event)"></sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content
+    class="main-content"
+    [style.marginLeft.px]="isSidebarExpanded ? 200 : 70"
+  >
+    <header></header>
+    <div class="page-wrapper">
+      <h2 class="dashboard-title">Performance Dashboard</h2>
+
+      <!-- Metric Cards -->
+      <div class="stats-grid">
+        <app-stat-card
+          *ngFor="let stat of stats"
+          [label]="stat.label"
+          [value]="stat.value"
+          [icon]="stat.icon"
+          [color]="stat.color"
+        ></app-stat-card>
+      </div>
+
+      <!-- Charts and Analysis -->
+      <div class="analytics-grid">
+        <!-- Performance Chart -->
+        <div class="chart-wrapper">
+          <app-performance-chart [metrics]="metrics"></app-performance-chart>
+        </div>
+
+        <!-- Team Analysis -->
+        <div class="analysis-wrapper">
+          <app-team-analysis [teamAnalysis]="teamAnalysis"></app-team-analysis>
+        </div>
+      </div>
+    </div>
+  </mat-sidenav-content>
+</mat-sidenav-container>
+
+

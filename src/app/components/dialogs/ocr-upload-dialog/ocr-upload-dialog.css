@@ -315,3 +315,28 @@
   margin-top: auto;
   padding-top: 8px;
 }
+.review-view {
+  display: flex;
+  width: 620px;
+  max-width: 96vw;
+  max-height: 90vh;
+  font-family: Roboto, 'Helvetica Neue', sans-serif;
+  overflow: hidden;
+}
+
+.form-panel {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 28px;
+  overflow-y: auto;
+}
+
+.form-actions {
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  gap: 12px;
+  margin-top: auto;
+  padding-top: 8px;
+}

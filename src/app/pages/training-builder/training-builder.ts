@@ -11,7 +11,7 @@ import { FormsModule } from '@angular/forms';
 import { CdkDragDrop, DragDropModule, moveItemInArray } from '@angular/cdk/drag-drop';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatDialogModule, MatDialog } from '@angular/material/dialog';
+import { MatDialogModule } from '@angular/material/dialog';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
@@ -54,6 +54,7 @@ export class TrainingBuilderComponent implements OnInit {
   sessionTitle = '';
   showDatePicker = false;
   manualDate: string = '';
+  isSaving = false;
 
   drills: Drill[] = [];
 
@@ -74,7 +75,6 @@ export class TrainingBuilderComponent implements OnInit {
   ngOnInit(): void {
     const existing = this.builderState.existingEvent();
     if (existing) {
-      // Pre-fill from existing event
       this.sessionTitle = existing.title;
       this.drills = (existing.drills ?? []).map((d, i) => ({
         id: String(i + 1),
@@ -83,7 +83,6 @@ export class TrainingBuilderComponent implements OnInit {
         level: 'Beginner' as const,
       }));
     } else {
-      // Default drills for new session
       this.drills = [
         {
           id: '1',
@@ -153,14 +152,11 @@ export class TrainingBuilderComponent implements OnInit {
 
   saveToCalendar(): void {
     const date = this.builderState.targetDate();
-
     if (!date) {
-      // No date — show inline date picker instead of error
       this.showDatePicker = true;
       this.cdr.markForCheck();
       return;
     }
-
     this.persistSession(date);
   }
 
@@ -178,6 +174,10 @@ export class TrainingBuilderComponent implements OnInit {
   }
 
   private persistSession(date: Date): void {
+    if (this.isSaving) return;
+    this.isSaving = true;
+    this.cdr.markForCheck();
+
     const title = this.sessionTitle.trim() || 'Custom Training';
     const existing = this.builderState.existingEvent();
 
@@ -193,15 +193,26 @@ export class TrainingBuilderComponent implements OnInit {
       drills: this.drills.map((d, i) => ({ id: i + 1, name: d.title })),
     };
 
-    if (existing) {
-      this.trainingService.updateEvent(newEvent);
-    } else {
-      this.trainingService.addEvent(newEvent);
-    }
-
-    this.builderState.clear();
-    this.snackBar.open(`"${title}" saved to calendar!`, 'Close', { duration: 3000 });
-    this.router.navigate(['/planner']);
+    // ── Save to backend ──────────────────────────────────────────────────────
+    this.trainingService.saveSession(newEvent).subscribe({
+      next: () => {
+        this.isSaving = false;
+        if (existing) {
+          this.trainingService.updateEvent(newEvent);
+        } else {
+          this.trainingService.addEvent(newEvent);
+        }
+        this.builderState.clear();
+        this.snackBar.open(`"${title}" saved to calendar!`, 'Close', { duration: 3000 });
+        this.router.navigate(['/planner']);
+      },
+      error: (err) => {
+        this.isSaving = false;
+        console.error('Failed to save session:', err);
+        this.snackBar.open('Failed to save. Please try again.', 'Close', { duration: 3000 });
+        this.cdr.markForCheck();
+      },
+    });
   }
 
   private calculateTotalDuration(): void {
