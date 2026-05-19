@@ -1,4 +1,10 @@
-import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  inject,
+  OnInit,
+} from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { MatSidenavModule } from '@angular/material/sidenav';
@@ -37,14 +43,20 @@ import { OcrUploadDialog } from '../../components/dialogs/ocr-upload-dialog/ocr-
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class DrillLibraryComponent {
+export class DrillLibraryComponent implements OnInit {
   isSidebarExpanded = true;
   editingDrillId: string | null = null;
   pageIndex = 0;
   pageSize = 5;
   pageSizeOptions = [5, 10, 20];
+
   readonly dialog = inject(MatDialog);
   readonly libraryService = inject(DrillLibraryService);
+  private readonly cdr = inject(ChangeDetectorRef);
+
+  ngOnInit(): void {
+    this.libraryService.loadDrills();
+  }
 
   get filteredDrills(): LibraryDrill[] {
     return this.libraryService.filteredDrills();
@@ -113,9 +125,7 @@ export class DrillLibraryComponent {
 
   onDeleteDrill(drillId: string): void {
     this.libraryService.deleteDrill(drillId);
-    if (this.editingDrillId === drillId) {
-      this.editingDrillId = null;
-    }
+    if (this.editingDrillId === drillId) this.editingDrillId = null;
     this.clampPageIndex();
   }
 
@@ -135,10 +145,17 @@ export class DrillLibraryComponent {
   }
 
   onImportFromPdf(): void {
-    this.dialog.open(OcrUploadDialog, {
+    const ref = this.dialog.open(OcrUploadDialog, {
       maxWidth: '98vw',
       maxHeight: '95vh',
       panelClass: 'pdf-import-panel',
+    });
+    // Reload drills from backend after OCR import
+    ref.afterClosed().subscribe((result) => {
+      if (result?.saved) {
+        this.libraryService.loadDrills();
+        this.cdr.markForCheck();
+      }
     });
   }
 
