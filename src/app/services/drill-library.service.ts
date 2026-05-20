@@ -3,11 +3,12 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { LibraryDrill, DrillLibraryFilters } from '../models/library-drill.model';
 import { TrainingFocus, IntensityLevel, AgeSelection } from '../models/training-event.model';
+import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
 export class DrillLibraryService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = 'http://localhost:8080/api/drills';
+  private readonly baseUrl = `${environment.apiUrl}/api/drills`;
 
   private allDrills = signal<LibraryDrill[]>([]);
   isLoading = signal(false);

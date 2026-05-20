@@ -1,6 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export interface BackendPlayer {
   playerID: number;
@@ -29,7 +30,7 @@ export interface BackendInjury {
 @Injectable({ providedIn: 'root' })
 export class PlayerService {
   private readonly http = inject(HttpClient);
-  private readonly baseUrl = 'http://localhost:8080/api/players';
+  private readonly baseUrl = `${environment.apiUrl}/api/players`;
 
   getPlayers(): Observable<BackendPlayer[]> {
     return this.http.get<BackendPlayer[]>(this.baseUrl);
