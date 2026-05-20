@@ -2,13 +2,9 @@
 # Documentation: https://docs.netlify.com/configure-builds/file-based-configuration/
 
 [build]
-  # Build command
-  command = "npm run build"
-  # Output directory (dist folder from Angular build)
+  command = "ng build --configuration=production"
   publish = "dist/coaching-app/browser"
-  # Node version
   environment = { NODE_VERSION = "22" }
-
 # Redirect all routes to index.html for Angular SPA routing
 [[redirects]]
   from = "/*"
