@@ -1,24 +1,30 @@
-// src/app/services/builder-state.service.ts
 import { Injectable, signal } from '@angular/core';
 import { TrainingEvent } from '../models/training-event.model';
-import { Drill } from '../models/drill.model';
 
 @Injectable({ providedIn: 'root' })
 export class BuilderStateService {
-  targetDate = signal<Date | null>(null);
-  existingEvent = signal<TrainingEvent | null>(null);
+  private _targetDate = signal<Date | null>(null);
+  private _existingEvent = signal<TrainingEvent | null>(null);
+
+  // Read-only public access
+  targetDate = this._targetDate.asReadonly();
+  existingEvent = this._existingEvent.asReadonly();
 
   setDate(date: Date): void {
-    this.targetDate.set(date);
+    this._targetDate.set(date);
   }
 
   setExistingEvent(event: TrainingEvent): void {
-    this.existingEvent.set(event);
-    this.targetDate.set(event.date);
+    this._existingEvent.set(event);
+    this._targetDate.set(event.date);
   }
 
   clear(): void {
-    this.targetDate.set(null);
-    this.existingEvent.set(null);
+    this._targetDate.set(null);
+    this._existingEvent.set(null);
+  }
+
+  hasState(): boolean {
+    return this._targetDate() !== null || this._existingEvent() !== null;
   }
 }

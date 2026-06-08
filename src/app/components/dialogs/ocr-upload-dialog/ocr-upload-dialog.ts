@@ -35,7 +35,7 @@ import { AgeSelection } from '../../../models/training-event.model';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class OcrUploadDialog implements OnDestroy {
+export class OcrUploadDialog {
   @ViewChild('fileInput') fileInputRef!: ElementRef<HTMLInputElement>;
 
   readonly dialogRef = inject(MatDialogRef<OcrUploadDialog>);
@@ -49,7 +49,6 @@ export class OcrUploadDialog implements OnDestroy {
   processingMessage = signal('Uploading file to server...');
   fileName = signal('');
 
-  jobId: string | null = null;
   extractedDrills: OcrDrill[] = [];
   currentDrillIndex = 0;
 
@@ -80,8 +79,6 @@ export class OcrUploadDialog implements OnDestroy {
   ];
   ageGroupOptions: (AgeSelection | null)[] = [null, 'U10', 'U12', 'U14', 'U16', 'U18', 'Senior'];
   intensityOptions = ['LOW', 'MEDIUM', 'HIGH'];
-
-  private pollingInterval: any = null;
 
   // Drag-and-drop handlers
   onDragOver(event: DragEvent): void {
@@ -121,60 +118,26 @@ export class OcrUploadDialog implements OnDestroy {
     this.errorMessage.set(null);
     this.fileName.set(file.name);
     this.step.set('processing');
-    this.processingMessage.set('Uploading to server...');
+    this.processingMessage.set('Uploading and processing... This may take several minutes.');
     this.cdr.detectChanges();
 
-    // Upload to backend
     this.ocrService.uploadFile(file).subscribe({
-      next: (response) => {
-        this.jobId = response.jobId;
-        this.processingMessage.set(
-          'Processing PDF with OCR... This may take several minutes for large files.',
-        );
-        this.cdr.detectChanges();
-        this.startPolling(response.jobId);
-      },
-      error: (err) => {
-        this.errorMessage.set('Upload failed: ' + err.message);
-        this.step.set('upload');
-        this.cdr.detectChanges();
-      },
-    });
-  }
-
-  private startPolling(jobId: string): void {
-    this.pollingInterval = setInterval(() => {
-      this.ocrService.getStatus(jobId).subscribe({
-        next: (status) => {
-          if (status.extractedTitle && status.extractedTitle !== 'processing') {
-            clearInterval(this.pollingInterval);
-            this.processingMessage.set('Fetching extracted drills...');
-            this.cdr.detectChanges();
-            this.fetchDrills(jobId);
-          }
-        },
-        error: () => {}, // keep polling on error
-      });
-    }, 10000); // poll every 10 seconds
-  }
-
-  private fetchDrills(jobId: string): void {
-    this.ocrService.getDrills(jobId).subscribe({
-      next: (drills) => {
+      next: (response: any) => {
+        // Drills come back directly in the upload response
+        const drills: OcrDrill[] = response.drills;
         if (Array.isArray(drills) && drills.length > 0) {
           this.extractedDrills = drills;
           this.currentDrillIndex = 0;
           this.loadDrillIntoForm(drills[0]);
           this.step.set('review');
-          this.cdr.detectChanges();
         } else {
           this.errorMessage.set('No drills found in the document.');
           this.step.set('upload');
-          this.cdr.detectChanges();
         }
+        this.cdr.detectChanges();
       },
       error: (err) => {
-        this.errorMessage.set('Failed to fetch drills: ' + err.message);
+        this.errorMessage.set('Upload failed: ' + err.message);
         this.step.set('upload');
         this.cdr.detectChanges();
       },
@@ -272,11 +235,5 @@ export class OcrUploadDialog implements OnDestroy {
 
   onDiscard(): void {
     this.dialogRef.close();
-  }
-
-  ngOnDestroy(): void {
-    if (this.pollingInterval) {
-      clearInterval(this.pollingInterval);
-    }
   }
 }

@@ -24,7 +24,7 @@ export interface BackendInjury {
   description: string;
   startDate: string;
   endDate: string | null;
-  active: boolean;
+  active: boolean; // was previously serialized as "isActive" from JPA entity — now explicit
 }
 
 @Injectable({ providedIn: 'root' })
