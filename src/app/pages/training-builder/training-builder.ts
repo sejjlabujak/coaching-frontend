@@ -4,6 +4,7 @@ import {
   Component,
   inject,
   OnInit,
+  OnDestroy,
   signal,
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
@@ -47,7 +48,9 @@ import { TrainingService } from '../../services/training.service';
   ],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class TrainingBuilderComponent implements OnInit {
+
+
+export class TrainingBuilderComponent implements OnInit, OnDestroy {
   isSidebarExpanded = false;
   totalDuration = 0;
   goal = 90;
@@ -83,44 +86,14 @@ export class TrainingBuilderComponent implements OnInit {
         level: 'Beginner' as const,
       }));
     } else {
-      this.drills = [
-        {
-          id: '1',
-          title: 'Layup Drills',
-          level: 'Beginner',
-          duration: 20,
-          description: 'Practice basic layup techniques',
-          equipment: ['Basketball', 'Cones'],
-        },
-        {
-          id: '2',
-          title: 'Three-Point Shooting',
-          level: 'Intermediate',
-          duration: 25,
-          description: 'Advanced perimeter shooting drill',
-          equipment: ['Basketball', 'Rack'],
-        },
-        {
-          id: '3',
-          title: 'Defensive Slides',
-          level: 'Beginner',
-          duration: 15,
-          description: 'Lateral movement improvement',
-          equipment: ['Cones'],
-        },
-        {
-          id: '4',
-          title: 'Pick and Roll',
-          level: 'Advanced',
-          duration: 15,
-          description: 'Offensive pick and roll execution',
-          equipment: ['Basketball', 'Cones'],
-        },
-      ];
+      this.drills = [];
     }
     this.calculateTotalDuration();
   }
 
+  ngOnDestroy() {
+    this.builderState.clear();
+  }
   onExpandedChange(expanded: boolean): void {
     this.isSidebarExpanded = expanded;
   }

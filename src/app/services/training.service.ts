@@ -1,7 +1,7 @@
 import { Injectable, signal } from '@angular/core';
 import { TrainingEvent } from '../models/training-event.model';
 import { SessionBackendService, SessionDTO, SessionDetailDTO } from './session-backend.service';
-import { Observable, tap } from 'rxjs';
+import { map, Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
 export class TrainingService {
@@ -47,11 +47,22 @@ export class TrainingService {
     );
   }
 
-  searchEvents(query: string): TrainingEvent[] {
-    if (!query.trim()) return this.events();
-    const q = query.toLowerCase();
-    return this.events().filter(
-      (e) => e.title.toLowerCase().includes(q) || (e.focus?.toLowerCase().includes(q) ?? false),
+  searchEvents(query: string): Observable<TrainingEvent[]> {
+    return this.sessionBackend.getSessions().pipe(
+      map((sessions) => {
+        const q = query.toLowerCase().trim();
+        return sessions
+          .filter((s) =>
+            !q ||
+            s.title.toLowerCase().includes(q)
+          )
+          .map((s) => ({
+            id: s.id,
+            title: s.title,
+            date: new Date(s.date + 'T00:00:00'),
+            color: 'red' as const,
+          }));
+      })
     );
   }
 

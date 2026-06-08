@@ -2,33 +2,41 @@
   <h2 class="dialog-title">Select Training to Reuse</h2>
 
   <app-search-input
-    placeholder="Search by title, focus, or drills..."
+    placeholder="Search by title..."
     [debounceMs]="200"
     (searchChange)="onSearch($event)"
   ></app-search-input>
 
   <div class="events-list">
-    <div
-      class="event-card"
-      *ngFor="let event of filteredEvents()"
-      [class.selected]="isSelected(event)"
-      (click)="onSelectEvent(event)"
-    >
-      <h3 class="event-card-title">{{ event.title }}</h3>
-      <p class="event-card-meta">Duration: {{ event.duration }} minutes</p>
-      <p class="event-card-meta">Focus: {{ event.focus }}</p>
-      <div class="event-card-footer">
-        <span class="intensity-badge intensity-{{ event.intensity?.toLowerCase() }}">
-          {{ event.intensity }}
-        </span>
-        <span class="drills-count">{{ event.drills?.length }} drills</span>
-      </div>
+    <div class="empty-state" *ngIf="isLoading()">
+      <mat-icon>hourglass_empty</mat-icon>
+      <p>Loading sessions...</p>
     </div>
 
-    <div class="empty-state" *ngIf="filteredEvents().length === 0">
-      <mat-icon>search_off</mat-icon>
-      <p>No trainings found matching your search.</p>
-    </div>
+    <ng-container *ngIf="!isLoading()">
+      <div
+        class="event-card"
+        *ngFor="let event of filteredEvents()"
+        [class.selected]="isSelected(event)"
+        (click)="onSelectEvent(event)"
+      >
+        <h3 class="event-card-title">{{ event.title }}</h3>
+        <p class="event-card-meta">{{ event.date | date:'MMMM d, yyyy' }}</p>
+        <p class="event-card-meta">Duration: {{ event.duration }} minutes</p>
+        <p class="event-card-meta">Focus: {{ event.focus }}</p>
+        <div class="event-card-footer">
+          <span class="intensity-badge intensity-{{ event.intensity?.toLowerCase() }}">
+            {{ event.intensity }}
+          </span>
+          <span class="drills-count">{{ event.drills?.length }} drills</span>
+        </div>
+      </div>
+
+      <div class="empty-state" *ngIf="filteredEvents().length === 0">
+        <mat-icon>search_off</mat-icon>
+        <p>No trainings found matching your search.</p>
+      </div>
+    </ng-container>
   </div>
 
   <div class="dialog-actions">

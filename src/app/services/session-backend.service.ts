@@ -33,7 +33,7 @@ export class SessionBackendService {
   private baseUrl: string;
 
   constructor(private http: HttpClient, private env: EnvironmentService) {
-    this.baseUrl = this.env.getEndpoint('/sessions');
+    this.baseUrl = this.env.getEndpoint('/api/sessions');
   }
 
   getSessions(month?: number, year?: number): Observable<SessionDTO[]> {

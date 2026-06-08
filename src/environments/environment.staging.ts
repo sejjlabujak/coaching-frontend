@@ -1,5 +1,5 @@
 export const environment = {
   production: false,
-  apiUrl: 'https://coaching-app-backend.herokuapp.com/api',
+  apiUrl: 'https://coaching-app-backend.herokuapp.com',
 };
 

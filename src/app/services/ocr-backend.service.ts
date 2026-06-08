@@ -36,7 +36,7 @@ export class OcrBackendService {
   private baseUrl: string;
 
   constructor(private http: HttpClient, private env: EnvironmentService) {
-    this.baseUrl = this.env.getEndpoint('/drills');
+    this.baseUrl = this.env.getEndpoint('/api/drills');
   }
 
   uploadFile(file: File): Observable<OcrJobResponse> {

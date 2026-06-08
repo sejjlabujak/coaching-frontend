@@ -26,8 +26,27 @@ export class SelectTrainingDialogComponent {
 
   searchQuery = signal('');
   selectedEvent = signal<TrainingEvent | null>(null);
+  allEvents = signal<TrainingEvent[]>([]);
+  isLoading = signal(true);
 
-  filteredEvents = computed(() => this.trainingService.searchEvents(this.searchQuery()));
+  filteredEvents = computed(() => {
+    const q = this.searchQuery().toLowerCase().trim();
+    if (!q) return this.allEvents();
+    return this.allEvents().filter((e) => e.title.toLowerCase().includes(q));
+  });
+
+  ngOnInit(): void {
+    // Load all sessions once on dialog open
+    this.trainingService.searchEvents('').subscribe({
+      next: (events) => {
+        this.allEvents.set(events);
+        this.isLoading.set(false);
+      },
+      error: () => {
+        this.isLoading.set(false);
+      },
+    });
+  }
 
   onSearch(query: string): void {
     this.searchQuery.set(query);
