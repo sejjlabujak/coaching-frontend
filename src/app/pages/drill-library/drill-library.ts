@@ -18,6 +18,7 @@ import { PaginatorComponent } from '../../components/paginator/paginator';
 import { SearchInputComponent } from '../../components/search/search-input.component';
 import { Button } from '../../components/button/button';
 import { DrillLibraryService } from '../../services/drill-library.service';
+import { SidebarStateService } from '../../services/sidebar-state.service';
 import { LibraryDrill } from '../../models/library-drill.model';
 import { Drill } from '../../models/drill.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -44,8 +45,10 @@ import { OcrUploadDialog } from '../../components/dialogs/ocr-upload-dialog/ocr-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DrillLibraryComponent implements OnInit {
-  isSidebarExpanded = true;
+  private readonly sidebarState = inject(SidebarStateService);
+  get isSidebarExpanded(): boolean { return this.sidebarState.isExpanded; }
   editingDrillId: string | null = null;
+  pendingDeleteId: string | null = null;
   pageIndex = 0;
   pageSize = 5;
   pageSizeOptions = [5, 10, 20];
@@ -81,12 +84,9 @@ export class DrillLibraryComponent implements OnInit {
   get intensityOptions() {
     return this.libraryService.intensityOptions;
   }
-  get ageGroupOptions() {
-    return this.libraryService.ageGroupOptions;
-  }
 
   onExpandedChange(expanded: boolean): void {
-    this.isSidebarExpanded = expanded;
+    this.sidebarState.isExpanded = expanded;
   }
 
   onPageChange(event: PageEvent): void {
@@ -118,15 +118,24 @@ export class DrillLibraryComponent implements OnInit {
     this.resetPageIndex();
   }
 
-  onAgeGroupChange(value: string): void {
-    this.libraryService.updateFilter('ageGroup', value as any);
-    this.resetPageIndex();
+  onDeleteDrill(drillId: string): void {
+    this.pendingDeleteId = drillId;
+    this.cdr.markForCheck();
   }
 
-  onDeleteDrill(drillId: string): void {
-    this.libraryService.deleteDrill(drillId);
-    if (this.editingDrillId === drillId) this.editingDrillId = null;
+  onDeleteConfirm(): void {
+    if (!this.pendingDeleteId) return;
+    const id = this.pendingDeleteId;
+    this.pendingDeleteId = null;
+    this.libraryService.deleteDrill(id);
+    if (this.editingDrillId === id) this.editingDrillId = null;
     this.clampPageIndex();
+    this.cdr.markForCheck();
+  }
+
+  onDeleteCancel(): void {
+    this.pendingDeleteId = null;
+    this.cdr.markForCheck();
   }
 
   onDurationChanged(event: { drillId: string; duration: number }): void {}

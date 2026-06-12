@@ -8,23 +8,25 @@ import { Button } from '../button/button';
   template: `
     <div class="analysis-container">
       <div class="analysis-header">
-        <mat-icon class="trending-icon">trending_up</mat-icon>
+        <div class="icon-wrap">
+          <mat-icon class="trending-icon">trending_up</mat-icon>
+        </div>
         <h3 class="analysis-title">Team Analysis</h3>
       </div>
 
       <div class="analysis-content">
-        <div class="analysis-section">
-          <strong class="section-label">Strengths:</strong>
+        <div class="analysis-section strengths">
+          <strong class="section-label">Strengths</strong>
           <p class="section-text">{{ teamAnalysis.strengths }}</p>
         </div>
 
-        <div class="analysis-section">
-          <strong class="section-label">Areas for Improvement:</strong>
+        <div class="analysis-section improvements">
+          <strong class="section-label">Areas for Improvement</strong>
           <p class="section-text">{{ teamAnalysis.improvements }}</p>
         </div>
 
-        <div class="analysis-section">
-          <strong class="section-label">Recommendation:</strong>
+        <div class="analysis-section recommendation">
+          <strong class="section-label">Recommendation</strong>
           <p class="section-text">{{ teamAnalysis.recommendation }}</p>
         </div>
       </div>

@@ -22,6 +22,7 @@
       class="day-cell"
       *ngFor="let day of daysInMonth"
       [class.today]="isToday(day)"
+      [class.past-day]="isPastDay(day)"
       (click)="selectDay(day)"
     >
       <span class="day-number">{{ day }}</span>

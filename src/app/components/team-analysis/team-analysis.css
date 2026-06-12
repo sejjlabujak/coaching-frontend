@@ -1,9 +1,9 @@
 .analysis-container {
   background: var(--card-bg, #ffffff);
-  border: 1px solid var(--border-color, #e5e7eb);
-  border-radius: 8px;
+  border: 1px solid var(--border-color, #e2e8f0);
+  border-radius: var(--radius-lg, 14px);
   padding: 24px;
-  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  box-shadow: var(--shadow-card, 0 1px 3px rgba(0, 0, 0, 0.06));
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -12,66 +12,82 @@
 .analysis-header {
   display: flex;
   align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
+  gap: 10px;
+  padding-bottom: 16px;
+  border-bottom: 1px solid var(--border-color, #e2e8f0);
+}
+
+.icon-wrap {
+  width: 34px;
+  height: 34px;
+  border-radius: 9px;
+  background: var(--primary-muted, rgba(139, 26, 26, 0.08));
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
 }
 
 .trending-icon {
-  color: var(--primary, #800000);
-  font-size: 20px;
-  width: 20px;
-  height: 20px;
+  color: var(--primary-red, #8b1a1a);
+  font-size: 18px !important;
+  width: 18px !important;
+  height: 18px !important;
 }
 
 .analysis-title {
-  font-size: 1.125rem;
+  font-size: 1rem;
   font-weight: 600;
-  color: var(--foreground, #1f2937);
+  color: var(--foreground, #0f172a);
   margin: 0;
+  letter-spacing: -0.1px;
 }
 
 .analysis-content {
   display: flex;
   flex-direction: column;
-  gap: 12px;
+  gap: 10px;
 }
 
 .analysis-section {
+  padding: 12px 14px;
+  border-radius: var(--radius-md, 10px);
   display: flex;
   flex-direction: column;
   gap: 4px;
 }
 
+.analysis-section.strengths     { background: #f0fdf4; border-left: 3px solid #22c55e; }
+.analysis-section.improvements  { background: #fffbeb; border-left: 3px solid #f59e0b; }
+.analysis-section.recommendation { background: #eff6ff; border-left: 3px solid #3b82f6; }
+
 .section-label {
-  font-size: 0.875rem;
-  color: var(--foreground, #1f2937);
-  font-weight: 600;
+  font-size: 0.775rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.5px;
 }
 
+.analysis-section.strengths     .section-label { color: #16a34a; }
+.analysis-section.improvements  .section-label { color: #d97706; }
+.analysis-section.recommendation .section-label { color: #1d4ed8; }
+
 .section-text {
-  font-size: 0.875rem;
-  color: var(--muted-foreground, #6b7280);
+  font-size: 0.8375rem;
+  color: var(--foreground-muted, #475569);
   margin: 0;
-  line-height: 1.5;
+  line-height: 1.55;
 }
 
 .create-plan-btn {
   width: 100%;
   padding: 12px 24px !important;
-  margin-top: 8px;
+  margin-top: 4px;
   cursor: pointer;
   box-sizing: border-box;
 }
 
-/* Responsive */
 @media (max-width: 768px) {
-  .analysis-container {
-    padding: 16px;
-    gap: 12px;
-  }
-
-  .analysis-title {
-    font-size: 1rem;
-  }
+  .analysis-container { padding: 16px; gap: 12px; }
+  .analysis-title     { font-size: 0.9375rem; }
 }
-

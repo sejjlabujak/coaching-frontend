@@ -1,5 +1,8 @@
 <div class="dialog-container">
-  <h2 class="dialog-title">{{ event.title }}</h2>
+  <div class="title-row">
+    <h2 class="dialog-title">{{ event.title }}</h2>
+    <span *ngIf="isReadOnly" class="readonly-badge">Past · Read-only</span>
+  </div>
 
   <div class="detail-row">
     <span class="detail-label">Date:</span>
@@ -30,12 +33,34 @@
     <li *ngFor="let drill of event.drills">{{ drill.name }}</li>
   </ul>
 
+  <div class="note-section">
+    <label class="detail-label">Note:</label>
+    <textarea
+      class="note-input"
+      [(ngModel)]="noteText"
+      rows="3"
+      placeholder="Add a note about this session…"
+    ></textarea>
+  </div>
+
+  <div *ngIf="confirmDelete" class="confirm-delete-row">
+    <span>Delete this session?</span>
+    <button class="confirm-yes-btn" (click)="onDeleteConfirm()" [disabled]="isDeleting">
+      {{ isDeleting ? 'Deleting…' : 'Yes, delete' }}
+    </button>
+    <button class="confirm-no-btn" (click)="onDeleteCancel()">Cancel</button>
+  </div>
+
   <div class="dialog-actions">
     <button-2 (click)="onReuse()">
       <mat-icon>content_copy</mat-icon>
       Reuse
     </button-2>
-    <button-2 type="cancel" (click)="onEditPlan()">Edit Plan</button-2>
+    <button-2 type="cancel" (click)="onSaveNote()" [disabled]="isSavingNote">
+      {{ isSavingNote ? 'Saving…' : 'Save Note' }}
+    </button-2>
+    <button-2 *ngIf="!isReadOnly" type="cancel" (click)="onEditPlan()">Edit Plan</button-2>
+    <button-2 *ngIf="!isReadOnly && !confirmDelete" type="cancel" (click)="onDeleteClick()">Delete</button-2>
     <button-2 type="cancel" (click)="onClose()">Close</button-2>
   </div>
 </div>

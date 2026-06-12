@@ -21,7 +21,8 @@ export class DrillCardComponent {
   @Input() isMaxDuration: boolean = false;
   @Input() showEditButton: boolean = true;
   @Input() isSessionMode: boolean = false;
-  @Input() minutesEdit : boolean = true;
+  @Input() minutesEdit: boolean = true;
+  @Input() maxDrillDuration: number = 9999;
 
   @Output() addDrill = new EventEmitter<Drill>();
   @Output() deleteDrill = new EventEmitter<string>();
@@ -53,8 +54,10 @@ export class DrillCardComponent {
 
   onDurationChange(event: Event): void {
     const input = event.target as HTMLInputElement;
-    const duration = parseInt(input.value, 10);
+    let duration = parseInt(input.value, 10);
     if (!isNaN(duration) && duration >= 0 && this.drill.id) {
+      duration = Math.min(duration, this.maxDrillDuration);
+      input.value = String(duration);
       this.drill.duration = duration;
       this.durationChanged.emit({ drillId: this.drill.id, duration });
     }

@@ -12,6 +12,16 @@
   </div>
 
   <div class="form-group">
+    <label class="form-label">Start Time:</label>
+    <input
+      class="form-input"
+      type="time"
+      [ngModel]="formData().startTime"
+      (ngModelChange)="onFieldChange('startTime', $event)"
+    />
+  </div>
+
+  <div class="form-group">
     <label class="form-label">Training Duration:</label>
     <input
       class="form-input"

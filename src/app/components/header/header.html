@@ -6,11 +6,15 @@
       {{ currentDate | date:'MMMM d, y' }}
     </span>
 
-    <button mat-icon-button title="Profile">
-      <mat-icon>person_outline</mat-icon>
-    </button>
+    <div class="user-info" *ngIf="username" (click)="goToProfile()" title="Edit profile">
+      <div class="user-avatar">{{ username[0].toUpperCase() }}</div>
+      <div class="user-meta">
+        <span class="user-name">{{ username }}</span>
+        <span class="user-role">{{ teamName ?? (role | titlecase) }}</span>
+      </div>
+    </div>
 
-    <button mat-icon-button title="Logout">
+    <button mat-icon-button title="Logout" (click)="logout()">
       <mat-icon>logout</mat-icon>
     </button>
   </div>

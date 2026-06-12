@@ -1,11 +1,13 @@
 .top-header {
-  background: white !important;
-  color: #5f6368;
+  background: #ffffff !important;
+  color: var(--foreground-muted, #475569);
   height: 64px;
   display: flex;
   align-items: center;
-  padding: 0 24px !important;
-  border-bottom: 1px solid #eceff1;
+  padding: 0 28px !important;
+  border-bottom: 1px solid var(--border-color, #e2e8f0);
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.05);
+  flex-shrink: 0;
 }
 
 .spacer {
@@ -15,24 +17,84 @@
 .header-actions {
   display: flex;
   align-items: center;
-  gap: 15px;
+  gap: 8px;
 }
 
 .current-date {
-  font-size: 14px;
-  color: #70757a;
-  margin-right: 10px;
+  font-size: 0.8125rem;
+  font-weight: 500;
+  color: var(--muted-foreground, #64748b);
+  margin-right: 8px;
+  letter-spacing: 0.1px;
+}
+
+.header-actions button[mat-icon-button] {
+  width: 36px;
+  height: 36px;
+  border-radius: 8px;
+  transition: background 0.18s;
+}
+
+.header-actions button[mat-icon-button]:hover {
+  background: var(--accent-bg, #f8fafc);
 }
 
 .header-actions mat-icon {
-  font-size: 22px;
-  width: 22px;
-  height: 22px;
-  color: #3c4043;
+  font-size: 20px;
+  width: 20px;
+  height: 20px;
+  color: var(--foreground-muted, #475569);
+}
+
+.user-info {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 4px 10px 4px 4px;
+  border-radius: 10px;
+  transition: background 0.18s;
+  margin-right: 4px;
+  cursor: pointer;
+}
+
+.user-info:hover {
+  background: var(--accent-bg, #f8fafc);
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #9b2020 0%, #8b1a1a 100%);
+  color: #ffffff;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 0.8125rem;
+  font-weight: 700;
+  flex-shrink: 0;
+}
+
+.user-meta {
+  display: flex;
+  flex-direction: column;
+  line-height: 1.2;
+}
+
+.user-name {
+  font-size: 0.8125rem;
+  font-weight: 600;
+  color: var(--foreground, #0f172a);
+}
+
+.user-role {
+  font-size: 0.7rem;
+  font-weight: 500;
+  color: var(--muted-foreground, #64748b);
 }
 
 .page-content {
-  padding: 20px;
-  background-color: #f8f9fb;
+  padding: 24px;
+  background-color: var(--color-bg-light, #f1f5f9);
   min-height: calc(100vh - 64px);
 }

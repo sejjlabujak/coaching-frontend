@@ -64,23 +64,24 @@ mat-sidenav-content.main-content {
   align-items: center;
   justify-content: space-between;
   padding-bottom: 20px;
-  /*border-bottom: 2px solid #800000;*/
+  border-bottom: 2px solid #e5e7eb;
   flex-shrink: 0;
 }
 
 .builder-header h2 {
   font-size: 28px;
   font-weight: 700;
-  color: #1a1a1a;
+  color: #1e293b;
   margin: 0;
 }
 
 .progress-section {
-  /*background: white;*/
-  border-radius: 12px;
+  border-radius: 16px;
   padding: 20px 24px;
-  /*box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);*/
+  background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
   flex-shrink: 0;
+  border: 1px solid #e5e7eb;
 }
 
 .builder-body {
@@ -111,7 +112,7 @@ mat-sidenav-content.main-content {
 .drill-sequence-header span {
   font-size: 18px;
   font-weight: 600;
-  color: #1a1a1a;
+  color: #1e293b;
 }
 
 .drill-sequence-list {
@@ -121,8 +122,14 @@ mat-sidenav-content.main-content {
   min-height: 200px;
   padding: 12px;
   background: white;
-  border-radius: 8px;
-  border: 1px dashed #ddd;
+  border-radius: 12px;
+  border: 2px dashed #cbd5e1;
+  transition: border-color 0.2s, background 0.2s;
+}
+
+.drill-sequence-list:hover {
+  border-color: #d14040;
+  background: #fafbfc;
 }
 
 .drill-sequence-list.cdk-drop-list-dragging drill-card:not(.cdk-drag-dragging) {
@@ -132,6 +139,9 @@ mat-sidenav-content.main-content {
 .drill-library-panel {
   width: 30%;
   flex-shrink: 0;
+  position: sticky;
+  top: 0;
+  align-self: flex-start;
 }
 
 /* Drag and Drop Styles */
@@ -140,9 +150,9 @@ mat-sidenav-content.main-content {
 }
 
 .cdk-drag-preview {
-  box-shadow: 0 5px 15px rgba(0, 0, 0, 0.15);
+  box-shadow: 0 12px 32px rgba(209, 64, 64, 0.2);
   border-radius: 12px;
-  opacity: 0.8;
+  opacity: 0.95;
 }
 
 .cdk-drag-animating {
@@ -199,36 +209,30 @@ mat-sidenav-content.main-content {
 }
 
 .session-title-input {
-  border: 1.5px solid #d1d5db;
-  border-radius: 8px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
   padding: 8px 14px;
   font-size: 0.95rem;
-  color: #374151;
+  color: #1e293b;
   outline: none;
   font-family: inherit;
   width: 280px;
-  transition: border-color 0.2s;
+  transition: border-color 0.2s, box-shadow 0.2s;
 }
 
 .session-title-input:focus {
-  border-color: var(--primary-red);
+  border-color: #d14040;
+  box-shadow: 0 0 0 3px rgba(209, 64, 64, 0.1);
 }
 
 .session-title-input::placeholder {
   color: #9ca3af;
 }
 
-.header-right {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  flex-wrap: wrap;
-  justify-content: flex-end;
-}
-
-.selected-date {
-  font-size: 0.875rem;
-  color: #6b7280;
+.date-picker-label {
+  font-size: 0.85rem;
+  font-weight: 600;
+  color: #374151;
   white-space: nowrap;
 }
 
@@ -237,39 +241,55 @@ mat-sidenav-content.main-content {
   align-items: center;
   gap: 8px;
   background: #fff;
-  border: 1.5px solid #d1d5db;
-  border-radius: 8px;
+  border: 1.5px solid #e5e7eb;
+  border-radius: 10px;
   padding: 6px 12px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.date-picker-inline:focus-within {
+  border-color: #d14040;
+  box-shadow: 0 0 0 3px rgba(209, 64, 64, 0.1);
 }
 
 .date-input {
   border: none;
   outline: none;
   font-size: 0.9rem;
-  color: #374151;
+  color: #1e293b;
   font-family: inherit;
 }
 
 .confirm-date-btn {
-  background: var(--primary-red);
+  background: linear-gradient(135deg, #d14040 0%, #a83030 100%);
   color: #fff;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 6px 14px;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
+  transition: box-shadow 0.2s;
+}
+
+.confirm-date-btn:hover {
+  box-shadow: 0 4px 12px rgba(209, 64, 64, 0.3);
 }
 
 .cancel-date-btn {
   background: #f3f4f6;
-  color: #374151;
+  color: #1e293b;
   border: none;
-  border-radius: 6px;
+  border-radius: 8px;
   padding: 6px 14px;
   font-size: 0.85rem;
   font-weight: 600;
   cursor: pointer;
   font-family: inherit;
+  transition: background 0.2s;
+}
+
+.cancel-date-btn:hover {
+  background: #e5e7eb;
 }

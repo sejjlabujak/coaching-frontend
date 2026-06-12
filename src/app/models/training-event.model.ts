@@ -14,6 +14,7 @@ export type AgeSelection = 'U10' | 'U12' | 'U14' | 'U16' | 'U18' | 'Senior';
 export interface TrainingDrill {
   id: number;
   name: string;
+  duration?: number;
 }
 
 export interface TrainingEvent {
@@ -22,14 +23,18 @@ export interface TrainingEvent {
   title: string;
   color: TrainingColor;
   duration?: number; // in minutes
+  startTime?: string; // "HH:mm"
   intensity?: IntensityLevel;
   focus?: string;
   drills?: TrainingDrill[];
   ageGroup?: AgeSelection;
+  note?: string;
+  readOnly?: boolean;
 }
 
 export interface CreateTrainingFormData {
   date: Date | null;
+  startTime: string;
   duration: number;
   focus: TrainingFocus;
   intensity: IntensityLevel;

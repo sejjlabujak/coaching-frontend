@@ -49,12 +49,6 @@
             <mat-icon class="select-arrow">expand_more</mat-icon>
           </div>
 
-          <div class="select-wrapper">
-            <select class="filter-select" [value]="filters.ageGroup" (change)="onAgeGroupChange($any($event.target).value)">
-              <option *ngFor="let opt of ageGroupOptions" [value]="opt">{{ opt }}</option>
-            </select>
-            <mat-icon class="select-arrow">expand_more</mat-icon>
-          </div>
         </div>
 
         <div class="drills-list">
@@ -76,6 +70,12 @@
               <span class="meta-item">Focus: {{ drill.focus }}</span>
               <span class="meta-sep">|</span>
               <span class="meta-item">Intensity: {{ drill.intensity | titlecase }}</span>
+            </div>
+
+            <div class="confirm-delete-row" *ngIf="pendingDeleteId === drill.id">
+              <span>Delete "{{ drill.title }}"? This cannot be undone.</span>
+              <button class="confirm-yes-btn" (click)="onDeleteConfirm()">Yes, delete</button>
+              <button class="confirm-no-btn" (click)="onDeleteCancel()">Cancel</button>
             </div>
 
             <drill-edit-form

@@ -1,13 +1,15 @@
-import { Component } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, inject, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
 import { HeaderComponent } from '../../components/header/header';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
 import { Button } from '../../components/button/button';
-import { ProfileData } from '../../models/profile.model';
+import { SidebarStateService } from '../../services/sidebar-state.service';
+import { ProfileService, ProfileDTO } from '../../services/profile.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -18,65 +20,73 @@ import { ProfileData } from '../../models/profile.model';
     FormsModule,
     MatIconModule,
     MatSidenavModule,
+    MatSnackBarModule,
     HeaderComponent,
     SidebarComponent,
     Button,
   ],
   standalone: true,
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class EditProfileComponent {
-  isSidebarExpanded = true;
+export class EditProfileComponent implements OnInit {
+  private readonly sidebarState = inject(SidebarStateService);
+  private readonly profileService = inject(ProfileService);
+  private readonly snackBar = inject(MatSnackBar);
+  private readonly cdr = inject(ChangeDetectorRef);
+  private readonly router = inject(Router);
 
-  profileData: ProfileData = {
-    name: 'Coach Johnson',
-    email: 'coach.johnson@example.com',
-    phone: '+1 (555) 123-4567',
-    role: 'Head Coach',
-    team: 'U18 Basketball Team',
-    location: 'Los Angeles, CA',
-    bio: 'Experienced basketball coach with 10+ years in youth development. Passionate about building strong teams and developing individual skills.',
-  };
+  get isSidebarExpanded(): boolean { return this.sidebarState.isExpanded; }
+
+  profile: ProfileDTO | null = null;
+  email = '';
+  isSaving = false;
+  isLoading = true;
 
   get initials(): string {
-    return this.profileData.name
-      .split(' ')
-      .map((n) => n[0])
-      .join('')
-      .toUpperCase();
+    return (this.profile?.username ?? '?')[0].toUpperCase();
   }
 
-  constructor(private router: Router) {}
+  ngOnInit(): void {
+    this.profileService.getProfile().subscribe({
+      next: (p) => {
+        this.profile = p;
+        this.email = p.email;
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.isLoading = false;
+        this.cdr.markForCheck();
+      },
+    });
+  }
 
   onExpandedChange(expanded: boolean): void {
-    this.isSidebarExpanded = expanded;
-  }
-
-  onBack(): void {
-    this.router.navigate(['/']);
+    this.sidebarState.isExpanded = expanded;
   }
 
   onSubmit(): void {
-    alert('Profile updated successfully!');
-    this.router.navigate(['/']);
-  }
-
-  onCancel(): void {
-    this.router.navigate(['/']);
+    if (this.isSaving || !this.email.trim()) return;
+    this.isSaving = true;
+    this.profileService.updateProfile(this.email.trim()).subscribe({
+      next: () => {
+        this.isSaving = false;
+        this.snackBar.open('Profile updated.', 'Close', { duration: 3000 });
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        this.isSaving = false;
+        this.snackBar.open('Failed to update profile.', 'Close', { duration: 3000, panelClass: 'snack-error' });
+        this.cdr.markForCheck();
+      },
+    });
   }
 
   onChangePassword(): void {
-    console.log('Change password clicked');
-    // TODO: Navigate to change password page
+    this.router.navigate(['/change-password']);
   }
 
-  onNotificationPreferences(): void {
-    console.log('Notification preferences clicked');
-    // TODO: Navigate to notification preferences
-  }
-
-  onDeleteAccount(): void {
-    console.log('Delete account clicked');
-    // TODO: Implement delete account with confirmation
+  onBack(): void {
+    this.router.navigate(['/dashboard']);
   }
 }
-

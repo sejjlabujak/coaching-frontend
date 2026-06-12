@@ -1,4 +1,4 @@
-import { IntensityLevel, TrainingFocus, AgeSelection } from './training-event.model';
+import { IntensityLevel, TrainingFocus } from './training-event.model';
 
 export interface LibraryDrill {
   id: string;
@@ -6,7 +6,6 @@ export interface LibraryDrill {
   description: string;
   focus: TrainingFocus;
   intensity: IntensityLevel;
-  ageGroup: AgeSelection;
   tag?: string;
   equipment?: string[];
   duration?: number;
@@ -17,5 +16,4 @@ export interface DrillLibraryFilters {
   search: string;
   focus: TrainingFocus | 'All Focus';
   intensity: IntensityLevel | 'All Intensity';
-  ageGroup: AgeSelection | 'All Age Groups';
 }

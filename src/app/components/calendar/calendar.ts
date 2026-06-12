@@ -65,6 +65,13 @@ export class CalendarComponent {
     );
   }
 
+  isPastDay(day: number): boolean {
+    const d = new Date(this.viewYear(), this.viewMonth(), day);
+    const t = new Date();
+    t.setHours(0, 0, 0, 0);
+    return d < t;
+  }
+
   prevMonth(): void {
     if (this.viewMonth() === 0) {
       this.viewMonth.set(11);
@@ -92,6 +99,7 @@ export class CalendarComponent {
   }
 
   selectDay(day: number): void {
+    const isPast = this.isPastDay(day);
     const clickedDate = new Date(this.viewYear(), this.viewMonth(), day);
     const events = this.getEvents(day);
 
@@ -112,6 +120,8 @@ export class CalendarComponent {
               id: d.id ?? 0,
               name: d.title,
             })),
+            note: detail.note,
+            readOnly: detail.readOnly ?? isPast,
           };
           this.dialog.open(EventDetailDialogComponent, {
             width: '560px',
@@ -119,14 +129,13 @@ export class CalendarComponent {
           });
         },
         error: () => {
-          // Fallback: open with basic info
           this.dialog.open(EventDetailDialogComponent, {
             width: '560px',
-            data: { event: events[0] },
+            data: { event: { ...events[0], readOnly: isPast } },
           });
         },
       });
-    } else {
+    } else if (!isPast) {
       this.dialog.open(EmptySlotDialogComponent, {
         width: '520px',
         data: { date: clickedDate },
@@ -151,6 +160,8 @@ export class CalendarComponent {
             id: d.id ?? 0,
             name: d.title,
           })),
+          note: detail.note,
+          readOnly: detail.readOnly,
         };
         this.dialog.open(EventDetailDialogComponent, {
           width: '560px',
