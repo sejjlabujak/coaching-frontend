@@ -1,29 +1,40 @@
 :host ::ng-deep .mat-mdc-button-base {
   border-radius: 10px !important;
-  padding: 24px !important;
-  font-weight: 500;
+  padding: 22px !important;
+  font-weight: 600 !important;
+  font-size: 0.875rem !important;
+  letter-spacing: 0.1px !important;
   width: 100%;
-  transition: 0.3s ease-in-out;
+  transition: box-shadow 0.2s ease, transform 0.2s ease !important;
 }
 
 :host.type-regular ::ng-deep .mat-mdc-button-base {
-  background-color: var(--primary-red) !important;
-  color: var(--color-white) !important;
+  background: linear-gradient(135deg, #9b2020 0%, var(--primary-red, #8b1a1a) 100%) !important;
+  color: #ffffff !important;
+  box-shadow: 0 2px 6px rgba(139, 26, 26, 0.3) !important;
 }
 
 :host.type-cancel ::ng-deep .mat-mdc-button-base {
   background-color: transparent !important;
-  color: #5f6368 !important;
-  border: 1px solid #dadce0 !important;
+  color: var(--foreground-muted, #475569) !important;
+  border: 1.5px solid var(--border-color, #e2e8f0) !important;
+  box-shadow: none !important;
 }
 
-:host ::ng-deep .mat-mdc-button-base:hover:not(:disabled) {
-  box-shadow: 0 4px 12px rgb(47 47 47 / 0.53) !important;
+:host.type-regular ::ng-deep .mat-mdc-button-base:hover:not(:disabled) {
+  box-shadow: 0 6px 16px rgba(139, 26, 26, 0.35) !important;
+  transform: translateY(-1px);
+}
+
+:host.type-cancel ::ng-deep .mat-mdc-button-base:hover:not(:disabled) {
+  background: var(--accent-bg, #f8fafc) !important;
+  border-color: #cbd5e1 !important;
   transform: translateY(-1px);
 }
 
 :host ::ng-deep .mat-mdc-button-base:disabled {
-  background-color: #e0e0e0 !important;
-  color: #a1a1a1 !important;
+  background: #e2e8f0 !important;
+  color: #94a3b8 !important;
+  box-shadow: none !important;
   cursor: not-allowed;
 }

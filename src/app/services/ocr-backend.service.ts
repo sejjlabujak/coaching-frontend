@@ -15,7 +15,6 @@ export interface OcrStatusResponse {
   category: string;
   level: string;
   intensity: string;
-  ageGroup: string;
   duration: string;
   equipment: string;
   status?: string;
@@ -26,7 +25,6 @@ export interface OcrDrill {
   description: string;
   focus: string;
   intensity: string;
-  ageGroup: string | null;
   level: string;
   equipment: string | null;
 }

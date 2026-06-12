@@ -3,7 +3,6 @@
     mode="side"
     opened
     [style.width.px]="isSidebarExpanded ? 200 : 70"
-    #drawer
   >
     <sidebar (expandedChange)="onExpandedChange($event)"></sidebar>
   </mat-sidenav>
@@ -15,182 +14,90 @@
     <header></header>
 
     <div class="page-wrapper">
-      <!-- Page Header with Back Button -->
       <div class="page-header">
         <button (click)="onBack()" class="back-btn">
           <mat-icon>arrow_back</mat-icon>
         </button>
         <div class="header-content">
           <h2 class="page-title">Edit Profile</h2>
-          <p class="page-subtitle">Update your personal information</p>
+          <p class="page-subtitle">Update your account information</p>
         </div>
       </div>
 
-      <!-- Form Container -->
-      <form (ngSubmit)="onSubmit()" class="form-container">
-        <!-- Profile Picture Section -->
-        <div class="form-card">
-          <h3 class="card-title">Profile Picture</h3>
-          <div class="profile-picture-section">
-            <div class="avatar">{{ initials }}</div>
-            <div class="avatar-controls">
-              <button-2 type="regular" class="change-photo-btn">
-                <mat-icon>photo_camera</mat-icon>
-                <span>Change Photo</span>
-              </button-2>
-              <p class="file-info">JPG, PNG or GIF. Max size 2MB.</p>
-            </div>
+      <div *ngIf="isLoading" class="loading-state">Loading…</div>
+
+      <form *ngIf="!isLoading && profile" (ngSubmit)="onSubmit()" class="form-container">
+
+        <!-- Avatar -->
+        <div class="form-card avatar-card">
+          <div class="avatar">{{ initials }}</div>
+          <div class="avatar-info">
+            <span class="avatar-username">{{ profile.username }}</span>
+            <span class="avatar-role">{{ profile.role | titlecase }}</span>
+            <span class="avatar-team" *ngIf="profile.teamName">{{ profile.teamName }}</span>
           </div>
         </div>
 
-        <!-- Personal Information -->
+        <!-- Editable fields -->
         <div class="form-card">
-          <h3 class="card-title">Personal Information</h3>
+          <h3 class="card-title">Account Information</h3>
           <div class="form-fields">
-            <!-- Name -->
+
             <div class="form-group">
-              <label>Full Name</label>
-              <div class="input-wrapper">
+              <label>Username</label>
+              <div class="input-wrapper readonly-field">
                 <mat-icon>person</mat-icon>
-                <input
-                  type="text"
-                  [(ngModel)]="profileData.name"
-                  name="name"
-                  placeholder="Enter your full name"
-                />
+                <input type="text" [value]="profile.username" disabled />
               </div>
+              <span class="field-hint">Username cannot be changed.</span>
             </div>
 
-            <!-- Email -->
             <div class="form-group">
               <label>Email</label>
               <div class="input-wrapper">
                 <mat-icon>mail</mat-icon>
                 <input
                   type="email"
-                  [(ngModel)]="profileData.email"
+                  [(ngModel)]="email"
                   name="email"
                   placeholder="Enter your email"
+                  required
                 />
               </div>
             </div>
 
-            <!-- Phone -->
-            <div class="form-group">
-              <label>Phone Number</label>
-              <div class="input-wrapper">
-                <mat-icon>phone</mat-icon>
-                <input
-                  type="tel"
-                  [(ngModel)]="profileData.phone"
-                  name="phone"
-                  placeholder="Enter your phone number"
-                />
-              </div>
-            </div>
-
-            <!-- Location -->
-            <div class="form-group">
-              <label>Location</label>
-              <div class="input-wrapper">
-                <mat-icon>location_on</mat-icon>
-                <input
-                  type="text"
-                  [(ngModel)]="profileData.location"
-                  name="location"
-                  placeholder="Enter your location"
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-
-        <!-- Professional Information -->
-        <div class="form-card">
-          <h3 class="card-title">Professional Information</h3>
-          <div class="form-fields">
-            <!-- Role -->
-            <div class="form-group">
-              <label>Role</label>
-              <input
-                type="text"
-                [(ngModel)]="profileData.role"
-                name="role"
-                placeholder="Enter your role"
-              />
-            </div>
-
-            <!-- Team -->
             <div class="form-group">
               <label>Team</label>
-              <input
-                type="text"
-                [(ngModel)]="profileData.team"
-                name="team"
-                placeholder="Enter your team"
-              />
+              <div class="input-wrapper readonly-field">
+                <mat-icon>groups</mat-icon>
+                <input type="text" [value]="profile.teamName ?? '—'" disabled />
+              </div>
+              <span class="field-hint">Team is managed by your administrator.</span>
             </div>
 
-            <!-- Bio -->
-            <div class="form-group">
-              <label>Bio</label>
-              <textarea
-                [(ngModel)]="profileData.bio"
-                name="bio"
-                placeholder="Tell us about yourself..."
-                rows="4"
-              ></textarea>
-            </div>
           </div>
         </div>
 
-        <!-- Account Settings -->
+        <!-- Account actions -->
         <div class="form-card">
           <h3 class="card-title">Account Settings</h3>
           <div class="account-settings">
-            <button
-              type="button"
-              (click)="onChangePassword()"
-              class="settings-btn"
-            >
+            <button type="button" (click)="onChangePassword()" class="settings-btn">
               Change Password
-            </button>
-            <button
-              type="button"
-              (click)="onNotificationPreferences()"
-              class="settings-btn"
-            >
-              Notification Preferences
-            </button>
-            <button
-              type="button"
-              (click)="onDeleteAccount()"
-              class="settings-btn settings-btn-danger"
-            >
-              Delete Account
             </button>
           </div>
         </div>
 
-        <!-- Action Buttons -->
+        <!-- Save -->
         <div class="action-buttons">
-          <button-2
-            type="cancel"
-            (click)="onCancel()"
-            class="cancel-btn"
-          >
-            Cancel
-          </button-2>
-          <button-2
-            type="regular"
-            class="save-btn"
-          >
+          <button-2 type="cancel" (click)="onBack()">Cancel</button-2>
+          <button-2 type="regular" [disabled]="isSaving">
             <mat-icon>save</mat-icon>
-            <span>Save Changes</span>
+            {{ isSaving ? 'Saving…' : 'Save Changes' }}
           </button-2>
         </div>
+
       </form>
     </div>
   </mat-sidenav-content>
 </mat-sidenav-container>
-

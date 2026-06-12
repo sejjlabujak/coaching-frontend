@@ -61,33 +61,17 @@
     />
   </div>
 
-  <div class="form-row">
-    <div class="form-group">
-      <label class="form-label">Age Group</label>
-      <div class="select-wrapper">
-        <select
-          class="form-select"
-          [ngModel]="formData().ageGroup"
-          (ngModelChange)="onFieldChange('ageGroup', $event)"
-        >
-          <option *ngFor="let opt of ageGroupOptions" [value]="opt">{{ opt }}</option>
-        </select>
-        <mat-icon class="select-arrow">expand_more</mat-icon>
-      </div>
-    </div>
-
-    <div class="form-group">
-      <label class="form-label">Complexity</label>
-      <div class="select-wrapper">
-        <select
-          class="form-select"
-          [ngModel]="formData().level"
-          (ngModelChange)="onFieldChange('level', $event)"
-        >
-          <option *ngFor="let opt of levelOptions" [value]="opt">{{ opt }}</option>
-        </select>
-        <mat-icon class="select-arrow">expand_more</mat-icon>
-      </div>
+  <div class="form-group">
+    <label class="form-label">Complexity</label>
+    <div class="select-wrapper">
+      <select
+        class="form-select"
+        [ngModel]="formData().level"
+        (ngModelChange)="onFieldChange('level', $event)"
+      >
+        <option *ngFor="let opt of levelOptions" [value]="opt">{{ opt }}</option>
+      </select>
+      <mat-icon class="select-arrow">expand_more</mat-icon>
     </div>
   </div>
 

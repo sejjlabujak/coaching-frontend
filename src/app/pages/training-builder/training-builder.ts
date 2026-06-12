@@ -24,6 +24,7 @@ import { Button } from '../../components/button/button';
 import { Drill } from '../../models/drill.model';
 import { TrainingEvent } from '../../models/training-event.model';
 import { BuilderStateService } from '../../services/builder-state.service';
+import { SidebarStateService } from '../../services/sidebar-state.service';
 import { TrainingService } from '../../services/training.service';
 
 @Component({
@@ -51,12 +52,13 @@ import { TrainingService } from '../../services/training.service';
 
 
 export class TrainingBuilderComponent implements OnInit, OnDestroy {
-  isSidebarExpanded = false;
+  private readonly sidebarState = inject(SidebarStateService);
+  get isSidebarExpanded(): boolean { return this.sidebarState.isExpanded; }
   totalDuration = 0;
-  goal = 90;
   sessionTitle = '';
   showDatePicker = false;
   manualDate: string = '';
+  manualTime: string = '09:00';
   isSaving = false;
 
   drills: Drill[] = [];
@@ -67,12 +69,32 @@ export class TrainingBuilderComponent implements OnInit, OnDestroy {
   private readonly router = inject(Router);
   private readonly cdr = inject(ChangeDetectorRef);
 
+  get goal(): number {
+    return this.builderState.goalDuration();
+  }
+
   get isMaxDuration(): boolean {
     return this.totalDuration >= this.goal;
   }
 
+  remainingFor(drill: Drill): number {
+    const others = this.drills
+      .filter((d) => d.id !== drill.id)
+      .reduce((s, d) => s + (d.duration || 0), 0);
+    return Math.max(0, this.goal - others);
+  }
+
   get targetDate(): Date | null {
     return this.builderState.targetDate();
+  }
+
+  get startTime(): string {
+    return this.builderState.startTime();
+  }
+
+  get isReuseMode(): boolean {
+    const ev = this.builderState.existingEvent();
+    return ev !== null && ev.id === -1;
   }
 
   ngOnInit(): void {
@@ -85,6 +107,18 @@ export class TrainingBuilderComponent implements OnInit, OnDestroy {
         duration: Math.floor((existing.duration ?? 60) / (existing.drills?.length ?? 1)),
         level: 'Beginner' as const,
       }));
+      // Reuse mode: always show date/time picker so coach can set start time
+      if (this.isReuseMode) {
+        this.showDatePicker = true;
+        // Pre-fill date if already selected (e.g. from "Use Existing Practice" calendar click)
+        const preDate = this.builderState.targetDate();
+        if (preDate) {
+          const y = preDate.getFullYear();
+          const m = String(preDate.getMonth() + 1).padStart(2, '0');
+          const d = String(preDate.getDate()).padStart(2, '0');
+          this.manualDate = `${y}-${m}-${d}`;
+        }
+      }
     } else {
       this.drills = [];
     }
@@ -95,7 +129,7 @@ export class TrainingBuilderComponent implements OnInit, OnDestroy {
     this.builderState.clear();
   }
   onExpandedChange(expanded: boolean): void {
-    this.isSidebarExpanded = expanded;
+    this.sidebarState.isExpanded = expanded;
   }
 
   drop(event: CdkDragDrop<Drill[]>): void {
@@ -106,24 +140,37 @@ export class TrainingBuilderComponent implements OnInit, OnDestroy {
 
   onDrillAdd(drill: Drill): void {
     if (this.isMaxDuration) return;
-    this.drills.push({ ...drill, id: Date.now().toString() });
+    this.drills = [...this.drills, { ...drill, id: Date.now().toString() }];
     this.calculateTotalDuration();
+    this.cdr.markForCheck();
   }
 
   onDeleteDrill(drillId: string): void {
     this.drills = this.drills.filter((d) => d.id !== drillId);
     this.calculateTotalDuration();
+    this.cdr.markForCheck();
   }
 
   onDurationChanged(event: { drillId: string; duration: number }): void {
     const drill = this.drills.find((d) => d.id === event.drillId);
     if (drill) {
-      drill.duration = event.duration;
+      drill.duration = Math.min(event.duration, this.remainingFor(drill));
       this.calculateTotalDuration();
+      this.cdr.markForCheck();
     }
   }
 
   saveToCalendar(): void {
+    if (this.totalDuration < this.goal) {
+      const remaining = this.goal - this.totalDuration;
+      this.snackBar.open(
+        `Session is ${this.totalDuration} min — still ${remaining} min short of the ${this.goal} min goal.`,
+        'Close',
+        { duration: 4000, panelClass: 'snack-error' },
+      );
+      return;
+    }
+
     const date = this.builderState.targetDate();
     if (!date) {
       this.showDatePicker = true;
@@ -137,6 +184,7 @@ export class TrainingBuilderComponent implements OnInit, OnDestroy {
     if (!this.manualDate) return;
     const date = new Date(this.manualDate + 'T00:00:00');
     this.builderState.setDate(date);
+    this.builderState.setStartTime(this.manualTime);
     this.showDatePicker = false;
     this.persistSession(date);
   }
@@ -153,24 +201,30 @@ export class TrainingBuilderComponent implements OnInit, OnDestroy {
 
     const title = this.sessionTitle.trim() || 'Custom Training';
     const existing = this.builderState.existingEvent();
+    const isNew = !existing || existing.id === -1;
 
     const newEvent: TrainingEvent = {
-      id: existing ? existing.id : this.trainingService.getNextId(),
+      id: isNew ? this.trainingService.getNextId() : existing!.id,
       date,
       title,
       color: 'red',
       duration: this.totalDuration,
+      startTime: this.builderState.startTime(),
       intensity: 'MEDIUM',
       focus: 'Custom session',
       ageGroup: 'U18',
-      drills: this.drills.map((d, i) => ({ id: i + 1, name: d.title })),
+      drills: this.drills.map((d, i) => ({ id: i + 1, name: d.title, duration: d.duration ?? 0 })),
     };
 
     // ── Save to backend ──────────────────────────────────────────────────────
-    this.trainingService.saveSession(newEvent).subscribe({
+    const backendCall = isNew
+      ? this.trainingService.saveSession(newEvent)
+      : this.trainingService.editSession(existing!.id, newEvent);
+
+    backendCall.subscribe({
       next: () => {
         this.isSaving = false;
-        if (existing) {
+        if (!isNew) {
           this.trainingService.updateEvent(newEvent);
         } else {
           this.trainingService.addEvent(newEvent);
@@ -181,8 +235,13 @@ export class TrainingBuilderComponent implements OnInit, OnDestroy {
       },
       error: (err) => {
         this.isSaving = false;
-        console.error('Failed to save session:', err);
-        this.snackBar.open('Failed to save. Please try again.', 'Close', { duration: 3000 });
+        const msg = err.status === 409
+          ? (err.error?.error ?? 'This session overlaps with an existing one.')
+          : 'Failed to save. Please try again.';
+        this.snackBar.open(msg, 'Close', {
+          duration: 5000,
+          panelClass: 'snack-error',
+        });
         this.cdr.markForCheck();
       },
     });

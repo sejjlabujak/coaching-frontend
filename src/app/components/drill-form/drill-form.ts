@@ -12,7 +12,7 @@ import { FormsModule } from '@angular/forms';
 import { MatIconModule } from '@angular/material/icon';
 import { Button } from '../button/button';
 import { LibraryDrill } from '../../models/library-drill.model';
-import { TrainingFocus, IntensityLevel, AgeSelection } from '../../models/training-event.model';
+import { TrainingFocus, IntensityLevel } from '../../models/training-event.model';
 
 @Component({
   selector: 'drill-edit-form',
@@ -40,16 +40,6 @@ export class DrillEditFormComponent implements OnInit {
   ];
 
   intensityOptions: IntensityLevel[] = ['LOW', 'MEDIUM', 'HIGH'];
-
-  ageGroupOptions: (AgeSelection | 'All ages')[] = [
-    'All ages',
-    'U10',
-    'U12',
-    'U14',
-    'U16',
-    'U18',
-    'Senior',
-  ];
 
   levelOptions: ('Beginner' | 'Intermediate' | 'Advanced')[] = [
     'Beginner',

@@ -5,10 +5,12 @@ import { MatIconModule } from '@angular/material/icon';
 @Component({
   selector: 'app-stat-card',
   template: `
-    <div class="stat-card">
+    <div [class]="'stat-card ' + colorClass">
       <div class="stat-header">
         <span class="stat-label">{{ label }}</span>
-        <mat-icon [class]="'stat-icon ' + colorClass">{{ icon }}</mat-icon>
+        <div [class]="'stat-icon-wrap ' + colorClass">
+          <mat-icon [class]="'stat-icon ' + colorClass">{{ icon }}</mat-icon>
+        </div>
       </div>
       <div class="stat-value">{{ value }}</div>
     </div>

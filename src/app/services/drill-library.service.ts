@@ -2,7 +2,7 @@ import { Injectable, signal, computed, inject } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable, tap } from 'rxjs';
 import { LibraryDrill, DrillLibraryFilters } from '../models/library-drill.model';
-import { TrainingFocus, IntensityLevel, AgeSelection } from '../models/training-event.model';
+import { TrainingFocus, IntensityLevel } from '../models/training-event.model';
 import { environment } from '../../environments/environment';
 
 @Injectable({ providedIn: 'root' })
@@ -17,7 +17,6 @@ export class DrillLibraryService {
     search: '',
     focus: 'All Focus',
     intensity: 'All Intensity',
-    ageGroup: 'All Age Groups',
   });
 
   filteredDrills = computed(() => {
@@ -30,9 +29,8 @@ export class DrillLibraryService {
 
       const matchesFocus = f.focus === 'All Focus' || drill.focus === f.focus;
       const matchesIntensity = f.intensity === 'All Intensity' || drill.intensity === f.intensity;
-      const matchesAge = f.ageGroup === 'All Age Groups' || drill.ageGroup === f.ageGroup;
 
-      return matchesSearch && matchesFocus && matchesIntensity && matchesAge;
+      return matchesSearch && matchesFocus && matchesIntensity;
     });
   });
 
@@ -112,7 +110,6 @@ export class DrillLibraryService {
     description: d.description ?? '',
     focus: this.mapFocus(d.focus),
     intensity: (d.intensity ?? 'MEDIUM') as IntensityLevel,
-    ageGroup: (d.ageGroup ?? 'U16') as AgeSelection,
     tag: d.tag ?? undefined,
     equipment: d.equipment ? d.equipment.split(',').map((s) => s.trim()) : [],
     duration: d.duration ?? undefined,
@@ -125,7 +122,6 @@ export class DrillLibraryService {
       description: d.description ?? '',
       focus: d.focus ? d.focus.toUpperCase().replace(' ', '_') : null,
       intensity: d.intensity ?? null,
-      ageGroup: d.ageGroup ?? null,
       tag: d.tag ?? null,
       equipment: d.equipment?.join(', ') ?? null,
       duration: d.duration ?? null,
@@ -167,15 +163,6 @@ export class DrillLibraryService {
     'HIGH',
   ];
 
-  ageGroupOptions: (AgeSelection | 'All Age Groups')[] = [
-    'All Age Groups',
-    'U10',
-    'U12',
-    'U14',
-    'U16',
-    'U18',
-    'Senior',
-  ];
 }
 
 // ── Backend DTOs ─────────────────────────────────────────────────────────────
@@ -186,7 +173,6 @@ interface BackendDrill {
   description: string | null;
   focus: string | null;
   intensity: string | null;
-  ageGroup: string | null;
   tag: string | null;
   duration: number | null;
   level: string | null;
@@ -198,7 +184,6 @@ interface BackendDrillPayload {
   description: string | null;
   focus: string | null;
   intensity: string | null;
-  ageGroup: string | null;
   tag: string | null;
   equipment: string | null;
   duration: number | null;

@@ -29,23 +29,29 @@
           <div class="header-right">
             <!-- Inline date picker shown when no date selected -->
             <div class="date-picker-inline" *ngIf="showDatePicker">
+              <span class="date-picker-label" *ngIf="isReuseMode">Pick a date &amp; time:</span>
               <input
                 class="date-input"
                 type="date"
                 [(ngModel)]="manualDate"
               />
+              <input
+                class="date-input time-input"
+                type="time"
+                [(ngModel)]="manualTime"
+              />
               <button class="confirm-date-btn" (click)="onManualDateConfirm()">Confirm & Save</button>
-              <button class="cancel-date-btn" (click)="onManualDateCancel()">Cancel</button>
+              <button class="cancel-date-btn" *ngIf="!isReuseMode" (click)="onManualDateCancel()">Cancel</button>
             </div>
             <span class="selected-date" *ngIf="targetDate && !showDatePicker">
-              📅 {{ targetDate | date:'MMMM d, yyyy' }}
+              📅 {{ targetDate | date:'MMMM d, yyyy' }} &nbsp;🕐 {{ startTime }}
             </span>
             <button-2 (click)="saveToCalendar()">Save to Calendar</button-2>
           </div>
         </div>
 
         <div class="progress-section">
-          <progress-tracker [duration]="totalDuration" [goal]="90"></progress-tracker>
+          <progress-tracker [duration]="totalDuration" [goal]="goal"></progress-tracker>
         </div>
 
         <div class="builder-body">
@@ -65,6 +71,7 @@
                 [drill]="drill"
                 [isSidebarMode]="false"
                 [isSessionMode]="true"
+                [maxDrillDuration]="remainingFor(drill)"
                 (deleteDrill)="onDeleteDrill($event)"
                 (durationChanged)="onDurationChanged($event)"
               ></drill-card>

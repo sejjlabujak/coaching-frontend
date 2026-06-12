@@ -45,6 +45,7 @@ export class CreateTrainingDialogComponent {
 
   formData = signal<CreateTrainingFormData>({
     date: this.data?.date ?? null,
+    startTime: '09:00',
     duration: 0,
     focus: 'Shooting',
     intensity: 'LOW',
@@ -73,6 +74,9 @@ export class CreateTrainingDialogComponent {
   onGenerate(): void {
     const form = this.formData();
     if (this.isFormValid()) {
+      this.builderState.setDate(form.date!);
+      this.builderState.setGoalDuration(form.duration);
+      this.builderState.setStartTime(form.startTime);
       this.dialogRef.close({ action: 'generate', formData: form });
       this.router.navigate(['/training-builder']);
     }

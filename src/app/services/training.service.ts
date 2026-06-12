@@ -26,6 +26,9 @@ export class TrainingService {
           title: s.title,
           date: new Date(s.date + 'T00:00:00'),
           color: 'red' as const,
+          startTime: s.time,
+          duration: s.duration,
+          readOnly: s.readOnly,
         }));
         this.events.set(events);
         this.isLoading.set(false);
@@ -80,17 +83,36 @@ export class TrainingService {
     return ids.length > 0 ? Math.max(...ids) + 1 : 1;
   }
 
-  saveSession(event: TrainingEvent): Observable<any> {
+  editSession(id: number, event: TrainingEvent): Observable<any> {
     const dto: SessionDetailDTO = {
       title: event.title,
       date: this.formatDate(event.date),
+      time: event.startTime,
       duration: event.duration,
       intensity: event.intensity,
       focus: event.focus,
       ageGroup: event.ageGroup,
       drills: (event.drills ?? []).map((d, i) => ({
         title: d.name,
-        duration: 0,
+        duration: d.duration ?? 0,
+        orderIndex: i,
+      })),
+    };
+    return this.sessionBackend.updateSession(id, dto);
+  }
+
+  saveSession(event: TrainingEvent): Observable<any> {
+    const dto: SessionDetailDTO = {
+      title: event.title,
+      date: this.formatDate(event.date),
+      time: event.startTime,
+      duration: event.duration,
+      intensity: event.intensity,
+      focus: event.focus,
+      ageGroup: event.ageGroup,
+      drills: (event.drills ?? []).map((d, i) => ({
+        title: d.name,
+        duration: d.duration ?? 0,
         orderIndex: i,
       })),
     };
@@ -113,6 +135,18 @@ export class TrainingService {
 
   loadEventDetail(id: number): Observable<any> {
     return this.sessionBackend.getSessionById(id);
+  }
+
+  updateNote(id: number, note: string): Observable<any> {
+    return this.sessionBackend.updateNote(id, note);
+  }
+
+  deleteSession(id: number): Observable<any> {
+    return this.sessionBackend.deleteSession(id).pipe(
+      tap(() => {
+        this.events.update((evs) => evs.filter((e) => e.id !== id));
+      }),
+    );
   }
 
   reuseSession(id: number): Observable<any> {

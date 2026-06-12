@@ -17,6 +17,7 @@ import { PlayerPerformanceChartComponent } from '../../components/player-perform
 import { Button } from '../../components/button/button';
 import { Player, Injury, GameStat, PerformanceMetric } from '../../models/player.model';
 import { PlayerService, BackendPlayer } from '../../services/player.service';
+import { SidebarStateService } from '../../services/sidebar-state.service';
 
 @Component({
   selector: 'app-player-roster',
@@ -38,7 +39,8 @@ import { PlayerService, BackendPlayer } from '../../services/player.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlayerRosterComponent implements OnInit {
-  isSidebarExpanded = true;
+  private readonly sidebarState = inject(SidebarStateService);
+  get isSidebarExpanded(): boolean { return this.sidebarState.isExpanded; }
   selectedPlayer: Player | null = null;
 
   statusFilter: 'all' | 'active' | 'injured' = 'all';
@@ -119,7 +121,7 @@ export class PlayerRosterComponent implements OnInit {
   }
 
   onExpandedChange(expanded: boolean): void {
-    this.isSidebarExpanded = expanded;
+    this.sidebarState.isExpanded = expanded;
   }
   onPlayerSelect(player: Player): void {
     this.selectedPlayer = player;

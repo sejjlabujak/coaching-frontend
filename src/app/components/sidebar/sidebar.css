@@ -2,15 +2,12 @@
   --sidebar-width: 200px;
   display: block;
   height: 100vh;
-  background-color: var(--primary-red);
+  background: linear-gradient(180deg, #7a1515 0%, #8b1a1a 50%, #6e1313 100%);
   color: var(--color-white);
   transition: width 0.3s cubic-bezier(0.4, 0, 0.2, 1);
   width: 100%;
   overflow: hidden;
-}
-
-:host:has(.is-collapsed) {
-  /* No longer needed since width is controlled by parent */
+  box-shadow: 2px 0 16px rgba(0, 0, 0, 0.18);
 }
 
 .sidebar-wrapper {
@@ -25,25 +22,28 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  padding: 16px;
+  padding: 20px 14px;
   min-height: 80px;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
 }
 
 .toggle-btn {
   background: transparent;
   border: none;
-  color: white;
+  color: rgba(255, 255, 255, 0.85);
   cursor: pointer;
   display: flex;
   align-items: center;
   justify-content: center;
   padding: 8px;
-  border-radius: 50%;
-  transition: background 0.2s;
+  border-radius: 8px;
+  transition: background 0.2s, color 0.2s;
+  flex-shrink: 0;
 }
 
 .toggle-btn:hover {
-  background: rgba(255, 255, 255, 0.1);
+  background: rgba(255, 255, 255, 0.14);
+  color: #ffffff;
 }
 
 .logo-section {
@@ -54,7 +54,45 @@
   white-space: nowrap;
 }
 
+.logo-text {
+  font-family: 'Inter', 'Roboto', sans-serif;
+  font-weight: 700;
+  font-size: 1.05rem;
+  letter-spacing: 0.3px;
+  color: #ffffff;
+}
+
+/* Nav list */
+mat-nav-list {
+  padding-top: 12px !important;
+}
+
 .mat-mdc-list-item {
-  margin: 4px 8px !important;
+  margin: 2px 10px !important;
   border-radius: 8px !important;
+  transition: background 0.18s !important;
+  color: rgba(255, 255, 255, 0.78) !important;
+}
+
+.mat-mdc-list-item:hover {
+  background: rgba(255, 255, 255, 0.12) !important;
+  color: #ffffff !important;
+}
+
+/* Active nav item */
+.mat-mdc-list-item.active-link {
+  background: rgba(255, 255, 255, 0.18) !important;
+  color: #ffffff !important;
+  position: relative;
+}
+
+.mat-mdc-list-item.active-link::before {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 6px;
+  bottom: 6px;
+  width: 3px;
+  background: #ffffff;
+  border-radius: 0 3px 3px 0;
 }

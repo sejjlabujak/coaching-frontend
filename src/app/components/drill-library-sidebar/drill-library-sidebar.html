@@ -1,8 +1,5 @@
-
 <div class="drill-library-sidebar">
-  <div class="sidebar-header">
-    <span>Drill Library</span>
-  </div>
+  <div class="sidebar-header">Drill Library</div>
 
   <app-search-input
     placeholder="Search drills..."
@@ -10,18 +7,40 @@
     (searchChange)="onSearch($event)"
   ></app-search-input>
 
-  <div class="recommendations-section">
-    <div class="recommendations-title">AI Recommendations</div>
-    <drill-card
-      *ngFor="let rec of filteredRecommendations"
-      [drill]="rec"
-      [isSidebarMode]="true"
-      (addDrill)="onDrillAdd($event)"
-      [isMaxDuration]="isMaxDuration"
-    ></drill-card>
+  <!-- AI Recommendations box -->
+  <div class="ai-box">
+    <div class="ai-box-header" (click)="toggleAi()">
+      <span class="ai-box-title">✦ AI Recommendations</span>
+      <span class="ai-toggle-icon">{{ aiExpanded() ? '▲' : '▼' }}</span>
+    </div>
+    <div class="ai-box-body" *ngIf="aiExpanded()">
+      <ng-container *ngIf="recommendedDrills.length > 0; else noRecs">
+        <drill-card
+          *ngFor="let rec of recommendedDrills"
+          [drill]="rec"
+          [isSidebarMode]="true"
+          [isMaxDuration]="isMaxDuration"
+          (addDrill)="onDrillAdd($event)"
+        ></drill-card>
+      </ng-container>
+      <ng-template #noRecs>
+        <p class="empty-state">No recommendations yet.</p>
+      </ng-template>
+    </div>
+  </div>
 
-    <div class="empty-state" *ngIf="filteredRecommendations.length === 0">
-      <p>No drills match your search.</p>
+  <!-- All drills -->
+  <div class="all-drills-section">
+    <div class="all-drills-header">All Drills</div>
+    <div class="drills-scroll">
+      <drill-card
+        *ngFor="let drill of filteredDrills"
+        [drill]="drill"
+        [isSidebarMode]="true"
+        [isMaxDuration]="isMaxDuration"
+        (addDrill)="onDrillAdd($event)"
+      ></drill-card>
+      <p class="empty-state" *ngIf="filteredDrills.length === 0">No drills found.</p>
     </div>
   </div>
 </div>

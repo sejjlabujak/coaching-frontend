@@ -8,6 +8,8 @@ export interface SessionDTO {
   title: string;
   date: string;
   time?: string;
+  duration?: number;
+  readOnly?: boolean;
 }
 
 export interface TrainingDrillDTO {
@@ -21,11 +23,14 @@ export interface SessionDetailDTO {
   id?: number;
   title: string;
   date: string;
+  time?: string;
   duration?: number;
   intensity?: string;
   focus?: string;
   ageGroup?: string;
   drills?: TrainingDrillDTO[];
+  note?: string;
+  readOnly?: boolean;
 }
 
 @Injectable({ providedIn: 'root' })
@@ -49,6 +54,18 @@ export class SessionBackendService {
 
   createSession(session: SessionDetailDTO): Observable<any> {
     return this.http.post(this.baseUrl, session);
+  }
+
+  updateSession(id: number, session: SessionDetailDTO): Observable<any> {
+    return this.http.put(`${this.baseUrl}/${id}`, session);
+  }
+
+  updateNote(id: number, note: string): Observable<any> {
+    return this.http.patch(`${this.baseUrl}/${id}/note`, { note });
+  }
+
+  deleteSession(id: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${id}`);
   }
 
   reuseSession(id: number): Observable<any> {

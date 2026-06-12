@@ -18,7 +18,6 @@ import { OcrBackendService, OcrDrill } from '../../../services/ocr-backend.servi
 import { DrillLibraryService } from '../../../services/drill-library.service';
 import { LibraryDrill } from '../../../models/library-drill.model';
 import { PdfImportStep } from '../../../models/ocr-result.model';
-import { AgeSelection } from '../../../models/training-event.model';
 
 @Component({
   selector: 'app-pdf-import-dialog',
@@ -58,7 +57,6 @@ export class OcrUploadDialog {
     description: '',
     category: 'OFFENSE',
     complexity: 'Beginner' as 'Beginner' | 'Intermediate' | 'Advanced',
-    ageGroup: null as string | null,
     intensity: 'MEDIUM',
     equipment: null as string | null,
   };
@@ -77,7 +75,6 @@ export class OcrUploadDialog {
     'Intermediate',
     'Advanced',
   ];
-  ageGroupOptions: (AgeSelection | null)[] = [null, 'U10', 'U12', 'U14', 'U16', 'U18', 'Senior'];
   intensityOptions = ['LOW', 'MEDIUM', 'HIGH'];
 
   // Drag-and-drop handlers
@@ -149,7 +146,6 @@ export class OcrUploadDialog {
     this.editFormData.description = drill.description ?? '';
     this.editFormData.category = drill.focus ?? 'OFFENSE';
     this.editFormData.complexity = (drill.level as any) ?? 'Beginner';
-    this.editFormData.ageGroup = drill.ageGroup ?? null;
     this.editFormData.intensity = drill.intensity ?? 'MEDIUM';
     this.editFormData.equipment = drill.equipment ?? null;
   }
@@ -169,7 +165,6 @@ export class OcrUploadDialog {
       description: this.editFormData.description,
       focus: this.editFormData.category,
       level: this.editFormData.complexity,
-      ageGroup: this.editFormData.ageGroup,
       intensity: this.editFormData.intensity,
       equipment: this.editFormData.equipment,
     };
@@ -217,7 +212,6 @@ export class OcrUploadDialog {
             description: drill.description,
             focus: drill.focus as any,
             intensity: drill.intensity as any,
-            ageGroup: (drill.ageGroup ?? 'U16') as any,
             equipment: drill.equipment ? [drill.equipment] : [],
             level: drill.level as any,
           };

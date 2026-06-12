@@ -12,7 +12,8 @@
             [value]="drill.duration || ''"
             (change)="onDurationChange($event)"
             placeholder="—"
-            min="0"
+            min="1"
+            [max]="maxDrillDuration"
           />
           <span class="duration-unit">min</span>
         </div>

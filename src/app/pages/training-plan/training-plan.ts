@@ -1,9 +1,11 @@
-import { Component } from '@angular/core';
+import { Component, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
 import { CalendarComponent } from '../../components/calendar/calendar';
 import { HeaderComponent } from '../../components/header/header';
 import { MatSidenavModule } from '@angular/material/sidenav';
+import { SidebarStateService } from '../../services/sidebar-state.service';
+
 @Component({
   selector: 'training-plan',
   standalone: true,
@@ -18,9 +20,10 @@ import { MatSidenavModule } from '@angular/material/sidenav';
   styleUrl: './training-plan.css',
 })
 export class TrainingPlan {
-  isSidebarExpanded = true;
+  private readonly sidebarState = inject(SidebarStateService);
+  get isSidebarExpanded(): boolean { return this.sidebarState.isExpanded; }
 
   onExpandedChange(expanded: boolean) {
-    this.isSidebarExpanded = expanded;
+    this.sidebarState.isExpanded = expanded;
   }
 }

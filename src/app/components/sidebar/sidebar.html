@@ -13,7 +13,7 @@
   </div>
 
   <mat-nav-list>
-    @for (item of menuItems; track item.label) {
+    @for (item of menuItems(); track item.label) {
     <a mat-list-item [routerLink]="item.route" routerLinkActive="active-link" [title]="item.label">
       <mat-icon matListItemIcon [fontIcon]="item.icon" aria-hidden="true"></mat-icon>
 

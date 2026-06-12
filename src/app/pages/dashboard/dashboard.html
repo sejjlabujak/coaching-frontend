@@ -19,12 +19,17 @@
       <!-- Metric Cards -->
       <div class="stats-grid">
         <app-stat-card
-          *ngFor="let stat of stats"
+          *ngFor="let stat of stats()"
           [label]="stat.label"
           [value]="stat.value"
           [icon]="stat.icon"
           [color]="stat.color"
         ></app-stat-card>
+      </div>
+
+      <!-- Error banner -->
+      <div *ngIf="error()" class="error-banner">
+        {{ error() }}
       </div>
 
       <!-- Charts and Analysis -->
@@ -36,7 +41,7 @@
 
         <!-- Team Analysis -->
         <div class="analysis-wrapper">
-          <app-team-analysis [teamAnalysis]="teamAnalysis"></app-team-analysis>
+          <app-team-analysis [teamAnalysis]="teamAnalysis()"></app-team-analysis>
         </div>
       </div>
     </div>
