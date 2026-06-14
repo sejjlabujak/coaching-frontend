@@ -5,6 +5,8 @@ export interface Player {
   status: 'active' | 'injured';
   performance: number;
   selection: 'U14' | 'U16' | 'U18' | 'Senior';
+  imageUrl?: string;
+  age?: number;
 }
 
 export interface Injury {

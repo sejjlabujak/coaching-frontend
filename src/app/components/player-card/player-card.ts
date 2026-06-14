@@ -12,12 +12,13 @@ import { Player } from '../../models/player.model';
     >
       <div class="player-content">
         <div class="player-avatar">
-          <mat-icon>person</mat-icon>
+          <img *ngIf="player.imageUrl" [src]="player.imageUrl" [alt]="player.name" class="avatar-img" />
+          <mat-icon *ngIf="!player.imageUrl">person</mat-icon>
         </div>
         <h4 class="player-name">{{ player.name }}</h4>
         <p class="player-position">{{ player.position }}</p>
         <div [class]="'status-badge status-' + player.status">
-          {{ player.status === 'active' ? 'Active' : 'Injured' }}
+          {{ player.status === 'active' ? 'Active' : 'OUT' }}
         </div>
       </div>
     </button>
