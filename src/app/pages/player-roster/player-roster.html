@@ -81,7 +81,8 @@
       <div class="top-section">
         <!-- Player Image -->
         <div class="player-image">
-          <mat-icon>person</mat-icon>
+          <img *ngIf="selectedPlayer.imageUrl" [src]="selectedPlayer.imageUrl" [alt]="selectedPlayer.name" class="player-photo" />
+          <mat-icon *ngIf="!selectedPlayer.imageUrl">person</mat-icon>
         </div>
 
         <!-- Player Information -->
@@ -94,7 +95,7 @@
             </div>
             <div class="info-row">
               <span class="label">Age:</span>
-              <span class="value">22</span>
+              <span class="value">{{ selectedPlayer.age ?? '—' }}</span>
             </div>
             <div class="info-row">
               <span class="label">Position:</span>
@@ -105,23 +106,16 @@
 
         <!-- Injuries History -->
         <app-injuries-section
-          [injuries]="injuries"
-          (injuriesChange)="onInjuriesChange($event)"
+          [playerId]="selectedPlayer ? +selectedPlayer.id : null"
+          (hasActiveInjuryChange)="onHasActiveInjuryChange($event)"
         ></app-injuries-section>
       </div>
 
-      <!-- Season Filters -->
+      <!-- Team Filter -->
       <div class="filters-section">
-        <select [(ngModel)]="selectedSeason" class="filter-select">
-          <option>2025-2026</option>
-          <option>2024-2025</option>
-          <option>2023-2024</option>
-        </select>
         <select [(ngModel)]="selectedVsTeam" class="filter-select">
           <option>All Teams</option>
-          <option>Lakers</option>
-          <option>Warriors</option>
-          <option>Celtics</option>
+          <option *ngFor="let team of leagueTeams">{{ team }}</option>
         </select>
       </div>
 
@@ -147,7 +141,7 @@
             </tr>
           </thead>
           <tbody>
-            <tr *ngFor="let stat of gameStats; let i = index" class="stat-row">
+            <tr *ngFor="let stat of filteredGameStats" class="stat-row">
               <td>{{ stat.game }}</td>
               <td class="number">{{ stat.pct }}</td>
               <td class="number">{{ stat.fg }}</td>
@@ -161,7 +155,7 @@
               <td class="number">{{ stat.drb }}</td>
               <td class="number">{{ stat.fo }}</td>
               <td class="number">{{ stat.eff }}</td>
-              <td class="number">+{{ i + 3 }}</td>
+              <td class="number">{{ stat.eff >= 0 ? '+' : '' }}{{ stat.eff }}</td>
             </tr>
           </tbody>
         </table>
