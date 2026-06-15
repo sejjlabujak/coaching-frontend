@@ -37,9 +37,19 @@
 <ng-container *ngIf="step() === 'processing'">
   <div class="processing-view">
     <div class="processing-body">
-      <mat-spinner diameter="48" color="warn"></mat-spinner>
+      <div class="ocr-spinner"></div>
       <p class="processing-label">{{ processingMessage() }}</p>
       <p class="processing-file">{{ fileName() }}</p>
+    </div>
+  </div>
+</ng-container>
+
+<!-- STEP: SAVING -->
+<ng-container *ngIf="step() === 'saving'">
+  <div class="processing-view">
+    <div class="processing-body">
+      <div class="ocr-spinner"></div>
+      <p class="processing-label">Saving drills...</p>
     </div>
   </div>
 </ng-container>

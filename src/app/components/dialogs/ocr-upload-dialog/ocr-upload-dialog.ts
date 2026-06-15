@@ -202,6 +202,8 @@ export class OcrUploadDialog {
   }
 
   private saveAllDrills(): void {
+    this.step.set('saving');
+    this.cdr.detectChanges();
     this.ocrService.confirmAllDrills(this.extractedDrills).subscribe({
       next: (response) => {
         // Also add to local library so UI updates immediately
@@ -221,6 +223,7 @@ export class OcrUploadDialog {
         this.dialogRef.close({ saved: true, count: this.extractedDrills.length });
       },
       error: (err) => {
+        this.step.set('review');
         this.errorMessage.set('Failed to save drills: ' + err.message);
         this.cdr.detectChanges();
       },

@@ -1,6 +1,7 @@
-import { Component, Input } from '@angular/core';
+import { Component, inject, Input } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatIconModule } from '@angular/material/icon';
+import { Router, RouterModule } from '@angular/router';
 import { Button } from '../button/button';
 
 @Component({
@@ -16,18 +17,13 @@ import { Button } from '../button/button';
 
       <div class="analysis-content">
         <div class="analysis-section strengths">
-          <strong class="section-label">Strengths</strong>
+          <strong class="section-label">Performance Overview</strong>
           <p class="section-text">{{ teamAnalysis.strengths }}</p>
         </div>
 
         <div class="analysis-section improvements">
           <strong class="section-label">Areas for Improvement</strong>
           <p class="section-text">{{ teamAnalysis.improvements }}</p>
-        </div>
-
-        <div class="analysis-section recommendation">
-          <strong class="section-label">Recommendation</strong>
-          <p class="section-text">{{ teamAnalysis.recommendation }}</p>
         </div>
       </div>
 
@@ -41,10 +37,12 @@ import { Button } from '../button/button';
     </div>
   `,
   styleUrl: './team-analysis.css',
-  imports: [CommonModule, MatIconModule, Button],
+  imports: [CommonModule, MatIconModule, Button, RouterModule],
   standalone: true,
 })
 export class TeamAnalysisComponent {
+  private readonly router = inject(Router);
+
   @Input() teamAnalysis = {
     strengths: 'The team shows exceptional shooting accuracy (85%) and speed metrics. Defense coordination has improved by 12% over the last month.',
     improvements: 'Assist rates need attention. Consider drills focused on passing and court awareness.',
@@ -52,8 +50,7 @@ export class TeamAnalysisComponent {
   };
 
   onCreatePlan(): void {
-    console.log('Create Training Plan clicked');
-    // TODO: Navigate to training plan creation
+    this.router.navigate(['/planner']);
   }
 }
 

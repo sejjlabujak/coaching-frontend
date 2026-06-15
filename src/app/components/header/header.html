@@ -1,4 +1,9 @@
 <mat-toolbar class="top-header">
+  <!-- Mobile hamburger -->
+  <button class="hamburger-btn" (click)="sidebarState.toggleMobile()" aria-label="Open menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+
   <span class="spacer"></span>
 
   <div class="header-actions">

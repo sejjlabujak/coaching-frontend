@@ -28,7 +28,7 @@ export class EmptySlotDialogComponent {
   onUseExisting(): void {
     this.dialogRef.close();
     this.dialog.open(SelectTrainingDialogComponent, {
-      width: '640px',
+      width: 'min(640px, 95vw)',
       maxHeight: '90vh',
       data: { targetDate: this.data.date },
     });

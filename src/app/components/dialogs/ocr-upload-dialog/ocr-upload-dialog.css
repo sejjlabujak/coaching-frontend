@@ -122,6 +122,19 @@
   margin: 0;
 }
 
+.ocr-spinner {
+  width: 48px;
+  height: 48px;
+  border: 4px solid rgba(139, 26, 26, 0.15);
+  border-top-color: #8b1a1a;
+  border-radius: 50%;
+  animation: ocr-spin 0.75s linear infinite;
+}
+
+@keyframes ocr-spin {
+  to { transform: rotate(360deg); }
+}
+
 /* ── Review step ─────────────────────────────────────────────────────────── */
 
 .review-view {
@@ -339,4 +352,12 @@
   gap: 12px;
   margin-top: auto;
   padding-top: 8px;
+}
+
+@media (max-width: 680px) {
+  .upload-dialog { width: 100%; padding: 20px; box-sizing: border-box; }
+  .processing-view { width: 100%; padding: 40px 20px; box-sizing: border-box; }
+  .review-view { width: 100%; flex-direction: column; max-height: 95vh; }
+  .form-panel { padding: 16px; }
+  .form-actions { grid-template-columns: 1fr 1fr; }
 }

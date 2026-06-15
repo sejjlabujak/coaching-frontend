@@ -1,0 +1,88 @@
+.recent-games-card {
+  background: #ffffff;
+  border: 1px solid #e2e8f0;
+  border-radius: 14px;
+  padding: 24px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.06);
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+}
+
+.card-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding-bottom: 14px;
+  border-bottom: 1px solid #e2e8f0;
+}
+
+.header-left { display: flex; align-items: center; gap: 10px; }
+
+.icon-wrap {
+  width: 34px; height: 34px; border-radius: 9px;
+  background: rgba(139, 26, 26, 0.08);
+  display: flex; align-items: center; justify-content: center;
+}
+.icon-wrap mat-icon { color: #8b1a1a; font-size: 18px; width: 18px; height: 18px; }
+
+.card-title { font-size: 1rem; font-weight: 600; color: #0f172a; margin: 0; }
+.record { font-size: 0.875rem; font-weight: 600; color: #64748b; }
+
+.empty-state {
+  display: flex; flex-direction: column; align-items: center; gap: 8px;
+  padding: 24px; color: #94a3b8; font-size: 0.875rem;
+}
+.empty-state mat-icon { font-size: 28px; width: 28px; height: 28px; }
+
+.games-grid {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: 14px;
+}
+
+.game-card {
+  display: flex; flex-direction: column; gap: 8px;
+  padding: 14px; border-radius: 10px;
+  border: 1px solid #e2e8f0; background: #ffffff;
+  transition: transform 0.2s, box-shadow 0.2s;
+}
+.game-card:hover { transform: translateY(-2px); box-shadow: 0 4px 10px rgba(0,0,0,0.06); }
+.game-card.game-win  { border-top: 3px solid #16a34a; }
+.game-card.game-loss { border-top: 3px solid #dc2626; }
+
+.game-top { display: flex; align-items: center; justify-content: space-between; }
+
+.result-pill {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.05em;
+  padding: 2px 10px; border-radius: 999px; text-transform: uppercase;
+}
+.game-card.game-win  .result-pill { background: #dcfce7; color: #15803d; }
+.game-card.game-loss .result-pill { background: #fee2e2; color: #b91c1c; }
+
+.game-date { font-size: 0.72rem; color: #94a3b8; }
+
+.score { display: flex; align-items: baseline; gap: 4px; font-variant-numeric: tabular-nums; }
+.our-score { font-size: 1.4rem; font-weight: 700; color: #0f172a; }
+.dash { color: #94a3b8; font-size: 1.1rem; }
+.opp-score { font-size: 1.1rem; color: #64748b; font-weight: 600; }
+
+.opponent { font-size: 0.85rem; color: #374151; font-weight: 500; }
+
+.stat-row {
+  display: grid; grid-template-columns: repeat(3, 1fr);
+  gap: 6px; margin-top: 4px;
+  padding-top: 8px; border-top: 1px dashed #e2e8f0;
+}
+.stat { display: flex; flex-direction: column; align-items: center; }
+.stat-label { font-size: 0.65rem; color: #94a3b8; text-transform: uppercase; letter-spacing: 0.04em; }
+.stat-value { font-size: 0.85rem; font-weight: 600; color: #1f2937; font-variant-numeric: tabular-nums; }
+
+@media (max-width: 900px) {
+  .games-grid { grid-template-columns: 1fr 1fr; }
+  .recent-games-card { padding: 16px; }
+}
+
+@media (max-width: 600px) {
+  .games-grid { grid-template-columns: 1fr; }
+}

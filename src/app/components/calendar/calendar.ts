@@ -124,20 +124,23 @@ export class CalendarComponent {
             readOnly: detail.readOnly ?? isPast,
           };
           this.dialog.open(EventDetailDialogComponent, {
-            width: '560px',
+            width: 'min(560px, 95vw)',
+            maxHeight: '95vh',
             data: { event: fullEvent },
           });
         },
         error: () => {
           this.dialog.open(EventDetailDialogComponent, {
-            width: '560px',
+            width: 'min(560px, 95vw)',
+            maxHeight: '95vh',
             data: { event: { ...events[0], readOnly: isPast } },
           });
         },
       });
     } else if (!isPast) {
       this.dialog.open(EmptySlotDialogComponent, {
-        width: '520px',
+        width: 'min(520px, 95vw)',
+        maxHeight: '95vh',
         data: { date: clickedDate },
       });
     }
@@ -164,13 +167,15 @@ export class CalendarComponent {
           readOnly: detail.readOnly,
         };
         this.dialog.open(EventDetailDialogComponent, {
-          width: '560px',
+          width: 'min(560px, 95vw)',
+            maxHeight: '95vh',
           data: { event: fullEvent },
         });
       },
       error: () => {
         this.dialog.open(EventDetailDialogComponent, {
-          width: '560px',
+          width: 'min(560px, 95vw)',
+            maxHeight: '95vh',
           data: { event },
         });
       },

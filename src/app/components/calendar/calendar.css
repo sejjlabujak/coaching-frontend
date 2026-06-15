@@ -147,3 +147,75 @@
 
 .chip-red  { background: linear-gradient(135deg, #d14040 0%, #a83030 100%); }
 .chip-navy { background: linear-gradient(135deg, #1e293b 0%, #334155 100%); }
+
+/* ── Responsive ── */
+@media (max-width: 768px) {
+  .cal-header {
+    padding: 14px 16px;
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .cal-title {
+    font-size: 1.05rem;
+    order: 0;
+    flex: 1 1 100%;
+  }
+
+  .cal-nav {
+    order: 1;
+    flex: 1;
+    justify-content: flex-start;
+  }
+
+  .cal-month-label {
+    min-width: 100px;
+    font-size: 0.9rem;
+  }
+
+  .cal-header button-2 {
+    order: 2;
+    flex-shrink: 0;
+  }
+
+  .day-label {
+    font-size: 0.65rem;
+    padding: 8px 0;
+    letter-spacing: 0;
+  }
+
+  .day-cell {
+    min-height: 64px;
+    padding: 4px;
+  }
+
+  .day-number {
+    font-size: 0.75rem;
+    width: 22px;
+    height: 22px;
+    line-height: 22px;
+    margin-bottom: 3px;
+  }
+
+  .event-chip {
+    font-size: 0.6rem;
+    padding: 2px 5px;
+    border-radius: 4px;
+  }
+}
+
+@media (max-width: 480px) {
+  .day-cell {
+    min-height: 48px;
+    padding: 3px;
+  }
+
+  .day-label {
+    font-size: 0.55rem;
+  }
+
+  .event-chip {
+    font-size: 0.55rem;
+    padding: 2px 4px;
+  }
+}

@@ -5,6 +5,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { SidebarStateService } from '../../services/sidebar-state.service';
 
 @Component({
   selector: 'header',
@@ -16,6 +17,7 @@ import { AuthService } from '../../services/auth.service';
 export class HeaderComponent {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
+  readonly sidebarState = inject(SidebarStateService);
 
   currentDate: Date = new Date();
 

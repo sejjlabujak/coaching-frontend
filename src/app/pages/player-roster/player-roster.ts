@@ -40,7 +40,7 @@ import { SidebarStateService } from '../../services/sidebar-state.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class PlayerRosterComponent implements OnInit {
-  private readonly sidebarState = inject(SidebarStateService);
+  readonly sidebarState = inject(SidebarStateService);
   get isSidebarExpanded(): boolean { return this.sidebarState.isExpanded; }
   selectedPlayer: Player | null = null;
 

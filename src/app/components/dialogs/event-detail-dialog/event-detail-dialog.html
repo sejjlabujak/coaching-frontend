@@ -2,6 +2,17 @@
   <div class="title-row">
     <h2 class="dialog-title">{{ event.title }}</h2>
     <span *ngIf="isReadOnly" class="readonly-badge">Past · Read-only</span>
+    <div class="title-actions">
+      <button class="icon-btn" (click)="onReuse()" title="Reuse this session">
+        <mat-icon>content_copy</mat-icon>
+      </button>
+      <button *ngIf="!isReadOnly && !confirmDelete" class="icon-btn icon-btn-delete" (click)="onDeleteClick()" title="Delete session">
+        <mat-icon>delete_outline</mat-icon>
+      </button>
+      <button class="icon-btn" (click)="onClose()" title="Close">
+        <mat-icon>close</mat-icon>
+      </button>
+    </div>
   </div>
 
   <div class="detail-row">
@@ -40,7 +51,12 @@
       [(ngModel)]="noteText"
       rows="3"
       placeholder="Add a note about this session…"
+      (blur)="onNoteBlur()"
     ></textarea>
+    <span *ngIf="isSavingNote" class="note-status saving">Saving…</span>
+    <span *ngIf="noteSavedRecently && !isSavingNote" class="note-status saved">
+      <mat-icon>check_circle</mat-icon> Saved
+    </span>
   </div>
 
   <div *ngIf="confirmDelete" class="confirm-delete-row">
@@ -51,16 +67,7 @@
     <button class="confirm-no-btn" (click)="onDeleteCancel()">Cancel</button>
   </div>
 
-  <div class="dialog-actions">
-    <button-2 (click)="onReuse()">
-      <mat-icon>content_copy</mat-icon>
-      Reuse
-    </button-2>
-    <button-2 type="cancel" (click)="onSaveNote()" [disabled]="isSavingNote">
-      {{ isSavingNote ? 'Saving…' : 'Save Note' }}
-    </button-2>
-    <button-2 *ngIf="!isReadOnly" type="cancel" (click)="onEditPlan()">Edit Plan</button-2>
-    <button-2 *ngIf="!isReadOnly && !confirmDelete" type="cancel" (click)="onDeleteClick()">Delete</button-2>
-    <button-2 type="cancel" (click)="onClose()">Close</button-2>
+  <div *ngIf="!isReadOnly" class="dialog-footer">
+    <button-2 (click)="onEditPlan()">Edit Plan</button-2>
   </div>
 </div>

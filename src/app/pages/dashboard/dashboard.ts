@@ -5,9 +5,9 @@ import { MatSidenavModule } from '@angular/material/sidenav';
 import { HeaderComponent } from '../../components/header/header';
 import { SidebarComponent } from '../../components/sidebar/sidebar';
 import { StatCardComponent } from '../../components/stat-card/stat-card';
-import { PerformanceChartComponent } from '../../components/performance-chart/performance-chart';
 import { TeamAnalysisComponent } from '../../components/team-analysis/team-analysis';
-import { StatCard, PerformanceMetric, TeamAnalysis } from '../../models/dashboard.model';
+import { RecentTeamGamesComponent, RecentTeamGame } from '../../components/recent-team-games/recent-team-games';
+import { StatCard, TeamAnalysis } from '../../models/dashboard.model';
 import { SidebarStateService } from '../../services/sidebar-state.service';
 import { AuthService } from '../../services/auth.service';
 import { environment } from '../../../environments/environment';
@@ -29,19 +29,20 @@ interface RecommendationDTO {
     HeaderComponent,
     SidebarComponent,
     StatCardComponent,
-    PerformanceChartComponent,
     TeamAnalysisComponent,
+    RecentTeamGamesComponent,
   ],
   standalone: true,
 })
 export class DashboardComponent implements OnInit {
-  private readonly sidebarState = inject(SidebarStateService);
+  readonly sidebarState = inject(SidebarStateService);
   private readonly http = inject(HttpClient);
   private readonly auth = inject(AuthService);
 
   get isSidebarExpanded(): boolean { return this.sidebarState.isExpanded; }
 
   recommendations = signal<RecommendationDTO[]>([]);
+  recentGames = signal<RecentTeamGame[]>([]);
   playerCount = signal<number>(0);
   loading = signal(true);
   error = signal<string | null>(null);
@@ -67,15 +68,6 @@ export class DashboardComponent implements OnInit {
     },
   ]);
 
-  metrics: PerformanceMetric[] = [
-    { stat: 'Shooting', value: 85, fullMark: 100 },
-    { stat: 'Defense', value: 72, fullMark: 100 },
-    { stat: 'Rebounds', value: 78, fullMark: 100 },
-    { stat: 'Assists', value: 68, fullMark: 100 },
-    { stat: 'Speed', value: 82, fullMark: 100 },
-    { stat: 'Stamina', value: 75, fullMark: 100 },
-  ];
-
   teamAnalysis = computed<TeamAnalysis>(() => {
     const recs = this.recommendations();
     if (recs.length === 0) {
@@ -99,6 +91,14 @@ export class DashboardComponent implements OnInit {
   ngOnInit(): void {
     this.loadPlayers();
     this.loadRecommendations();
+    this.loadRecentGames();
+  }
+
+  private loadRecentGames(): void {
+    this.http.get<RecentTeamGame[]>(`${environment.apiUrl}/api/team-stats/recent`).subscribe({
+      next: (games) => this.recentGames.set(games),
+      error: () => this.recentGames.set([]),
+    });
   }
 
   private loadPlayers(): void {

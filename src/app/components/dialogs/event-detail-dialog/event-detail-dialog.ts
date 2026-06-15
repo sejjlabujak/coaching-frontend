@@ -34,9 +34,12 @@ export class EventDetailDialogComponent implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
 
   noteText: string = '';
+  originalNote: string = '';
   isSavingNote = false;
+  noteSavedRecently = false;
   isDeleting = false;
   confirmDelete = false;
+  private _savedTimer: ReturnType<typeof setTimeout> | null = null;
 
   get event(): TrainingEvent {
     return this.data.event;
@@ -48,6 +51,7 @@ export class EventDetailDialogComponent implements OnInit {
 
   ngOnInit(): void {
     this.noteText = this.data.event.note ?? '';
+    this.originalNote = this.noteText;
   }
 
   onReuse(): void {
@@ -62,13 +66,21 @@ export class EventDetailDialogComponent implements OnInit {
     this.router.navigate(['/training-builder']);
   }
 
-  onSaveNote(): void {
-    if (this.isSavingNote) return;
+  onNoteBlur(): void {
+    if (this.noteText === this.originalNote || this.isSavingNote) return;
     this.isSavingNote = true;
+    this.noteSavedRecently = false;
+    this.cdr.markForCheck();
     this.trainingService.updateNote(this.event.id, this.noteText).subscribe({
       next: () => {
         this.isSavingNote = false;
-        this.snackBar.open('Note saved.', 'Close', { duration: 2500 });
+        this.noteSavedRecently = true;
+        this.originalNote = this.noteText;
+        if (this._savedTimer) clearTimeout(this._savedTimer);
+        this._savedTimer = setTimeout(() => {
+          this.noteSavedRecently = false;
+          this.cdr.markForCheck();
+        }, 2000);
         this.cdr.markForCheck();
       },
       error: () => {
@@ -90,7 +102,7 @@ export class EventDetailDialogComponent implements OnInit {
     this.trainingService.deleteSession(this.event.id).subscribe({
       next: () => {
         this.dialogRef.close({ action: 'deleted' });
-        this.snackBar.open('Session deleted.', 'Close', { duration: 3000 });
+        this.snackBar.open('Session deleted.', 'Close', { duration: 3000, panelClass: 'snack-error' });
       },
       error: (err) => {
         this.isDeleting = false;

@@ -7,11 +7,13 @@ export class BuilderStateService {
   private _existingEvent = signal<TrainingEvent | null>(null);
   private _goalDuration = signal<number>(90);
   private _startTime = signal<string>('09:00');
+  private _plannedFocus = signal<string | null>(null);
 
   targetDate = this._targetDate.asReadonly();
   existingEvent = this._existingEvent.asReadonly();
   goalDuration = this._goalDuration.asReadonly();
   startTime = this._startTime.asReadonly();
+  plannedFocus = this._plannedFocus.asReadonly();
 
   setDate(date: Date): void {
     this._targetDate.set(date);
@@ -38,11 +40,16 @@ export class BuilderStateService {
     if (event.duration) this._goalDuration.set(event.duration);
   }
 
+  setPlannedFocus(focus: string | null): void {
+    this._plannedFocus.set(focus);
+  }
+
   clear(): void {
     this._targetDate.set(null);
     this._existingEvent.set(null);
     this._goalDuration.set(90);
     this._startTime.set('09:00');
+    this._plannedFocus.set(null);
   }
 
   hasState(): boolean {

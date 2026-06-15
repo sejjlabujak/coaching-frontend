@@ -55,46 +55,44 @@ mat-sidenav-content.main-content {
   display: flex;
   flex-direction: column;
   min-width: 0;
-  padding: 32px;
-  gap: 24px;
+  padding: 24px 32px 32px;
+  gap: 16px;
 }
 
-.builder-header {
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  padding-bottom: 20px;
-  border-bottom: 2px solid #e5e7eb;
-  flex-shrink: 0;
-}
-
-.builder-header h2 {
-  font-size: 28px;
-  font-weight: 700;
-  color: #1e293b;
-  margin: 0;
-}
-
-.progress-section {
-  border-radius: 16px;
-  padding: 20px 24px;
-  background: linear-gradient(135deg, #ffffff 0%, #fafbfc 100%);
-  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
-  flex-shrink: 0;
+/* ── Consolidated header card ──────────────────────────────────── */
+.builder-header-card {
+  background: #fff;
   border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 16px 20px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.05);
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex-shrink: 0;
+}
+
+.builder-header-card progress-tracker {
+  display: block;
+  padding: 0;
+}
+
+.builder-header-card progress-tracker ::ng-deep > * {
+  background: transparent !important;
+  box-shadow: none !important;
+  border: none !important;
+  padding: 0 !important;
+  margin: 0 !important;
 }
 
 .builder-body {
-  display: flex;
-  gap: 32px;
-  align-items: flex-start;
-  flex: 1;
-  min-width: 0;
+  display: grid;
+  grid-template-columns: 1fr 380px;
+  gap: 24px;
+  align-items: start;
 }
 
 .drill-sequence-panel {
-  flex: 1;
-  min-width: 65%;
   display: flex;
   flex-direction: column;
   gap: 16px;
@@ -119,7 +117,8 @@ mat-sidenav-content.main-content {
   display: flex;
   flex-direction: column;
   gap: 12px;
-  min-height: 200px;
+  min-height: 280px;
+  position: relative;
   padding: 12px;
   background: white;
   border-radius: 12px;
@@ -137,11 +136,9 @@ mat-sidenav-content.main-content {
 }
 
 .drill-library-panel {
-  width: 30%;
-  flex-shrink: 0;
+  align-self: start;
   position: sticky;
   top: 0;
-  align-self: flex-start;
 }
 
 /* Drag and Drop Styles */
@@ -170,63 +167,115 @@ mat-sidenav-content.main-content {
 /* Responsive Design */
 @media (max-width: 1024px) {
   .builder-body {
-    flex-direction: column;
-    gap: 24px;
-    align-items: stretch;
+    grid-template-columns: 1fr;
   }
 
   .drill-library-panel {
-    width: 100%;
+    max-height: 480px;
+    overflow: hidden;
   }
 }
 
 @media (max-width: 768px) {
-  .builder-content {
-    padding: 20px;
-    gap: 16px;
-  }
-
-  .builder-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .drill-sequence-header {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 12px;
-  }
-
-  .add-drill-btn {
-    width: 100%;
-  }
-}
-.title-group {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
+  .builder-content { padding: 16px; gap: 12px; }
+  .builder-header-card { padding: 14px 16px; gap: 10px; }
+  .session-title-input { font-size: 1.1rem; }
+  .meta-row { flex-direction: column; align-items: flex-start; gap: 8px; }
+  .drill-sequence-header { flex-direction: column; align-items: flex-start; gap: 12px; }
 }
 
+@media (max-width: 480px) {
+  .builder-content { padding: 10px; }
+  .date-picker-inline { flex-wrap: wrap; }
+}
+/* Title input — looks like an editable heading */
 .session-title-input {
-  border: 1.5px solid #e5e7eb;
-  border-radius: 10px;
-  padding: 8px 14px;
-  font-size: 0.95rem;
+  border: none;
+  border-bottom: 2px solid transparent;
+  border-radius: 0;
+  padding: 4px 0;
+  font-size: 1.375rem;
+  font-weight: 700;
   color: #1e293b;
   outline: none;
   font-family: inherit;
-  width: 280px;
-  transition: border-color 0.2s, box-shadow 0.2s;
+  width: 100%;
+  background: transparent;
+  transition: border-color 0.2s;
 }
 
 .session-title-input:focus {
-  border-color: #d14040;
-  box-shadow: 0 0 0 3px rgba(209, 64, 64, 0.1);
+  border-bottom-color: #d14040;
 }
 
 .session-title-input::placeholder {
   color: #9ca3af;
+  font-weight: 400;
+}
+
+/* Date/time row */
+.date-time-row {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+
+.dt-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+  vertical-align: middle;
+  color: #9ca3af;
+}
+
+.dt-text {
+  line-height: 1;
+}
+
+.dt-empty {
+  font-style: italic;
+}
+
+.dt-edit-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 28px;
+  height: 28px;
+  background: transparent;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  color: #9ca3af;
+  margin-left: 4px;
+  transition: background 0.15s, color 0.15s;
+}
+
+.dt-edit-btn:hover {
+  background: #f3f4f6;
+  color: #374151;
+}
+
+.dt-edit-btn mat-icon {
+  font-size: 16px;
+  width: 16px;
+  height: 16px;
+}
+
+/* Meta row: date/time left, Save button right */
+.meta-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  font-size: 0.85rem;
+}
+
+/* Progress row — no extra card, just spacing */
+.progress-row {
+  margin: 0;
 }
 
 .date-picker-label {
@@ -292,4 +341,47 @@ mat-sidenav-content.main-content {
 
 .cancel-date-btn:hover {
   background: #e5e7eb;
+}
+
+/* ── Empty state ───────────────────────────────────────────── */
+.sequence-empty-state {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  padding: 40px 20px;
+  color: #94a3b8;
+  text-align: center;
+  pointer-events: none;
+}
+
+.sequence-empty-state .empty-icon {
+  font-size: 40px;
+  width: 40px;
+  height: 40px;
+  color: #cbd5e1;
+}
+
+.sequence-empty-state .empty-title {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.sequence-empty-state .empty-subtitle {
+  margin: 0;
+  font-size: 0.825rem;
+  color: #94a3b8;
+  display: inline-flex;
+  align-items: center;
+  gap: 4px;
+}
+
+.sequence-empty-state .inline-arrow {
+  font-size: 14px;
+  width: 14px;
+  height: 14px;
+  vertical-align: middle;
 }

@@ -98,3 +98,40 @@
   background-color: var(--color-bg-light, #f1f5f9);
   min-height: calc(100vh - 64px);
 }
+
+.hamburger-btn {
+  display: none;
+  align-items: center;
+  justify-content: center;
+  width: 36px;
+  height: 36px;
+  background: none;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  color: var(--foreground-muted, #475569);
+  transition: background 0.18s;
+  margin-right: 4px;
+  flex-shrink: 0;
+}
+
+.hamburger-btn:hover {
+  background: var(--accent-bg, #f8fafc);
+}
+
+.hamburger-btn mat-icon {
+  font-size: 22px;
+  width: 22px;
+  height: 22px;
+}
+
+@media (max-width: 768px) {
+  .top-header { padding: 0 14px !important; height: 56px; }
+  .current-date { display: none; }
+  .user-role { display: none; }
+  .hamburger-btn { display: flex; }
+}
+
+@media (max-width: 480px) {
+  .user-meta { display: none; }
+}
