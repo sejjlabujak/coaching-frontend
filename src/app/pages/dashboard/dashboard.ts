@@ -81,7 +81,6 @@ export class DashboardComponent implements OnInit {
         : 'No specific drills recommended yet.',
     };
   });
-    sidebarState: any;
 
   ngOnInit(): void {
     this.loadPlayers();
@@ -119,7 +118,4 @@ export class DashboardComponent implements OnInit {
     });
   }
 
-  onExpandedChange(expanded: boolean) {
-    this.sidebarState.isExpanded = expanded;
-  }
 }
