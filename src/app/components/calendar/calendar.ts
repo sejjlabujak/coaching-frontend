@@ -9,7 +9,6 @@ import { CommonModule } from '@angular/common';
 import { MatDialog } from '@angular/material/dialog';
 import { TrainingEvent } from '../../models/training-event.model';
 import { TrainingService } from '../../services/training.service';
-import { SessionBackendService } from '../../services/session-backend.service';
 import { EventDetailDialogComponent } from '../dialogs/event-detail-dialog/event-detail-dialog';
 import { EmptySlotDialogComponent } from '../dialogs/empty-slot-dialog/empty-slot-dialog';
 import { Button } from '../button/button';
@@ -33,7 +32,6 @@ export class CalendarComponent {
 
   private readonly dialog = inject(MatDialog);
   private readonly trainingService = inject(TrainingService);
-  private readonly sessionBackend = inject(SessionBackendService);
   private readonly cdr = inject(ChangeDetectorRef);
 
   get currentMonthLabel(): string {
@@ -104,25 +102,8 @@ export class CalendarComponent {
     const events = this.getEvents(day);
 
     if (events.length > 0) {
-      // Load full detail from backend before opening dialog
-      this.sessionBackend.getSessionById(events[0].id).subscribe({
-        next: (detail) => {
-          const fullEvent: TrainingEvent = {
-            id: detail.id!,
-            title: detail.title,
-            date: clickedDate,
-            color: 'red',
-            duration: detail.duration,
-            intensity: detail.intensity as any,
-            focus: detail.focus,
-            ageGroup: detail.ageGroup as any,
-            drills: (detail.drills ?? []).map((d) => ({
-              id: d.id ?? 0,
-              name: d.title,
-            })),
-            note: detail.note,
-            readOnly: detail.readOnly ?? isPast,
-          };
+      this.trainingService.loadEventForDisplay(events[0].id, clickedDate, { readOnly: isPast }).subscribe({
+        next: (fullEvent) => {
           this.dialog.open(EventDetailDialogComponent, {
             width: 'min(560px, 95vw)',
             maxHeight: '95vh',
@@ -148,34 +129,18 @@ export class CalendarComponent {
 
   openEventDetail(event: TrainingEvent, $mouseEvent: MouseEvent): void {
     $mouseEvent.stopPropagation();
-    this.sessionBackend.getSessionById(event.id).subscribe({
-      next: (detail) => {
-        const fullEvent: TrainingEvent = {
-          id: detail.id!,
-          title: detail.title,
-          date: event.date,
-          color: 'red',
-          duration: detail.duration,
-          intensity: detail.intensity as any,
-          focus: detail.focus,
-          ageGroup: detail.ageGroup as any,
-          drills: (detail.drills ?? []).map((d) => ({
-            id: d.id ?? 0,
-            name: d.title,
-          })),
-          note: detail.note,
-          readOnly: detail.readOnly,
-        };
+    this.trainingService.loadEventForDisplay(event.id, event.date).subscribe({
+      next: (fullEvent) => {
         this.dialog.open(EventDetailDialogComponent, {
           width: 'min(560px, 95vw)',
-            maxHeight: '95vh',
+          maxHeight: '95vh',
           data: { event: fullEvent },
         });
       },
       error: () => {
         this.dialog.open(EventDetailDialogComponent, {
           width: 'min(560px, 95vw)',
-            maxHeight: '95vh',
+          maxHeight: '95vh',
           data: { event },
         });
       },

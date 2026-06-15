@@ -1,0 +1,18 @@
+<mat-sidenav-container class="app-container">
+  <mat-sidenav
+    [mode]="sidebarState.isMobile() ? 'over' : 'side'"
+    [opened]="sidebarState.isMobile() ? sidebarState.mobileOpen() : true"
+    [style.width.px]="isSidebarExpanded ? 200 : 70"
+    (closedStart)="sidebarState.closeMobile()"
+  >
+    <sidebar (expandedChange)="onExpandedChange($event)"></sidebar>
+  </mat-sidenav>
+
+  <mat-sidenav-content
+    class="main-content"
+    [style.marginLeft.px]="sidebarState.isMobile() ? 0 : (isSidebarExpanded ? 200 : 70)"
+  >
+    <header></header>
+    <ng-content></ng-content>
+  </mat-sidenav-content>
+</mat-sidenav-container>

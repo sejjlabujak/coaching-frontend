@@ -1,14 +1,11 @@
 import { Component, inject, signal, computed, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HttpClient } from '@angular/common/http';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { HeaderComponent } from '../../components/header/header';
-import { SidebarComponent } from '../../components/sidebar/sidebar';
+import { LayoutComponent } from '../../components/layout/layout';
 import { StatCardComponent } from '../../components/stat-card/stat-card';
 import { TeamAnalysisComponent } from '../../components/team-analysis/team-analysis';
 import { RecentTeamGamesComponent, RecentTeamGame } from '../../components/recent-team-games/recent-team-games';
 import { StatCard, TeamAnalysis } from '../../models/dashboard.model';
-import { SidebarStateService } from '../../services/sidebar-state.service';
 import { AuthService } from '../../services/auth.service';
 import { environment } from '../../../environments/environment';
 
@@ -25,9 +22,7 @@ interface RecommendationDTO {
   styleUrl: './dashboard.css',
   imports: [
     CommonModule,
-    MatSidenavModule,
-    HeaderComponent,
-    SidebarComponent,
+    LayoutComponent,
     StatCardComponent,
     TeamAnalysisComponent,
     RecentTeamGamesComponent,
@@ -35,11 +30,8 @@ interface RecommendationDTO {
   standalone: true,
 })
 export class DashboardComponent implements OnInit {
-  readonly sidebarState = inject(SidebarStateService);
   private readonly http = inject(HttpClient);
   private readonly auth = inject(AuthService);
-
-  get isSidebarExpanded(): boolean { return this.sidebarState.isExpanded; }
 
   recommendations = signal<RecommendationDTO[]>([]);
   recentGames = signal<RecentTeamGame[]>([]);
@@ -84,9 +76,12 @@ export class DashboardComponent implements OnInit {
     return {
       strengths: analyses || 'Analysis based on recent game data.',
       improvements: `Weak areas detected: ${weakAreas}.`,
-      recommendation: drills ? `Recommended drills: ${drills}.` : 'No specific drills recommended yet.',
+      recommendation: drills
+        ? `Recommended drills: ${drills}.`
+        : 'No specific drills recommended yet.',
     };
   });
+    sidebarState: any;
 
   ngOnInit(): void {
     this.loadPlayers();

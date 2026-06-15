@@ -90,19 +90,6 @@
   color: #111827;
 }
 
-.intensity-badge {
-  display: inline-block;
-  padding: 3px 12px;
-  border-radius: 5px;
-  font-size: 0.8rem;
-  font-weight: 700;
-  letter-spacing: 0.05em;
-  text-transform: uppercase;
-}
-
-.intensity-high   { background: var(--primary-red); color: #fff; }
-.intensity-medium { background: #f59e0b; color: #fff; }
-.intensity-low    { background: #10b981; color: #fff; }
 
 .focus-row    { margin-bottom: 4px; }
 

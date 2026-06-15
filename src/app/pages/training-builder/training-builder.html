@@ -1,111 +1,95 @@
-<mat-sidenav-container class="app-container">
-  <mat-sidenav
-    [mode]="sidebarState.isMobile() ? 'over' : 'side'"
-    [opened]="sidebarState.isMobile() ? sidebarState.mobileOpen() : true"
-    [style.width.px]="isSidebarExpanded ? 200 : 70"
-    (closedStart)="sidebarState.closeMobile()"
-  >
-    <sidebar (expandedChange)="onExpandedChange($event)"></sidebar>
-  </mat-sidenav>
+<app-shell>
+  <div class="page-wrapper">
+    <div class="builder-content">
 
-  <mat-sidenav-content
-    class="main-content"
-    [style.marginLeft.px]="sidebarState.isMobile() ? 0 : (isSidebarExpanded ? 200 : 70)"
-  >
-    <header></header>
+      <!-- Consolidated header card -->
+      <div class="builder-header-card">
+        <input
+          class="session-title-input"
+          type="text"
+          placeholder="Untitled session — click to name it"
+          [(ngModel)]="sessionTitle"
+          (input)="onTitleInput()"
+        />
 
-    <div class="page-wrapper">
-      <div class="builder-content">
-
-        <!-- Consolidated header card -->
-        <div class="builder-header-card">
-          <input
-            class="session-title-input"
-            type="text"
-            placeholder="Untitled session — click to name it"
-            [(ngModel)]="sessionTitle"
-            (input)="onTitleInput()"
-          />
-
-          <!-- Meta row: date/time (left) + Save button (right) -->
-          <div class="meta-row">
-            <!-- Date/time read mode -->
-            <div class="date-time-row" *ngIf="!showDatePicker">
-              <ng-container *ngIf="targetDate; else noDate">
-                <mat-icon class="dt-icon">calendar_today</mat-icon>
-                <span class="dt-text">{{ targetDate | date:'MMMM d, yyyy' }}</span>
-                <mat-icon class="dt-icon">schedule</mat-icon>
-                <span class="dt-text">{{ startTime }}</span>
-              </ng-container>
-              <ng-template #noDate>
-                <span class="dt-text dt-empty">No date set</span>
-              </ng-template>
-              <button class="dt-edit-btn" (click)="toggleDatePicker()" title="Edit date &amp; time">
-                <mat-icon>edit</mat-icon>
-              </button>
-            </div>
-
-            <!-- Date/time picker (edit mode) -->
-            <div class="date-picker-inline" *ngIf="showDatePicker">
-              <span class="date-picker-label" *ngIf="isReuseMode">Pick a date &amp; time:</span>
-              <input class="date-input" type="date" [(ngModel)]="manualDate" />
-              <input class="date-input time-input" type="time" [(ngModel)]="manualTime" />
-              <button class="confirm-date-btn" (click)="onManualDateConfirm()">Confirm &amp; Save</button>
-              <button class="cancel-date-btn" *ngIf="!isReuseMode" (click)="onManualDateCancel()">Cancel</button>
-            </div>
-
-            <button-2 (click)="saveToCalendar()" [disabled]="isSaving">
-              {{ isSaving ? 'Saving…' : 'Save to Calendar' }}
-            </button-2>
+        <!-- Meta row: date/time (left) + Save button (right) -->
+        <div class="meta-row">
+          <!-- Date/time read mode -->
+          <div class="date-time-row" *ngIf="!showDatePicker">
+            <ng-container *ngIf="targetDate; else noDate">
+              <mat-icon class="dt-icon">calendar_today</mat-icon>
+              <span class="dt-text">{{ targetDate | date:'MMMM d, yyyy' }}</span>
+              <mat-icon class="dt-icon">schedule</mat-icon>
+              <span class="dt-text">{{ startTime }}</span>
+            </ng-container>
+            <ng-template #noDate>
+              <span class="dt-text dt-empty">No date set</span>
+            </ng-template>
+            <button class="dt-edit-btn" (click)="toggleDatePicker()" title="Edit date &amp; time">
+              <mat-icon>edit</mat-icon>
+            </button>
           </div>
 
-          <!-- Progress -->
-          <div class="progress-row">
-            <progress-tracker [duration]="totalDuration" [goal]="goal"></progress-tracker>
+          <!-- Date/time picker (edit mode) -->
+          <div class="date-picker-inline" *ngIf="showDatePicker">
+            <span class="date-picker-label" *ngIf="isReuseMode">Pick a date &amp; time:</span>
+            <input class="date-input" type="date" [(ngModel)]="manualDate" />
+            <input class="date-input time-input" type="time" [(ngModel)]="manualTime" />
+            <button class="confirm-date-btn" (click)="onManualDateConfirm()">Confirm &amp; Save</button>
+            <button class="cancel-date-btn" *ngIf="!isReuseMode" (click)="onManualDateCancel()">Cancel</button>
           </div>
+
+          <button-2 (click)="saveToCalendar()" [disabled]="isSaving">
+            {{ isSaving ? 'Saving…' : 'Save to Calendar' }}
+          </button-2>
         </div>
 
-        <div class="builder-body">
-          <div class="drill-sequence-panel">
-            <div class="drill-sequence-header">
-              <span>Drill Sequence</span>
-            </div>
-            <div
-              cdkDropList
-              [cdkDropListData]="drills"
-              class="drill-sequence-list"
-              (cdkDropListDropped)="drop($event)"
-            >
-              <drill-card
-                *ngFor="let drill of drills"
-                cdkDrag
-                [drill]="drill"
-                [isSidebarMode]="false"
-                [isSessionMode]="true"
-                [maxDrillDuration]="remainingFor(drill)"
-                (deleteDrill)="onDeleteDrill($event)"
-                (durationChanged)="onDurationChanged($event)"
-              ></drill-card>
-              <div class="sequence-empty-state" *ngIf="drills.length === 0">
-                <mat-icon class="empty-icon">playlist_add</mat-icon>
-                <p class="empty-title">No drills yet</p>
-                <p class="empty-subtitle">
-                  Add drills from the library
-                  <mat-icon class="inline-arrow">arrow_forward</mat-icon>
-                </p>
-              </div>
-            </div>
-          </div>
-
-          <div class="drill-library-panel">
-            <drill-library-sidebar
-              (drillAdded)="onDrillAdd($event)"
-              [isMaxDuration]="isMaxDuration"
-            ></drill-library-sidebar>
-          </div>
+        <!-- Progress -->
+        <div class="progress-row">
+          <progress-tracker [duration]="totalDuration" [goal]="goal"></progress-tracker>
         </div>
-
       </div>
+
+      <div class="builder-body">
+        <div class="drill-sequence-panel">
+          <div class="drill-sequence-header">
+            <span>Drill Sequence</span>
+          </div>
+          <div
+            cdkDropList
+            [cdkDropListData]="drills"
+            class="drill-sequence-list"
+            (cdkDropListDropped)="drop($event)"
+          >
+            <drill-card
+              *ngFor="let drill of drills"
+              cdkDrag
+              [drill]="drill"
+              [isSidebarMode]="false"
+              [isSessionMode]="true"
+              [maxDrillDuration]="remainingFor(drill)"
+              (deleteDrill)="onDeleteDrill($event)"
+              (durationChanged)="onDurationChanged($event)"
+            ></drill-card>
+            <div class="sequence-empty-state" *ngIf="drills.length === 0">
+              <mat-icon class="empty-icon">playlist_add</mat-icon>
+              <p class="empty-title">No drills yet</p>
+              <p class="empty-subtitle">
+                Add drills from the library
+                <mat-icon class="inline-arrow">arrow_forward</mat-icon>
+              </p>
+            </div>
+          </div>
+        </div>
+
+        <div class="drill-library-panel">
+          <drill-library-sidebar
+            (drillAdded)="onDrillAdd($event)"
+            [isMaxDuration]="isMaxDuration"
+          ></drill-library-sidebar>
+        </div>
+      </div>
+
     </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+  </div>
+</app-shell>

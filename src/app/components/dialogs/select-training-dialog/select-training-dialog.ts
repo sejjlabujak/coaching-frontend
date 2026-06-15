@@ -73,16 +73,7 @@ export class SelectTrainingDialogComponent {
     // Load full detail so drills are available in the builder
     this.sessionBackend.getSessionById(event.id).subscribe({
       next: (detail) => {
-        const fullEvent: TrainingEvent = {
-          id: event.id,
-          title: detail.title,
-          date: event.date,
-          color: 'red',
-          duration: detail.duration,
-          intensity: detail.intensity as any,
-          focus: detail.focus,
-          drills: (detail.drills ?? []).map((d) => ({ id: d.id ?? 0, name: d.title })),
-        };
+        const fullEvent = this.trainingService.detailToEvent(detail, event.date);
         this.builderState.setReuseEvent(fullEvent);
         // Date is already known from the calendar click — set it so builder skips the picker
         this.builderState.setDate(this.data.targetDate);

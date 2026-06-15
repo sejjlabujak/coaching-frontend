@@ -5,12 +5,6 @@ export interface StatCard {
   color: 'primary' | 'destructive' | 'secondary';
 }
 
-export interface PerformanceMetric {
-  stat: string;
-  value: number;
-  fullMark: number;
-}
-
 export interface TeamAnalysis {
   strengths: string;
   improvements: string;

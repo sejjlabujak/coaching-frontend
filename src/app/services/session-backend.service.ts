@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { EnvironmentService } from './environment.service';
+import { environment } from '../../environments/environment';
 
 export interface SessionDTO {
   id: number;
@@ -9,11 +9,13 @@ export interface SessionDTO {
   date: string;
   time?: string;
   duration?: number;
+  intensity?: string;
   readOnly?: boolean;
 }
 
 export interface TrainingDrillDTO {
   id?: number;
+  drillId?: number;
   title: string;
   duration?: number;
   orderIndex?: number;
@@ -35,11 +37,9 @@ export interface SessionDetailDTO {
 
 @Injectable({ providedIn: 'root' })
 export class SessionBackendService {
-  private baseUrl: string;
+  private readonly baseUrl = `${environment.apiUrl}/api/sessions`;
 
-  constructor(private http: HttpClient, private env: EnvironmentService) {
-    this.baseUrl = this.env.getEndpoint('/api/sessions');
-  }
+  constructor(private http: HttpClient) {}
 
   getSessions(month?: number, year?: number): Observable<SessionDTO[]> {
     let params = new HttpParams();

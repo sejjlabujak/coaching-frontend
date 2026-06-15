@@ -1,69 +1,53 @@
-<mat-sidenav-container class="app-container">
-  <mat-sidenav
-    [mode]="sidebarState.isMobile() ? 'over' : 'side'"
-    [opened]="sidebarState.isMobile() ? sidebarState.mobileOpen() : true"
-    [style.width.px]="isSidebarExpanded ? 200 : 70"
-    (closedStart)="sidebarState.closeMobile()"
-  >
-    <sidebar (expandedChange)="onExpandedChange($event)"></sidebar>
-  </mat-sidenav>
-
-  <mat-sidenav-content
-    class="main-content"
-    [style.marginLeft.px]="sidebarState.isMobile() ? 0 : (isSidebarExpanded ? 200 : 70)"
-  >
-    <header></header>
-
-    <div class="page-wrapper">
-      <!-- Page Header -->
-      <div class="page-header">
-        <div>
-          <h2 class="page-title">Player Roster</h2>
-          <p class="page-subtitle">
-            Manage your team and track individual player performance
-          </p>
-        </div>
-      </div>
-
-      <!-- Filters -->
-      <div class="filters-section">
-        <select [(ngModel)]="statusFilter" class="filter-select">
-          <option value="all">All Status</option>
-          <option value="active">Active</option>
-          <option value="injured">Injured</option>
-        </select>
-
-        <select [(ngModel)]="positionFilter" class="filter-select">
-          <option>All Positions</option>
-          <option>Point Guard</option>
-          <option>Shooting Guard</option>
-          <option>Small Forward</option>
-          <option>Power Forward</option>
-          <option>Center</option>
-        </select>
-
-        <select [(ngModel)]="selectionFilter" class="filter-select">
-          <option>All Selections</option>
-          <option>U14</option>
-          <option>U16</option>
-          <option>U18</option>
-          <option>Senior</option>
-        </select>
-      </div>
-
-      <!-- Players Grid -->
-      <div class="players-grid">
-        <button
-          *ngFor="let player of filteredPlayers"
-          (click)="onPlayerSelect(player)"
-          class="player-button"
-        >
-          <app-player-card [player]="player"></app-player-card>
-        </button>
+<app-shell>
+  <div class="page-wrapper">
+    <!-- Page Header -->
+    <div class="page-header">
+      <div>
+        <h2 class="page-title">Player Roster</h2>
+        <p class="page-subtitle">
+          Manage your team and track individual player performance
+        </p>
       </div>
     </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+
+    <!-- Filters -->
+    <div class="filters-section">
+      <select [(ngModel)]="statusFilter" class="filter-select">
+        <option value="all">All Status</option>
+        <option value="active">Active</option>
+        <option value="injured">Injured</option>
+      </select>
+
+      <select [(ngModel)]="positionFilter" class="filter-select">
+        <option>All Positions</option>
+        <option>Point Guard</option>
+        <option>Shooting Guard</option>
+        <option>Small Forward</option>
+        <option>Power Forward</option>
+        <option>Center</option>
+      </select>
+
+      <select [(ngModel)]="selectionFilter" class="filter-select">
+        <option>All Selections</option>
+        <option>U14</option>
+        <option>U16</option>
+        <option>U18</option>
+        <option>Senior</option>
+      </select>
+    </div>
+
+    <!-- Players Grid -->
+    <div class="players-grid">
+      <button
+        *ngFor="let player of filteredPlayers"
+        (click)="onPlayerSelect(player)"
+        class="player-button"
+      >
+        <app-player-card [player]="player"></app-player-card>
+      </button>
+    </div>
+  </div>
+</app-shell>
 
 <!-- Player Detail Modal -->
 <div *ngIf="selectedPlayer" class="modal-overlay" (click)="closeModal()">
@@ -168,4 +152,3 @@
     </div>
   </div>
 </div>
-

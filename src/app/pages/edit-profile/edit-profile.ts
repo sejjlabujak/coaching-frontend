@@ -3,13 +3,11 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { Router } from '@angular/router';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { HeaderComponent } from '../../components/header/header';
-import { SidebarComponent } from '../../components/sidebar/sidebar';
 import { Button } from '../../components/button/button';
-import { SidebarStateService } from '../../services/sidebar-state.service';
+import { LayoutComponent } from '../../components/layout/layout';
 import { ProfileService, ProfileDTO } from '../../services/profile.service';
+import { SidebarStateService } from '../../services/sidebar-state.service';
 
 @Component({
   selector: 'app-edit-profile',
@@ -19,11 +17,9 @@ import { ProfileService, ProfileDTO } from '../../services/profile.service';
     CommonModule,
     FormsModule,
     MatIconModule,
-    MatSidenavModule,
     MatSnackBarModule,
-    HeaderComponent,
-    SidebarComponent,
     Button,
+    LayoutComponent,
   ],
   standalone: true,
   changeDetection: ChangeDetectionStrategy.OnPush,

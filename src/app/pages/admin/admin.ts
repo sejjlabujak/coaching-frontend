@@ -3,27 +3,19 @@ import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { HttpClient } from '@angular/common/http';
 import { MatIconModule } from '@angular/material/icon';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { SidebarComponent } from '../../components/sidebar/sidebar';
-import { HeaderComponent } from '../../components/header/header';
-import { SidebarStateService } from '../../services/sidebar-state.service';
+import { LayoutComponent } from '../../components/layout/layout';
 import { CoachListItem, TeamOption } from '../../models/user.model';
 import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-admin',
   standalone: true,
-  imports: [CommonModule, FormsModule, MatIconModule, MatSidenavModule, SidebarComponent, HeaderComponent],
+  imports: [CommonModule, FormsModule, MatIconModule, LayoutComponent],
   templateUrl: './admin.html',
   styleUrl: './admin.css',
 })
 export class AdminComponent implements OnInit {
   private readonly http = inject(HttpClient);
-  readonly sidebarState = inject(SidebarStateService);
-
-  get isSidebarExpanded(): boolean { return this.sidebarState.isExpanded; }
-  onExpandedChange(v: boolean) { this.sidebarState.isExpanded = v; }
-
   // Add coach modal
   showAddCoachModal = false;
   newUsername = '';

@@ -117,9 +117,6 @@
   text-transform: uppercase;
 }
 
-.intensity-high   { background: var(--primary-red); color: #fff; }
-.intensity-medium { background: #f59e0b; color: #fff; }
-.intensity-low    { background: #10b981; color: #fff; }
 
 .drills-count {
   font-size: 0.875rem;

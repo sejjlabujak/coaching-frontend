@@ -1,5 +1,6 @@
 export interface Drill {
   id?: string;
+  backendId?: number;
   title: string;
   tag?: string;
   category?: string;
