@@ -139,96 +139,18 @@
 
 .review-view {
   display: flex;
-  width: 960px;
+  width: 620px;
   max-width: 96vw;
   max-height: 90vh;
   font-family: Roboto, 'Helvetica Neue', sans-serif;
   overflow: hidden;
 }
 
-/* Left: PDF preview */
-.pdf-panel {
-  width: 420px;
-  flex-shrink: 0;
-  display: flex;
-  flex-direction: column;
-  border-right: 1px solid #e5e7eb;
-  background: #f9fafb;
-  overflow: hidden;
-}
-
-.pdf-panel-header {
-  display: flex;
-  align-items: center;
-  gap: 12px;
-  padding: 16px 20px;
-  border-bottom: 1px solid #e5e7eb;
-  background: #fff;
-}
-
-.pdf-icon {
-  color: var(--primary-red);
-  font-size: 28px;
-  width: 28px;
-  height: 28px;
-}
-
-.pdf-filename {
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #111827;
-}
-
-.pdf-page-label {
-  font-size: 0.78rem;
-  color: #9ca3af;
-}
-
-.canvas-wrapper {
-  position: relative;
-  width: 100%;
-  min-height: 400px;
-  background: #f5f5f5;
-  border: 1px solid #ddd;
-  overflow: auto;
-}
 .canvas-wrapper {
   position: relative;
   width: 100%;
   background: #f5f5f5;
   overflow: auto;
-}
-
-.pdf-render-canvas {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-
-.overlay-highlights-canvas {
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  pointer-events: none;
-}
-.ai-note {
-  display: flex;
-  align-items: center;
-  gap: 8px;
-  padding: 12px 20px;
-  font-size: 0.82rem;
-  color: #6b7280;
-  border-top: 1px solid #e5e7eb;
-  background: #fff;
-}
-
-.ai-note mat-icon {
-  font-size: 16px;
-  width: 16px;
-  height: 16px;
-  color: #10b981;
 }
 
 /* Right: edit form */
@@ -236,8 +158,8 @@
   flex: 1;
   display: flex;
   flex-direction: column;
-  gap: 20px;
-  padding: 28px 28px 24px 28px;
+  gap: 16px;
+  padding: 28px;
   overflow-y: auto;
 }
 
@@ -319,31 +241,6 @@
   font-size: 20px;
   width: 20px;
   height: 20px;
-}
-
-.form-actions {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 12px;
-  margin-top: auto;
-  padding-top: 8px;
-}
-.review-view {
-  display: flex;
-  width: 620px;
-  max-width: 96vw;
-  max-height: 90vh;
-  font-family: Roboto, 'Helvetica Neue', sans-serif;
-  overflow: hidden;
-}
-
-.form-panel {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-  gap: 16px;
-  padding: 28px;
-  overflow-y: auto;
 }
 
 .form-actions {

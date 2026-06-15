@@ -38,6 +38,8 @@ export class DrillLibrarySidebarComponent implements OnInit {
   private readonly cdr = inject(ChangeDetectorRef);
 
   ngOnInit(): void {
+    this.libraryService.filters.set({ search: '', focus: 'All Focus', intensity: 'All Intensity' });
+
     this.recommendationService.getRecommendations().subscribe({
       next: (recs) => {
         this.recommendations.set(recs);
