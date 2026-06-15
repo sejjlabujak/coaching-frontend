@@ -20,7 +20,7 @@ import { SidebarStateService } from '../../services/sidebar-state.service';
   styleUrl: './training-plan.css',
 })
 export class TrainingPlan {
-  private readonly sidebarState = inject(SidebarStateService);
+  readonly sidebarState = inject(SidebarStateService);
   get isSidebarExpanded(): boolean { return this.sidebarState.isExpanded; }
 
   onExpandedChange(expanded: boolean) {

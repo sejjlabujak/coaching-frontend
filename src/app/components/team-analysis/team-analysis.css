@@ -90,4 +90,5 @@
 @media (max-width: 768px) {
   .analysis-container { padding: 16px; gap: 12px; }
   .analysis-title     { font-size: 0.9375rem; }
+  .section-text       { font-size: 0.8rem; }
 }

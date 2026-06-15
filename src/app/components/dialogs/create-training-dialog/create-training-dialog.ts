@@ -77,6 +77,7 @@ export class CreateTrainingDialogComponent {
       this.builderState.setDate(form.date!);
       this.builderState.setGoalDuration(form.duration);
       this.builderState.setStartTime(form.startTime);
+      this.builderState.setPlannedFocus(form.focus ?? null);
       this.dialogRef.close({ action: 'generate', formData: form });
       this.router.navigate(['/training-builder']);
     }

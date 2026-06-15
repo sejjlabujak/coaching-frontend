@@ -55,4 +55,16 @@ body {
   overflow: hidden;
 }
 
-.snack-error .mdc-snackbar__surface { background: #b91c1c !important; } .snack-error .mat-mdc-snack-bar-label { color: #fff !important; }
+.snack-error .mdc-snackbar__surface { background: #b91c1c !important; }
+.snack-error .mat-mdc-snack-bar-label { color: #fff !important; }
+.snack-error .mat-mdc-button { color: #fca5a5 !important; }
+
+.snack-success .mdc-snackbar__surface { background: #15803d !important; }
+.snack-success .mat-mdc-snack-bar-label { color: #fff !important; }
+.snack-success .mat-mdc-button { color: #bbf7d0 !important; }
+
+/* ── Global mobile overrides ─────────────────────────────────────── */
+@media (max-width: 768px) {
+  /* Prevent page-level horizontal scroll */
+  body { overflow-x: hidden; }
+}

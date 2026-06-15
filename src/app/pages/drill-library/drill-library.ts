@@ -45,7 +45,7 @@ import { OcrUploadDialog } from '../../components/dialogs/ocr-upload-dialog/ocr-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DrillLibraryComponent implements OnInit {
-  private readonly sidebarState = inject(SidebarStateService);
+  readonly sidebarState = inject(SidebarStateService);
   get isSidebarExpanded(): boolean { return this.sidebarState.isExpanded; }
   editingDrillId: string | null = null;
   pendingDeleteId: string | null = null;

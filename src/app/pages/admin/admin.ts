@@ -19,7 +19,7 @@ import { environment } from '../../../environments/environment';
 })
 export class AdminComponent implements OnInit {
   private readonly http = inject(HttpClient);
-  private readonly sidebarState = inject(SidebarStateService);
+  readonly sidebarState = inject(SidebarStateService);
 
   get isSidebarExpanded(): boolean { return this.sidebarState.isExpanded; }
   onExpandedChange(v: boolean) { this.sidebarState.isExpanded = v; }

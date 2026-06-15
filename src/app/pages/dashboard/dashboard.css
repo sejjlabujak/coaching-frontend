@@ -129,4 +129,7 @@ mat-sidenav-content.main-content {
   .stats-grid {
     grid-template-columns: 1fr;
   }
+  .page-wrapper {
+    padding: 12px;
+  }
 }

@@ -1,0 +1,53 @@
+<div class="recent-games-card">
+  <div class="card-header">
+    <div class="header-left">
+      <div class="icon-wrap">
+        <mat-icon>sports_basketball</mat-icon>
+      </div>
+      <h3 class="card-title">Recent Home Games</h3>
+    </div>
+    <span class="record" *ngIf="games.length > 0">{{ record }}</span>
+  </div>
+
+  <div class="empty-state" *ngIf="games.length === 0">
+    <mat-icon>info_outline</mat-icon>
+    <p>No recent home games with stats yet.</p>
+  </div>
+
+  <div class="games-grid" *ngIf="games.length > 0">
+    <div
+      class="game-card"
+      *ngFor="let g of games"
+      [class.game-win]="g.result === 'W'"
+      [class.game-loss]="g.result === 'L'"
+    >
+      <div class="game-top">
+        <span class="result-pill">{{ g.result }}</span>
+        <span class="game-date">{{ g.date | date:'MMM d' }}</span>
+      </div>
+
+      <div class="score">
+        <span class="our-score">{{ g.ourScore }}</span>
+        <span class="dash">–</span>
+        <span class="opp-score">{{ g.opponentScore }}</span>
+      </div>
+
+      <div class="opponent">vs {{ g.opponent }}</div>
+
+      <div class="stat-row">
+        <div class="stat">
+          <span class="stat-label">FG</span>
+          <span class="stat-value">{{ (g.fieldGoalsPercentage ?? 0) }}%</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">3PT</span>
+          <span class="stat-value">{{ (g.threePointersPercentage ?? 0) }}%</span>
+        </div>
+        <div class="stat">
+          <span class="stat-label">TO</span>
+          <span class="stat-value">{{ g.turnovers ?? 0 }}</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

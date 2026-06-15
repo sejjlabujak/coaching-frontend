@@ -1,16 +1,16 @@
 <mat-sidenav-container class="app-container">
   <mat-sidenav
-    mode="side"
-    opened
+    [mode]="sidebarState.isMobile() ? 'over' : 'side'"
+    [opened]="sidebarState.isMobile() ? sidebarState.mobileOpen() : true"
     [style.width.px]="isSidebarExpanded ? 200 : 70"
-    #drawer
+    (closedStart)="sidebarState.closeMobile()"
   >
     <sidebar (expandedChange)="onExpandedChange($event)"></sidebar>
   </mat-sidenav>
 
   <mat-sidenav-content
     class="main-content"
-    [style.marginLeft.px]="isSidebarExpanded ? 200 : 70"
+    [style.marginLeft.px]="sidebarState.isMobile() ? 0 : (isSidebarExpanded ? 200 : 70)"
   >
     <header></header>
     <div class="page-wrapper">
@@ -34,10 +34,8 @@
 
       <!-- Charts and Analysis -->
       <div class="analytics-grid">
-        <!-- Performance Chart -->
-        <div class="chart-wrapper">
-          <app-performance-chart [metrics]="metrics"></app-performance-chart>
-        </div>
+        <!-- Recent Home Games -->
+        <app-recent-team-games [games]="recentGames()"></app-recent-team-games>
 
         <!-- Team Analysis -->
         <div class="analysis-wrapper">

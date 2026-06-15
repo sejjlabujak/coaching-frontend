@@ -9,7 +9,7 @@
 
   <!-- AI Recommendations box -->
   <div class="ai-box">
-    <div class="ai-box-header" (click)="toggleAi()">
+    <div class="ai-box-header sticky-section-header" (click)="toggleAi()">
       <span class="ai-box-title">✦ AI Recommendations</span>
       <span class="ai-toggle-icon">{{ aiExpanded() ? '▲' : '▼' }}</span>
     </div>
@@ -31,7 +31,7 @@
 
   <!-- All drills -->
   <div class="all-drills-section">
-    <div class="all-drills-header">All Drills</div>
+    <div class="all-drills-header sticky-section-header">All Drills</div>
     <div class="drills-scroll">
       <drill-card
         *ngFor="let drill of filteredDrills"

@@ -116,3 +116,47 @@
 .btn-cancel:hover {
   background: #e5e7eb;
 }
+
+@media (max-width: 520px) {
+  .dialog-container {
+    padding: 20px 16px;
+    gap: 14px;
+    width: 100%;
+  }
+
+  .dialog-title {
+    font-size: 1.2rem;
+  }
+
+  .options-grid {
+    grid-template-columns: 1fr;
+    gap: 10px;
+  }
+
+  .option-card {
+    padding: 14px 16px;
+    gap: 8px;
+    flex-direction: row;
+    align-items: center;
+  }
+
+  .option-icon {
+    width: 36px;
+    height: 36px;
+    flex-shrink: 0;
+  }
+
+  .option-icon mat-icon {
+    font-size: 18px;
+    width: 18px;
+    height: 18px;
+  }
+
+  .option-desc {
+    display: none;
+  }
+
+  .option-title {
+    font-size: 0.95rem;
+  }
+}

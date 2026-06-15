@@ -68,3 +68,11 @@ mat-sidenav-content.main-content {
   color: #5f6368;
   margin-right: 8px;
 }
+
+@media (max-width: 768px) {
+  .page-wrapper { padding: 12px; }
+}
+
+@media (max-width: 480px) {
+  .page-wrapper { padding: 8px; }
+}

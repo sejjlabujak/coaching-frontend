@@ -29,7 +29,7 @@ import { ProfileService, ProfileDTO } from '../../services/profile.service';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class EditProfileComponent implements OnInit {
-  private readonly sidebarState = inject(SidebarStateService);
+  readonly sidebarState = inject(SidebarStateService);
   private readonly profileService = inject(ProfileService);
   private readonly snackBar = inject(MatSnackBar);
   private readonly cdr = inject(ChangeDetectorRef);
@@ -71,7 +71,7 @@ export class EditProfileComponent implements OnInit {
     this.profileService.updateProfile(this.email.trim()).subscribe({
       next: () => {
         this.isSaving = false;
-        this.snackBar.open('Profile updated.', 'Close', { duration: 3000 });
+        this.snackBar.open('Profile updated.', 'Close', { duration: 3000, panelClass: 'snack-success' });
         this.cdr.markForCheck();
       },
       error: () => {

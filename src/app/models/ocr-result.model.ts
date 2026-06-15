@@ -13,4 +13,4 @@ export interface OcrParsedDrill {
   rawText: string;
 }
 
-export type PdfImportStep = 'upload' | 'processing' | 'review';
+export type PdfImportStep = 'upload' | 'processing' | 'review' | 'saving';
