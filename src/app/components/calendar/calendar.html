@@ -30,8 +30,10 @@
         <div
           class="event-chip"
           *ngFor="let ev of getEvents(day)"
-          [class.chip-red]="ev.color === 'red'"
-          [class.chip-navy]="ev.color === 'navy'"
+          [class.chip-high]="ev.intensity === 'HIGH'"
+          [class.chip-medium]="ev.intensity === 'MEDIUM'"
+          [class.chip-low]="ev.intensity === 'LOW'"
+          [class.chip-default]="!ev.intensity"
           (click)="openEventDetail(ev, $event)"
         >
           {{ ev.title }}

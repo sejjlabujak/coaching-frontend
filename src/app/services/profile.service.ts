@@ -1,7 +1,7 @@
 import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
-import { EnvironmentService } from './environment.service';
+import { environment } from '../../environments/environment';
 
 export interface ProfileDTO {
   username: string;
@@ -13,8 +13,7 @@ export interface ProfileDTO {
 @Injectable({ providedIn: 'root' })
 export class ProfileService {
   private readonly http = inject(HttpClient);
-  private readonly env = inject(EnvironmentService);
-  private readonly baseUrl = this.env.getEndpoint('/api/profile');
+  private readonly baseUrl = `${environment.apiUrl}/api/profile`;
 
   getProfile(): Observable<ProfileDTO> {
     return this.http.get<ProfileDTO>(this.baseUrl);

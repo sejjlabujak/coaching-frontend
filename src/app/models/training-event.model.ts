@@ -7,12 +7,11 @@ export type TrainingFocus =
   | 'Recovery'
   | 'Rebounding'
   | 'Team Building';
-export type TrainingColor = 'red' | 'navy';
-
 export type AgeSelection = 'U10' | 'U12' | 'U14' | 'U16' | 'U18' | 'Senior';
 
 export interface TrainingDrill {
   id: number;
+  drillId?: number;
   name: string;
   duration?: number;
 }
@@ -21,7 +20,6 @@ export interface TrainingEvent {
   id: number;
   date: Date;
   title: string;
-  color: TrainingColor;
   duration?: number; // in minutes
   startTime?: string; // "HH:mm"
   intensity?: IntensityLevel;

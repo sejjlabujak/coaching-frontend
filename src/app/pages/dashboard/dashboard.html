@@ -1,49 +1,32 @@
-<mat-sidenav-container class="app-container">
-  <mat-sidenav
-    [mode]="sidebarState.isMobile() ? 'over' : 'side'"
-    [opened]="sidebarState.isMobile() ? sidebarState.mobileOpen() : true"
-    [style.width.px]="isSidebarExpanded ? 200 : 70"
-    (closedStart)="sidebarState.closeMobile()"
-  >
-    <sidebar (expandedChange)="onExpandedChange($event)"></sidebar>
-  </mat-sidenav>
+<app-shell>
+  <div class="page-wrapper">
+    <h2 class="dashboard-title">Performance Dashboard</h2>
 
-  <mat-sidenav-content
-    class="main-content"
-    [style.marginLeft.px]="sidebarState.isMobile() ? 0 : (isSidebarExpanded ? 200 : 70)"
-  >
-    <header></header>
-    <div class="page-wrapper">
-      <h2 class="dashboard-title">Performance Dashboard</h2>
+    <!-- Metric Cards -->
+    <div class="stats-grid">
+      <app-stat-card
+        *ngFor="let stat of stats()"
+        [label]="stat.label"
+        [value]="stat.value"
+        [icon]="stat.icon"
+        [color]="stat.color"
+      ></app-stat-card>
+    </div>
 
-      <!-- Metric Cards -->
-      <div class="stats-grid">
-        <app-stat-card
-          *ngFor="let stat of stats()"
-          [label]="stat.label"
-          [value]="stat.value"
-          [icon]="stat.icon"
-          [color]="stat.color"
-        ></app-stat-card>
-      </div>
+    <!-- Error banner -->
+    <div *ngIf="error()" class="error-banner">
+      {{ error() }}
+    </div>
 
-      <!-- Error banner -->
-      <div *ngIf="error()" class="error-banner">
-        {{ error() }}
-      </div>
+    <!-- Charts and Analysis -->
+    <div class="analytics-grid">
+      <!-- Recent Home Games -->
+      <app-recent-team-games [games]="recentGames()"></app-recent-team-games>
 
-      <!-- Charts and Analysis -->
-      <div class="analytics-grid">
-        <!-- Recent Home Games -->
-        <app-recent-team-games [games]="recentGames()"></app-recent-team-games>
-
-        <!-- Team Analysis -->
-        <div class="analysis-wrapper">
-          <app-team-analysis [teamAnalysis]="teamAnalysis()"></app-team-analysis>
-        </div>
+      <!-- Team Analysis -->
+      <div class="analysis-wrapper">
+        <app-team-analysis [teamAnalysis]="teamAnalysis()"></app-team-analysis>
       </div>
     </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
-
-
+  </div>
+</app-shell>

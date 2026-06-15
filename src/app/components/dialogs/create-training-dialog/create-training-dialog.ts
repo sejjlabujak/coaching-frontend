@@ -78,6 +78,8 @@ export class CreateTrainingDialogComponent {
       this.builderState.setGoalDuration(form.duration);
       this.builderState.setStartTime(form.startTime);
       this.builderState.setPlannedFocus(form.focus ?? null);
+      this.builderState.setPlannedIntensity(form.intensity ?? null);
+      this.builderState.setPlannedAgeGroup(form.ageGroup ?? null);
       this.dialogRef.close({ action: 'generate', formData: form });
       this.router.navigate(['/training-builder']);
     }

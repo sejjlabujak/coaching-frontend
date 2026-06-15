@@ -7,18 +7,15 @@ import {
 } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
-import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { PageEvent } from '@angular/material/paginator';
-import { SidebarComponent } from '../../components/sidebar/sidebar';
-import { HeaderComponent } from '../../components/header/header';
+import { LayoutComponent } from '../../components/layout/layout';
 import { DrillCardComponent } from '../../components/drill-card/drill-card';
 import { DrillEditFormComponent } from '../../components/drill-form/drill-form';
 import { PaginatorComponent } from '../../components/paginator/paginator';
 import { SearchInputComponent } from '../../components/search/search-input.component';
 import { Button } from '../../components/button/button';
 import { DrillLibraryService } from '../../services/drill-library.service';
-import { SidebarStateService } from '../../services/sidebar-state.service';
 import { LibraryDrill } from '../../models/library-drill.model';
 import { Drill } from '../../models/drill.model';
 import { MatDialog } from '@angular/material/dialog';
@@ -32,10 +29,8 @@ import { OcrUploadDialog } from '../../components/dialogs/ocr-upload-dialog/ocr-
   imports: [
     CommonModule,
     FormsModule,
-    MatSidenavModule,
     MatIconModule,
-    SidebarComponent,
-    HeaderComponent,
+    LayoutComponent,
     DrillCardComponent,
     DrillEditFormComponent,
     PaginatorComponent,
@@ -45,8 +40,6 @@ import { OcrUploadDialog } from '../../components/dialogs/ocr-upload-dialog/ocr-
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class DrillLibraryComponent implements OnInit {
-  readonly sidebarState = inject(SidebarStateService);
-  get isSidebarExpanded(): boolean { return this.sidebarState.isExpanded; }
   editingDrillId: string | null = null;
   pendingDeleteId: string | null = null;
   pageIndex = 0;
@@ -85,9 +78,6 @@ export class DrillLibraryComponent implements OnInit {
     return this.libraryService.intensityOptions;
   }
 
-  onExpandedChange(expanded: boolean): void {
-    this.sidebarState.isExpanded = expanded;
-  }
 
   onPageChange(event: PageEvent): void {
     this.pageIndex = event.pageIndex;

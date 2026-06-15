@@ -1,6 +1,6 @@
 import { Injectable, signal } from '@angular/core';
 import { TrainingEvent } from '../models/training-event.model';
-import { SessionBackendService, SessionDTO, SessionDetailDTO } from './session-backend.service';
+import { SessionBackendService, SessionDetailDTO } from './session-backend.service';
 import { map, Observable, tap } from 'rxjs';
 
 @Injectable({ providedIn: 'root' })
@@ -25,9 +25,10 @@ export class TrainingService {
           id: s.id,
           title: s.title,
           date: new Date(s.date + 'T00:00:00'),
-          color: 'red' as const,
+
           startTime: s.time,
           duration: s.duration,
+          intensity: s.intensity as TrainingEvent['intensity'],
           readOnly: s.readOnly,
         }));
         this.events.set(events);
@@ -63,7 +64,7 @@ export class TrainingService {
             id: s.id,
             title: s.title,
             date: new Date(s.date + 'T00:00:00'),
-            color: 'red' as const,
+  
           }));
       })
     );
@@ -93,6 +94,7 @@ export class TrainingService {
       focus: event.focus,
       ageGroup: event.ageGroup,
       drills: (event.drills ?? []).map((d, i) => ({
+        drillId: d.drillId,
         title: d.name,
         duration: d.duration ?? 0,
         orderIndex: i,
@@ -111,6 +113,7 @@ export class TrainingService {
       focus: event.focus,
       ageGroup: event.ageGroup,
       drills: (event.drills ?? []).map((d, i) => ({
+        drillId: d.drillId,
         title: d.name,
         duration: d.duration ?? 0,
         orderIndex: i,
@@ -133,8 +136,30 @@ export class TrainingService {
     );
   }
 
+  detailToEvent(detail: SessionDetailDTO, date: Date, options?: { readOnly?: boolean }): TrainingEvent {
+    return {
+      id: detail.id!,
+      title: detail.title,
+      date,
+
+      duration: detail.duration,
+      intensity: detail.intensity as TrainingEvent['intensity'],
+      focus: detail.focus,
+      ageGroup: detail.ageGroup as TrainingEvent['ageGroup'],
+      drills: (detail.drills ?? []).map((d) => ({ id: d.id ?? 0, drillId: d.drillId, name: d.title ?? '', duration: d.duration })),
+      note: detail.note,
+      readOnly: options?.readOnly ?? detail.readOnly,
+    };
+  }
+
   loadEventDetail(id: number): Observable<any> {
     return this.sessionBackend.getSessionById(id);
+  }
+
+  loadEventForDisplay(id: number, date: Date, options?: { readOnly?: boolean }): Observable<TrainingEvent> {
+    return this.sessionBackend.getSessionById(id).pipe(
+      map((detail) => this.detailToEvent(detail, date, options))
+    );
   }
 
   updateNote(id: number, note: string): Observable<any> {

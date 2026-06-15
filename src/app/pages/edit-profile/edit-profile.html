@@ -1,104 +1,88 @@
-<mat-sidenav-container class="app-container">
-  <mat-sidenav
-    [mode]="sidebarState.isMobile() ? 'over' : 'side'"
-    [opened]="sidebarState.isMobile() ? sidebarState.mobileOpen() : true"
-    [style.width.px]="isSidebarExpanded ? 200 : 70"
-    (closedStart)="sidebarState.closeMobile()"
-  >
-    <sidebar (expandedChange)="onExpandedChange($event)"></sidebar>
-  </mat-sidenav>
+<app-shell>
+  <div class="page-wrapper">
+    <div class="page-header">
+      <button (click)="onBack()" class="back-btn">
+        <mat-icon>arrow_back</mat-icon>
+      </button>
+      <div class="header-content">
+        <h2 class="page-title">Edit Profile</h2>
+        <p class="page-subtitle">Update your account information</p>
+      </div>
+    </div>
 
-  <mat-sidenav-content
-    class="main-content"
-    [style.marginLeft.px]="sidebarState.isMobile() ? 0 : (isSidebarExpanded ? 200 : 70)"
-  >
-    <header></header>
+    <div *ngIf="isLoading" class="loading-state">Loading…</div>
 
-    <div class="page-wrapper">
-      <div class="page-header">
-        <button (click)="onBack()" class="back-btn">
-          <mat-icon>arrow_back</mat-icon>
-        </button>
-        <div class="header-content">
-          <h2 class="page-title">Edit Profile</h2>
-          <p class="page-subtitle">Update your account information</p>
+    <form *ngIf="!isLoading && profile" (ngSubmit)="onSubmit()" class="form-container">
+
+      <!-- Avatar -->
+      <div class="form-card avatar-card">
+        <div class="avatar">{{ initials }}</div>
+        <div class="avatar-info">
+          <span class="avatar-username">{{ profile.username }}</span>
+          <span class="avatar-role">{{ profile.role | titlecase }}</span>
+          <span class="avatar-team" *ngIf="profile.teamName">{{ profile.teamName }}</span>
         </div>
       </div>
 
-      <div *ngIf="isLoading" class="loading-state">Loading…</div>
+      <!-- Editable fields -->
+      <div class="form-card">
+        <h3 class="card-title">Account Information</h3>
+        <div class="form-fields">
 
-      <form *ngIf="!isLoading && profile" (ngSubmit)="onSubmit()" class="form-container">
-
-        <!-- Avatar -->
-        <div class="form-card avatar-card">
-          <div class="avatar">{{ initials }}</div>
-          <div class="avatar-info">
-            <span class="avatar-username">{{ profile.username }}</span>
-            <span class="avatar-role">{{ profile.role | titlecase }}</span>
-            <span class="avatar-team" *ngIf="profile.teamName">{{ profile.teamName }}</span>
-          </div>
-        </div>
-
-        <!-- Editable fields -->
-        <div class="form-card">
-          <h3 class="card-title">Account Information</h3>
-          <div class="form-fields">
-
-            <div class="form-group">
-              <label>Username</label>
-              <div class="input-wrapper readonly-field">
-                <mat-icon>person</mat-icon>
-                <input type="text" [value]="profile.username" disabled />
-              </div>
-              <span class="field-hint">Username cannot be changed.</span>
+          <div class="form-group">
+            <label>Username</label>
+            <div class="input-wrapper readonly-field">
+              <mat-icon>person</mat-icon>
+              <input type="text" [value]="profile.username" disabled />
             </div>
-
-            <div class="form-group">
-              <label>Email</label>
-              <div class="input-wrapper">
-                <mat-icon>mail</mat-icon>
-                <input
-                  type="email"
-                  [(ngModel)]="email"
-                  name="email"
-                  placeholder="Enter your email"
-                  required
-                />
-              </div>
-            </div>
-
-            <div class="form-group">
-              <label>Team</label>
-              <div class="input-wrapper readonly-field">
-                <mat-icon>groups</mat-icon>
-                <input type="text" [value]="profile.teamName ?? '—'" disabled />
-              </div>
-              <span class="field-hint">Team is managed by your administrator.</span>
-            </div>
-
+            <span class="field-hint">Username cannot be changed.</span>
           </div>
-        </div>
 
-        <!-- Account actions -->
-        <div class="form-card">
-          <h3 class="card-title">Account Settings</h3>
-          <div class="account-settings">
-            <button type="button" (click)="onChangePassword()" class="settings-btn">
-              Change Password
-            </button>
+          <div class="form-group">
+            <label>Email</label>
+            <div class="input-wrapper">
+              <mat-icon>mail</mat-icon>
+              <input
+                type="email"
+                [(ngModel)]="email"
+                name="email"
+                placeholder="Enter your email"
+                required
+              />
+            </div>
           </div>
-        </div>
 
-        <!-- Save -->
-        <div class="action-buttons">
-          <button-2 type="cancel" (click)="onBack()">Cancel</button-2>
-          <button-2 type="regular" [disabled]="isSaving">
-            <mat-icon>save</mat-icon>
-            {{ isSaving ? 'Saving…' : 'Save Changes' }}
-          </button-2>
-        </div>
+          <div class="form-group">
+            <label>Team</label>
+            <div class="input-wrapper readonly-field">
+              <mat-icon>groups</mat-icon>
+              <input type="text" [value]="profile.teamName ?? '—'" disabled />
+            </div>
+            <span class="field-hint">Team is managed by your administrator.</span>
+          </div>
 
-      </form>
-    </div>
-  </mat-sidenav-content>
-</mat-sidenav-container>
+        </div>
+      </div>
+
+      <!-- Account actions -->
+      <div class="form-card">
+        <h3 class="card-title">Account Settings</h3>
+        <div class="account-settings">
+          <button type="button" (click)="onChangePassword()" class="settings-btn">
+            Change Password
+          </button>
+        </div>
+      </div>
+
+      <!-- Save -->
+      <div class="action-buttons">
+        <button-2 type="cancel" (click)="onBack()">Cancel</button-2>
+        <button-2 type="regular" [disabled]="isSaving">
+          <mat-icon>save</mat-icon>
+          {{ isSaving ? 'Saving…' : 'Save Changes' }}
+        </button-2>
+      </div>
+
+    </form>
+  </div>
+</app-shell>
