@@ -1,0 +1,86 @@
+.play-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%;
+  text-align: left;
+  background: #ffffff;
+  border: 1.5px solid var(--border-color, #e2e8f0);
+  border-radius: var(--radius-md, 10px);
+  padding: 10px 12px;
+  cursor: pointer;
+  font-family: inherit;
+  transition: border-color 0.16s, box-shadow 0.16s, background 0.16s;
+}
+
+.play-card:hover {
+  border-color: var(--accent-blue-light, #60a5fa);
+  box-shadow: var(--shadow-sm, 0 1px 2px rgba(0, 0, 0, 0.05));
+}
+
+.play-card.active {
+  border-color: var(--accent-blue, #2563eb);
+  background: var(--accent-blue-muted, rgba(37, 99, 235, 0.08));
+}
+
+.play-card-top {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.play-name {
+  font-size: 0.875rem;
+  font-weight: 600;
+  color: var(--foreground, #0f172a);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.favorite-btn {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  color: #cbd5e1;
+  flex-shrink: 0;
+}
+
+.favorite-btn mat-icon {
+  font-size: 18px;
+  width: 18px;
+  height: 18px;
+}
+
+.favorite-btn.is-favorite {
+  color: #f59e0b;
+}
+
+.play-card-meta {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 8px;
+}
+
+.category-chip {
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--accent-blue-dark, #1d4ed8);
+  background: var(--accent-blue-muted, rgba(37, 99, 235, 0.08));
+  border-radius: var(--radius-sm, 6px);
+  padding: 2px 8px;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.modified-date {
+  font-size: 0.7rem;
+  color: var(--muted-foreground, #64748b);
+  white-space: nowrap;
+}

@@ -8,6 +8,8 @@ import { DrillLibraryComponent } from './pages/drill-library/drill-library';
 import { DashboardComponent } from './pages/dashboard/dashboard';
 import { PlayerRosterComponent } from './pages/player-roster/player-roster';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile';
+import { PlaybookComponent } from './pages/playbook/playbook';
+import { PlaybookListComponent } from './pages/playbook-list/playbook-list';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard, coachGuard } from './guards/role.guard';
 
@@ -23,6 +25,8 @@ export const routes: Routes = [
   { path: 'dashboard',        component: DashboardComponent,      canActivate: [authGuard, coachGuard] },
   { path: 'roster',           component: PlayerRosterComponent,   canActivate: [authGuard, coachGuard] },
   { path: 'drills',           component: DrillLibraryComponent,   canActivate: [authGuard, coachGuard] },
+  { path: 'playbook',         component: PlaybookListComponent,   canActivate: [authGuard, coachGuard] },
+  { path: 'playbook/:id',     component: PlaybookComponent,       canActivate: [authGuard, coachGuard] },
   { path: 'planner',          component: TrainingPlan,            canActivate: [authGuard, coachGuard] },
   { path: 'training-builder', component: TrainingBuilderComponent, canActivate: [authGuard, coachGuard] },
   { path: 'settings',         component: EditProfileComponent,    canActivate: [authGuard, coachGuard] },

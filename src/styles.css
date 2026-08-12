@@ -8,6 +8,12 @@
   --primary-muted: rgba(139, 26, 26, 0.08);
   --primary-blue: #0f172a;
 
+  /* Accent blue (Playbook & data-viz surfaces) */
+  --accent-blue: #2563eb;
+  --accent-blue-dark: #1d4ed8;
+  --accent-blue-light: #60a5fa;
+  --accent-blue-muted: rgba(37, 99, 235, 0.08);
+
   /* Neutrals */
   --color-bg-light: #f1f5f9;
   --color-white: #ffffff;
@@ -38,6 +44,28 @@
   --radius-md: 10px;
   --radius-lg: 14px;
   --radius-xl: 20px;
+
+  /* Typography scale (modular, base 0.95rem, "Inter") */
+  --font-size-xs: 0.75rem;
+  --font-size-sm: 0.875rem;
+  --font-size-base: 0.95rem;
+  --font-size-lg: 1.125rem;
+  --font-size-xl: 1.375rem;
+  --font-size-2xl: 1.75rem;
+  --font-size-3xl: 2rem;
+
+  --font-weight-normal: 400;
+  --font-weight-medium: 500;
+  --font-weight-semibold: 600;
+  --font-weight-bold: 700;
+
+  /* Spacing scale */
+  --space-1: 4px;
+  --space-2: 8px;
+  --space-3: 12px;
+  --space-4: 16px;
+  --space-5: 24px;
+  --space-6: 32px;
 }
 
 body {

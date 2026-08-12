@@ -8,6 +8,7 @@
           Manage your team and track individual player performance
         </p>
       </div>
+      <button-2 (click)="onAddPlayer()">+ Add Player</button-2>
     </div>
 
     <!-- Filters -->
@@ -54,9 +55,24 @@
   <div class="modal-content" (click)="$event.stopPropagation()">
     <!-- Modal Header -->
     <div class="modal-header">
+      <div class="modal-header-actions">
+        <button (click)="onEditPlayer(selectedPlayer)" class="edit-btn" title="Edit player">
+          <mat-icon>edit</mat-icon>
+        </button>
+        <button (click)="onDeletePlayerRequest(selectedPlayer.id)" class="delete-btn" title="Delete player">
+          <mat-icon>delete</mat-icon>
+        </button>
+      </div>
       <button (click)="closeModal()" class="close-btn">
         <mat-icon>close</mat-icon>
       </button>
+    </div>
+
+    <!-- Delete confirmation -->
+    <div class="confirm-delete-row" *ngIf="pendingDeletePlayerId === selectedPlayer.id">
+      <span>Delete "{{ selectedPlayer.name }}"? This cannot be undone.</span>
+      <button class="confirm-yes-btn" (click)="onDeletePlayerConfirm()">Yes, delete</button>
+      <button class="confirm-no-btn" (click)="onDeletePlayerCancel()">Cancel</button>
     </div>
 
     <!-- Modal Body -->

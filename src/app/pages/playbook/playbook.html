@@ -1,0 +1,246 @@
+<div class="editor-shell">
+  <!-- Unified top navbar -->
+  <header class="editor-navbar">
+    <button type="button" class="nav-back-btn" title="Back to Playbook" (click)="onBack()">
+      <mat-icon>arrow_back</mat-icon>
+    </button>
+
+    <input
+      class="play-title-input"
+      type="text"
+      [value]="playbookService.selectedPlay()?.name ?? ''"
+      (change)="onNameChange($any($event.target).value)"
+      placeholder="Untitled Play"
+    />
+
+    <div class="navbar-divider"></div>
+
+    <div class="navbar-tools" *ngIf="courtCanvas() as cc">
+      <button
+        *ngFor="let tool of cc.drawingTools"
+        type="button"
+        class="nav-btn"
+        [class.active]="cc.activeTool() === tool.id"
+        [disabled]="cc.playbackStatus() !== 'idle'"
+        [title]="tool.label"
+        (click)="cc.selectTool(tool.id)"
+      >
+        <mat-icon>{{ tool.icon }}</mat-icon>
+      </button>
+      <button
+        type="button"
+        class="nav-btn"
+        [class.active]="cc.activeTool() === 'eraser'"
+        [disabled]="cc.playbackStatus() !== 'idle'"
+        title="Eraser"
+        (click)="cc.setEraser()"
+      >
+        <mat-icon>backspace</mat-icon>
+      </button>
+
+      <span class="navbar-divider-thin"></span>
+
+      <button type="button" class="nav-btn" title="Undo" [disabled]="!cc.canUndo() || cc.playbackStatus() !== 'idle'" (click)="cc.undo()">
+        <mat-icon>undo</mat-icon>
+      </button>
+      <button type="button" class="nav-btn" title="Redo" [disabled]="!cc.canRedo() || cc.playbackStatus() !== 'idle'" (click)="cc.redo()">
+        <mat-icon>redo</mat-icon>
+      </button>
+      <button type="button" class="nav-btn" title="Clear board" [disabled]="cc.playbackStatus() !== 'idle'" (click)="cc.clearAll()">
+        <mat-icon>delete_sweep</mat-icon>
+      </button>
+
+      <span class="navbar-divider-thin"></span>
+
+      <button type="button" class="nav-btn text-btn" [disabled]="cc.playbackStatus() !== 'idle'" title="Add offensive player" (click)="cc.onAddPlayer('offense')">
+        <mat-icon>add</mat-icon>
+        <span class="marker-dot offense"></span>
+      </button>
+      <button type="button" class="nav-btn text-btn" [disabled]="cc.playbackStatus() !== 'idle'" title="Add defensive player" (click)="cc.onAddPlayer('defense')">
+        <mat-icon>add</mat-icon>
+        <span class="marker-dot defense"></span>
+      </button>
+    </div>
+
+    <div class="navbar-spacer"></div>
+
+    <div class="navbar-actions" *ngIf="courtCanvas() as cc">
+      <button type="button" class="nav-btn" title="Zoom out" (click)="cc.zoomOut()">
+        <mat-icon>zoom_out</mat-icon>
+      </button>
+      <span class="zoom-value">{{ (cc.zoom() * 100) | number: '1.0-0' }}%</span>
+      <button type="button" class="nav-btn" title="Zoom in" (click)="cc.zoomIn()">
+        <mat-icon>zoom_in</mat-icon>
+      </button>
+      <button type="button" class="nav-btn" [title]="isFullscreen() ? 'Exit full screen' : 'Full screen'" (click)="onToggleFullscreen()">
+        <mat-icon>{{ isFullscreen() ? 'fullscreen_exit' : 'fullscreen' }}</mat-icon>
+      </button>
+
+      <span class="navbar-divider-thin"></span>
+
+      <button
+        type="button"
+        class="nav-btn play-btn"
+        [class.playing]="cc.playbackStatus() === 'playing'"
+        [title]="cc.playbackStatus() === 'playing' ? 'Pause' : 'Start Animation'"
+        (click)="cc.togglePlayPause()"
+      >
+        <mat-icon>{{ cc.playbackStatus() === 'playing' ? 'pause' : 'play_arrow' }}</mat-icon>
+        <span>Animate</span>
+      </button>
+
+      <div class="speed-group" *ngIf="cc.playbackStatus() !== 'idle'">
+        <button
+          *ngFor="let s of cc.speedOptions"
+          type="button"
+          class="speed-btn"
+          [class.active]="cc.playbackSpeed() === s"
+          (click)="cc.setSpeed(s)"
+        >{{ s }}x</button>
+      </div>
+
+      <span class="navbar-divider-thin"></span>
+
+      <button type="button" class="nav-btn save-btn" title="Save" (click)="onSave()">
+        <mat-icon>save</mat-icon>
+        <span>Save</span>
+      </button>
+
+      <button type="button" class="nav-btn" title="More" [matMenuTriggerFor]="moreMenu">
+        <mat-icon>more_vert</mat-icon>
+      </button>
+      <mat-menu #moreMenu="matMenu">
+        <button mat-menu-item (click)="isDetailsOpen.set(true)">
+          <mat-icon>info</mat-icon><span>Play Details</span>
+        </button>
+        <button mat-menu-item (click)="onDuplicate()">
+          <mat-icon>content_copy</mat-icon><span>Duplicate Play</span>
+        </button>
+        <button mat-menu-item (click)="onExportPdf()">
+          <mat-icon>picture_as_pdf</mat-icon><span>Export PDF</span>
+        </button>
+        <button mat-menu-item (click)="onExportImage()">
+          <mat-icon>image</mat-icon><span>Export Image</span>
+        </button>
+        <button mat-menu-item (click)="onShare()">
+          <mat-icon>share</mat-icon><span>Share with Players</span>
+        </button>
+        <button mat-menu-item class="danger-item" (click)="onDeleteRequest()">
+          <mat-icon>delete</mat-icon><span>Delete Play</span>
+        </button>
+      </mat-menu>
+    </div>
+  </header>
+
+  <!-- Body -->
+  <div class="editor-body">
+    <!-- Left: Steps sidebar -->
+    <aside class="steps-sidebar" *ngIf="courtCanvas() as cc" [class.hidden]="cc.playbackStatus() !== 'idle'">
+      <div class="sidebar-header">
+        <h3>Steps</h3>
+      </div>
+
+      <div class="steps-list">
+        <div
+          class="step-card"
+          *ngFor="let step of cc.stepsSequence()"
+          [class.active]="cc.currentStep() === step"
+          (click)="cc.selectStep(step)"
+        >
+          <app-play-thumbnail [diagram]="cc.getStepFrameDiagram(step)"></app-play-thumbnail>
+          <div class="step-card-footer">
+            <span>Step {{ step }}</span>
+            <button
+              *ngIf="cc.stepsSequence().length > 1"
+              type="button"
+              class="step-delete-btn"
+              title="Delete step"
+              (click)="onDeleteStepRequest(step, $event)"
+            >
+              <mat-icon>close</mat-icon>
+            </button>
+          </div>
+
+          <div class="step-delete-overlay" *ngIf="pendingDeleteStep() === step" (click)="$event.stopPropagation()">
+            <p>Delete Step {{ step }}?</p>
+            <div class="step-delete-overlay-actions">
+              <button type="button" class="confirm-yes-btn" (click)="onDeleteStepConfirm(step, $event)">Yes</button>
+              <button type="button" class="confirm-no-btn" (click)="onDeleteStepCancel($event)">Cancel</button>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="steps-sidebar-actions">
+        <button type="button" (click)="cc.addStep()">
+          <mat-icon>add</mat-icon> Add Step
+        </button>
+        <button type="button" (click)="cc.duplicateStep()">
+          <mat-icon>content_copy</mat-icon> Duplicate
+        </button>
+        <button type="button" (click)="cc.clearCurrentStep()">
+          <mat-icon>backspace</mat-icon> Clear Screen
+        </button>
+      </div>
+    </aside>
+
+    <!-- Center: court -->
+    <main class="editor-main">
+      <app-court-canvas
+        [play]="playbookService.selectedPlay()"
+        (diagramChange)="onDiagramChange($event)"
+        (animationMessage)="onAnimationMessage($event)"
+      ></app-court-canvas>
+
+      <div class="confirm-delete-row" *ngIf="pendingDeleteId()">
+        <span>Delete this play? This cannot be undone.</span>
+        <button type="button" class="confirm-yes-btn" (click)="onDeleteConfirm()">Yes, delete</button>
+        <button type="button" class="confirm-no-btn" (click)="onDeleteCancel()">Cancel</button>
+      </div>
+    </main>
+
+    <!-- Right: Animate-mode action timeline -->
+    <aside class="animate-sidebar" *ngIf="courtCanvas() as cc" [class.hidden]="cc.playbackStatus() === 'idle'">
+      <div class="sidebar-header">
+        <h3>Phase {{ cc.displayStepNumber() }} of {{ cc.totalSteps() }}</h3>
+      </div>
+
+      <div class="action-groups" cdkDropListGroup>
+        <div class="action-group" *ngFor="let step of cc.stepsSequence()">
+          <div class="action-group-header" [class.active]="cc.stepsSequence()[cc.resolvedStepCount()] === step">
+            Step {{ step }}
+          </div>
+          <div
+            class="action-list"
+            cdkDropList
+            [id]="'step-drop-' + step"
+            [cdkDropListData]="actionsForStep(step)"
+            (cdkDropListDropped)="onActionDropped($event, step)"
+          >
+            <div class="action-item" *ngFor="let action of actionsForStep(step)" cdkDrag [cdkDragData]="action">
+              <mat-icon class="drag-handle" cdkDragHandle>drag_indicator</mat-icon>
+              <span>{{ describeAction(action) }}</span>
+            </div>
+            <p class="action-empty" *ngIf="!actionsForStep(step).length">No actions yet</p>
+          </div>
+        </div>
+      </div>
+    </aside>
+  </div>
+
+  <!-- Play details drawer -->
+  <div class="details-backdrop" *ngIf="isDetailsOpen()" (click)="isDetailsOpen.set(false)">
+    <aside class="details-drawer" (click)="$event.stopPropagation()">
+      <div class="details-drawer-header">
+        <h3>Play Details</h3>
+        <button type="button" class="close-btn" (click)="isDetailsOpen.set(false)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </div>
+      <app-play-properties-panel
+        [play]="playbookService.selectedPlay()"
+        (playUpdate)="onPropertiesUpdate($event)"
+      ></app-play-properties-panel>
+    </aside>
+  </div>
+</div>

@@ -20,7 +20,6 @@ export class AuthService {
   readonly currentUser = this._currentUser.asReadonly();
   readonly isAuthenticated = computed(() => this._currentUser() !== null);
   readonly isAdmin = computed(() => this._currentUser()?.role === 'ADMIN');
-  readonly isCoach = computed(() => this._currentUser()?.role === 'COACH');
   readonly teamName = computed(() => this._currentUser()?.teamName ?? null);
 
   login(username: string, password: string): Observable<{ success: boolean; error?: string }> {

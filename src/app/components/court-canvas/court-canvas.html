@@ -1,0 +1,23 @@
+<div class="canvas-panel">
+  <div class="progress-track" *ngIf="playbackStatus() === 'playing'">
+    <div class="progress-fill" [style.width.%]="stepProgress() * 100"></div>
+  </div>
+
+  <div class="court-viewport">
+    <canvas
+      #canvasEl
+      class="court-canvas"
+      [width]="canvasWidth"
+      [height]="canvasHeight"
+      [style.aspectRatio]="canvasWidth + ' / ' + canvasHeight"
+      [style.transform]="'scale(' + zoom() + ')'"
+      [class.tool-select]="activeTool() === 'select'"
+      [class.tool-draw]="activeTool() !== 'select' && activeTool() !== 'eraser'"
+      [class.tool-eraser]="activeTool() === 'eraser'"
+      (pointerdown)="onPointerDown($event)"
+      (pointermove)="onPointerMove($event)"
+      (pointerup)="onPointerUp()"
+      (pointerleave)="onPointerUp()"
+    ></canvas>
+  </div>
+</div>

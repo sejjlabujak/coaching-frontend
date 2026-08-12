@@ -13,10 +13,11 @@ interface MenuItem {
 }
 
 const COACH_MENU: MenuItem[] = [
-  { icon: 'dashboard',      label: 'Dashboard', route: '/dashboard' },
-  { icon: 'groups',         label: 'Roster',    route: '/roster' },
-  { icon: 'fitness_center', label: 'Drills',    route: '/drills' },
-  { icon: 'calendar_month', label: 'Planner',   route: '/planner' },
+  { icon: 'dashboard',         label: 'Dashboard', route: '/dashboard' },
+  { icon: 'groups',            label: 'Roster',    route: '/roster' },
+  { icon: 'fitness_center',    label: 'Drills',    route: '/drills' },
+  { icon: 'sports_basketball', label: 'Playbook',  route: '/playbook' },
+  { icon: 'calendar_month',    label: 'Planner',   route: '/planner' },
 ];
 
 const ADMIN_MENU: MenuItem[] = [

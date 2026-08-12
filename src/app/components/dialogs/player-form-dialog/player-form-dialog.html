@@ -1,0 +1,165 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <h2 class="dialog-title">{{ isEditMode ? 'Edit Player' : 'Add Player' }}</h2>
+    <button class="close-btn" (click)="onCancel()" type="button">
+      <mat-icon>close</mat-icon>
+    </button>
+  </div>
+
+  <!-- Image Upload -->
+  <div class="image-upload-row">
+    <div
+      class="image-drop-zone"
+      [class.drag-over]="isDragOver()"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave()"
+      (drop)="onDrop($event)"
+      (click)="onBrowseClick()"
+    >
+      <img *ngIf="imagePreviewUrl()" [src]="imagePreviewUrl()" alt="Player photo" class="preview-img" />
+      <mat-icon *ngIf="!imagePreviewUrl()" class="upload-icon">person</mat-icon>
+    </div>
+    <div class="image-upload-actions">
+      <button-2 type="cancel" (click)="onBrowseClick()">
+        {{ imagePreviewUrl() ? 'Change Photo' : 'Upload Photo' }}
+      </button-2>
+      <button
+        *ngIf="imagePreviewUrl()"
+        class="remove-photo-btn"
+        type="button"
+        (click)="onRemoveImage()"
+      >
+        Remove
+      </button>
+    </div>
+    <input
+      #fileInput
+      type="file"
+      accept="image/*"
+      class="hidden-input"
+      (change)="onFileSelected($event)"
+    />
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label">First Name</label>
+      <input
+        class="form-input"
+        type="text"
+        [ngModel]="formData().firstName"
+        (ngModelChange)="onFieldChange('firstName', $event)"
+      />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Last Name</label>
+      <input
+        class="form-input"
+        type="text"
+        [ngModel]="formData().lastName"
+        (ngModelChange)="onFieldChange('lastName', $event)"
+      />
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label">Position</label>
+      <div class="select-wrapper">
+        <select
+          class="form-select"
+          [ngModel]="formData().position"
+          (ngModelChange)="onFieldChange('position', $event)"
+        >
+          <option *ngFor="let opt of positionOptions" [value]="opt">{{ opt }}</option>
+        </select>
+        <mat-icon class="select-arrow">expand_more</mat-icon>
+      </div>
+    </div>
+    <div class="form-group">
+      <label class="form-label">Age Group</label>
+      <div class="select-wrapper">
+        <select
+          class="form-select"
+          [ngModel]="formData().ageGroup"
+          (ngModelChange)="onFieldChange('ageGroup', $event)"
+        >
+          <option *ngFor="let opt of ageGroupOptions" [value]="opt">{{ opt }}</option>
+        </select>
+        <mat-icon class="select-arrow">expand_more</mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label">Jersey Number</label>
+      <input
+        class="form-input"
+        type="number"
+        [ngModel]="formData().jerseyNumber"
+        (ngModelChange)="onFieldChange('jerseyNumber', $event)"
+      />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Height (cm)</label>
+      <input
+        class="form-input"
+        type="number"
+        [ngModel]="formData().heightCm"
+        (ngModelChange)="onFieldChange('heightCm', $event)"
+      />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Weight (kg)</label>
+      <input
+        class="form-input"
+        type="number"
+        [ngModel]="formData().weightKg"
+        (ngModelChange)="onFieldChange('weightKg', $event)"
+      />
+    </div>
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label">Birth Date</label>
+      <input
+        class="form-input"
+        type="date"
+        [ngModel]="formData().birthDate"
+        (ngModelChange)="onFieldChange('birthDate', $event)"
+      />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Birth City</label>
+      <input
+        class="form-input"
+        type="text"
+        [ngModel]="formData().birthCity"
+        (ngModelChange)="onFieldChange('birthCity', $event)"
+      />
+    </div>
+    <div class="form-group">
+      <label class="form-label">Nationality</label>
+      <input
+        class="form-input"
+        type="text"
+        [ngModel]="formData().nationality"
+        (ngModelChange)="onFieldChange('nationality', $event)"
+      />
+    </div>
+  </div>
+
+  <div class="error-msg" *ngIf="errorMessage()">
+    <mat-icon>error_outline</mat-icon>
+    {{ errorMessage() }}
+  </div>
+
+  <div id="modal-button-div">
+    <button-2 type="cancel" (click)="onCancel()">Cancel</button-2>
+    <button-2 [disabled]="!isFormValid() || isSaving()" (click)="onSave()">
+      {{ isSaving() ? 'Saving...' : (isEditMode ? 'Save Changes' : 'Add Player') }}
+    </button-2>
+  </div>
+</div>

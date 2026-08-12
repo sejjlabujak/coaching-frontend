@@ -90,7 +90,7 @@ interface InjuryRow {
               <option value="OUT">OUT</option>
               <option value="HEALED">HEALED</option>
             </select>
-            <input [(ngModel)]="newInjury.name" placeholder="Injury name" class="edit-field" />
+            <input [(ngModel)]="newInjury.name" placeholder="Injury type" class="edit-field" />
             <input [(ngModel)]="newInjury.date" placeholder="MM/YYYY" maxlength="7" class="edit-field" />
             <div *ngIf="newInjury.status === 'OUT'" class="recovery-input-group">
               <input

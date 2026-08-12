@@ -31,6 +31,19 @@ export interface BackendInjury {
   playerName?: string;
 }
 
+export interface PlayerRequestDTO {
+  firstName: string;
+  lastName: string;
+  position?: string | null;
+  jerseyNumber?: number | null;
+  heightCm?: number | null;
+  weightKg?: number | null;
+  birthDate?: string | null;
+  birthCity?: string | null;
+  nationality?: string | null;
+  ageGroup?: string | null;
+}
+
 export interface PlayerStatsDTO {
   gameId: number;
   date: string | null;
@@ -71,6 +84,24 @@ export class PlayerService {
 
   getPlayers(): Observable<BackendPlayer[]> {
     return this.http.get<BackendPlayer[]>(this.baseUrl);
+  }
+
+  createPlayer(dto: PlayerRequestDTO): Observable<BackendPlayer> {
+    return this.http.post<BackendPlayer>(this.baseUrl, dto);
+  }
+
+  updatePlayer(playerId: number, dto: PlayerRequestDTO): Observable<BackendPlayer> {
+    return this.http.put<BackendPlayer>(`${this.baseUrl}/${playerId}`, dto);
+  }
+
+  deletePlayer(playerId: number): Observable<any> {
+    return this.http.delete(`${this.baseUrl}/${playerId}`);
+  }
+
+  uploadPlayerImage(playerId: number, file: File): Observable<BackendPlayer> {
+    const formData = new FormData();
+    formData.append('image', file);
+    return this.http.post<BackendPlayer>(`${this.baseUrl}/${playerId}/image`, formData);
   }
 
   getPlayerStats(playerId: number, opponent?: string): Observable<PlayerStatsDTO[]> {

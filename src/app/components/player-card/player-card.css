@@ -2,7 +2,7 @@
   background: var(--card-bg, #ffffff);
   border: 1px solid var(--border-color, #e2e8f0);
   border-radius: var(--radius-lg, 14px);
-  padding: 20px 16px;
+  padding: 20px var(--space-4);
   cursor: pointer;
   transition: box-shadow 0.25s ease, transform 0.25s ease, border-color 0.2s;
   text-align: center;
@@ -31,7 +31,7 @@
   align-items: center;
   justify-content: center;
   color: white;
-  margin-bottom: 12px;
+  margin-bottom: var(--space-3);
   box-shadow: 0 4px 10px rgba(14, 165, 233, 0.3);
 }
 
@@ -50,7 +50,7 @@
 
 .player-name {
   font-size: 0.9rem;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   color: var(--foreground, #0f172a);
   margin: 0 0 3px 0;
   letter-spacing: -0.1px;
@@ -58,9 +58,9 @@
 
 .player-position {
   font-size: 0.775rem;
-  font-weight: 500;
+  font-weight: var(--font-weight-medium);
   color: var(--muted-foreground, #64748b);
-  margin: 0 0 12px 0;
+  margin: 0 0 var(--space-3) 0;
   text-transform: uppercase;
   letter-spacing: 0.4px;
 }
@@ -72,7 +72,7 @@
   padding: 3px 10px;
   border-radius: 20px;
   font-size: 0.7rem;
-  font-weight: 600;
+  font-weight: var(--font-weight-semibold);
   letter-spacing: 0.2px;
 }
 
@@ -97,7 +97,7 @@
 .status-injured::before { background: #f43f5e; }
 
 @media (max-width: 768px) {
-  .player-card   { padding: 14px 12px; }
+  .player-card   { padding: 14px var(--space-3); }
   .player-avatar { width: 48px; height: 48px; }
   .player-avatar mat-icon { font-size: 22px; width: 22px; height: 22px; }
   .player-name   { font-size: 0.825rem; }

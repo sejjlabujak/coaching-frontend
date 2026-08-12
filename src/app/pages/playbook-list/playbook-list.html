@@ -1,0 +1,62 @@
+<app-shell>
+  <div class="page-wrapper">
+    <!-- Header -->
+    <div class="page-header">
+      <div class="page-header-text">
+        <h2 class="page-title">Playbook</h2>
+        <p class="page-subtitle">Create, organize, and share offensive and defensive plays.</p>
+      </div>
+      <div class="page-header-actions">
+        <app-search-input
+          class="search-field"
+          placeholder="Search plays..."
+          [debounceMs]="250"
+          (searchChange)="onSearchChange($event)"
+        ></app-search-input>
+        <button-2 (click)="onNewPlay()">+ New Play</button-2>
+      </div>
+    </div>
+
+    <!-- Grid -->
+    <div class="plays-grid" *ngIf="playbookService.filteredPlays().length; else emptyState">
+      <div
+        class="play-card"
+        *ngFor="let play of playbookService.filteredPlays()"
+        (click)="onOpenPlay(play.id)"
+      >
+        <app-play-thumbnail [diagram]="play.diagram"></app-play-thumbnail>
+
+        <div class="play-card-body">
+          <h4 class="play-title">{{ play.name }}</h4>
+          <span class="category-chip">{{ play.category }}</span>
+
+          <div class="play-card-actions">
+            <button type="button" class="icon-btn" title="Edit play" (click)="onEditClick(play.id, $event)">
+              <mat-icon>edit</mat-icon>
+            </button>
+            <button type="button" class="icon-btn danger" title="Delete play" (click)="onDeleteRequest(play.id, $event)">
+              <mat-icon>delete</mat-icon>
+            </button>
+          </div>
+        </div>
+
+        <div class="delete-overlay" *ngIf="pendingDeleteId() === play.id" (click)="$event.stopPropagation()">
+          <p>Delete "{{ play.name }}"?</p>
+          <div class="delete-overlay-actions">
+            <button type="button" class="confirm-yes-btn" (click)="onDeleteConfirm(play.id, $event)">Yes, delete</button>
+            <button type="button" class="confirm-no-btn" (click)="onDeleteCancel($event)">Cancel</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <ng-template #emptyState>
+      <div class="empty-state">
+        <mat-icon class="empty-icon">sports_basketball</mat-icon>
+        <p class="empty-title">No plays yet</p>
+        <p class="empty-subtitle">Create your first play to start building your playbook.</p>
+        <button-2 (click)="onNewPlay()">+ New Play</button-2>
+      </div>
+    </ng-template>
+  </div>
+</app-shell>

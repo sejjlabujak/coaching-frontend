@@ -1,0 +1,117 @@
+<div class="properties-panel" *ngIf="play; else emptyState">
+  <h3 class="panel-title">Play Details</h3>
+
+  <div class="form-group">
+    <label class="form-label">Play Name</label>
+    <input
+      class="form-input"
+      type="text"
+      [(ngModel)]="name"
+      (blur)="emitField('name', name)"
+    />
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Category</label>
+    <div class="select-wrapper">
+      <select
+        class="form-select"
+        [(ngModel)]="category"
+        (ngModelChange)="emitField('category', $event)"
+      >
+        <option *ngFor="let opt of categoryOptions" [value]="opt">{{ opt }}</option>
+      </select>
+      <mat-icon class="select-arrow">expand_more</mat-icon>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Description</label>
+    <textarea
+      class="form-input form-textarea"
+      rows="3"
+      [(ngModel)]="description"
+      (blur)="emitField('description', description)"
+    ></textarea>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Tags</label>
+    <div class="tags-row">
+      <span class="tag-chip" *ngFor="let tag of tags()">
+        {{ tag }}
+        <button type="button" class="tag-remove" (click)="onRemoveTag(tag)">
+          <mat-icon>close</mat-icon>
+        </button>
+      </span>
+    </div>
+    <input
+      class="form-input"
+      type="text"
+      placeholder="Type a tag and press Enter"
+      [(ngModel)]="tagDraft"
+      (keydown.enter)="onAddTag(); $event.preventDefault()"
+      (blur)="onAddTag()"
+    />
+  </div>
+
+  <div class="form-row">
+    <div class="form-group">
+      <label class="form-label">Difficulty</label>
+      <div class="select-wrapper">
+        <select
+          class="form-select"
+          [(ngModel)]="difficulty"
+          (ngModelChange)="emitField('difficulty', $event)"
+        >
+          <option *ngFor="let opt of difficultyOptions" [value]="opt">{{ opt }}</option>
+        </select>
+        <mat-icon class="select-arrow">expand_more</mat-icon>
+      </div>
+    </div>
+
+    <div class="form-group">
+      <label class="form-label">Age Group</label>
+      <div class="select-wrapper">
+        <select
+          class="form-select"
+          [(ngModel)]="ageGroup"
+          (ngModelChange)="emitField('ageGroup', $event)"
+        >
+          <option *ngFor="let opt of ageGroupOptions" [value]="opt">{{ opt }}</option>
+        </select>
+        <mat-icon class="select-arrow">expand_more</mat-icon>
+      </div>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Duration (minutes)</label>
+    <input
+      class="form-input"
+      type="number"
+      min="1"
+      [(ngModel)]="duration"
+      (ngModelChange)="emitField('duration', duration)"
+    />
+  </div>
+
+  <div class="form-group">
+    <label class="form-label">Notes</label>
+    <textarea
+      class="form-input form-textarea"
+      rows="3"
+      placeholder="Coaching notes, reminders, variations..."
+      [(ngModel)]="notes"
+      (blur)="emitField('notes', notes)"
+    ></textarea>
+  </div>
+</div>
+
+<ng-template #emptyState>
+  <div class="properties-panel empty">
+    <mat-icon class="empty-icon">sports_basketball</mat-icon>
+    <p class="empty-title">No play selected</p>
+    <p class="empty-subtitle">Choose a play from the list or create a new one to see its details here.</p>
+  </div>
+</ng-template>
