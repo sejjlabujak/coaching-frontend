@@ -2,6 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  OnInit,
   signal,
   inject,
 } from '@angular/core';
@@ -13,6 +14,13 @@ import { EventDetailDialogComponent } from '../dialogs/event-detail-dialog/event
 import { EmptySlotDialogComponent } from '../dialogs/empty-slot-dialog/empty-slot-dialog';
 import { Button } from '../button/button';
 import { CreateTrainingDialogComponent } from '../dialogs/create-training-dialog/create-training-dialog';
+import { BackendPlayer, PlayerService } from '../../services/player.service';
+
+interface BirthdayReminder {
+  name: string;
+  month: number;
+  day: number;
+}
 
 @Component({
   selector: 'calendar',
@@ -22,7 +30,7 @@ import { CreateTrainingDialogComponent } from '../dialogs/create-training-dialog
   imports: [CommonModule, Button],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class CalendarComponent {
+export class CalendarComponent implements OnInit {
   today = new Date();
 
   viewYear = signal(this.today.getFullYear());
@@ -32,7 +40,25 @@ export class CalendarComponent {
 
   private readonly dialog = inject(MatDialog);
   private readonly trainingService = inject(TrainingService);
+  private readonly playerService = inject(PlayerService);
   private readonly cdr = inject(ChangeDetectorRef);
+  private readonly birthdays = signal<BirthdayReminder[]>([]);
+
+  ngOnInit(): void {
+    this.playerService.getPlayers().subscribe({
+      next: (players) => {
+        this.birthdays.set(
+          players
+            .map((player) => this.toBirthdayReminder(player))
+            .filter((birthday): birthday is BirthdayReminder => birthday !== null),
+        );
+        this.cdr.markForCheck();
+      },
+      error: () => {
+        // Training events remain available if the roster cannot be loaded.
+      },
+    });
+  }
 
   get currentMonthLabel(): string {
     return new Date(this.viewYear(), this.viewMonth(), 1).toLocaleString('en-US', {
@@ -53,6 +79,12 @@ export class CalendarComponent {
 
   getEvents(day: number): TrainingEvent[] {
     return this.trainingService.getEventsByDate(this.viewYear(), this.viewMonth(), day);
+  }
+
+  getBirthdays(day: number): BirthdayReminder[] {
+    return this.birthdays().filter(
+      (birthday) => birthday.month === this.viewMonth() && birthday.day === day,
+    );
   }
 
   isToday(day: number): boolean {
@@ -152,5 +184,23 @@ export class CalendarComponent {
       width: '520px',
       data: { date: new Date() },
     });
+  }
+
+  private toBirthdayReminder(player: BackendPlayer): BirthdayReminder | null {
+    if (!player.birthDate) return null;
+
+    // Parse the date portion directly to avoid a timezone shifting a birthday by one day.
+    const match = /^(\d{4})-(\d{2})-(\d{2})/.exec(player.birthDate);
+    if (!match) return null;
+
+    const month = Number(match[2]) - 1;
+    const day = Number(match[3]);
+    if (month < 0 || month > 11 || day < 1 || day > 31) return null;
+
+    return {
+      name: `${player.firstName} ${player.lastName}`.trim(),
+      month,
+      day,
+    };
   }
 }

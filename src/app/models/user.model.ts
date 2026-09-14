@@ -8,7 +8,6 @@ export interface AuthUser {
 }
 
 export interface LoginResponse {
-  token: string;
   mustChangePassword: boolean;
   role: UserRole;
   teamName?: string;

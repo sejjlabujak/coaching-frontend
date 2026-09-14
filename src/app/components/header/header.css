@@ -19,6 +19,7 @@
   align-items: center;
   gap: 8px;
 }
+.language-switcher{display:flex;border:1px solid var(--border-color);border-radius:var(--radius-sm);overflow:hidden}.language-switcher button{border:0;background:transparent;padding:5px 8px;font:inherit;font-size:var(--font-size-xs);font-weight:var(--font-weight-semibold);cursor:pointer;color:var(--muted-foreground)}.language-switcher button.active{background:var(--primary-red);color:#fff}
 
 .current-date {
   font-size: 0.8125rem;

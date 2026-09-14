@@ -83,6 +83,17 @@ body {
   overflow: hidden;
 }
 
+/* Manual drill dialog fits its content without showing nested scrollbars. */
+.manual-drill-panel .mat-mdc-dialog-surface,
+.manual-drill-panel .mat-mdc-dialog-container {
+  overflow: hidden !important;
+}
+
+.add-drill-panel .mat-mdc-dialog-surface,
+.add-drill-panel .mat-mdc-dialog-container {
+  overflow: hidden !important;
+}
+
 .snack-error .mdc-snackbar__surface { background: #b91c1c !important; }
 .snack-error .mat-mdc-snack-bar-label { color: #fff !important; }
 .snack-error .mat-mdc-button { color: #fca5a5 !important; }

@@ -145,6 +145,19 @@
   text-overflow: ellipsis;
 }
 
+.birthday-chip {
+  border-radius: 6px;
+  padding: 4px 8px;
+  font-size: 0.75rem;
+  font-weight: 600;
+  color: #713f12;
+  background: linear-gradient(135deg, #fef3c7 0%, #fde68a 100%);
+  border: 1px solid #f59e0b;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
 .chip-high    { background: linear-gradient(135deg, #d14040 0%, #a83030 100%); }
 .chip-medium  { background: linear-gradient(135deg, #f59e0b 0%, #d97706 100%); }
 .chip-low     { background: linear-gradient(135deg, #10b981 0%, #059669 100%); }
@@ -205,6 +218,12 @@
     padding: 2px 5px;
     border-radius: 4px;
   }
+
+  .birthday-chip {
+    font-size: 0.6rem;
+    padding: 2px 5px;
+    border-radius: 4px;
+  }
 }
 
 @media (max-width: 480px) {
@@ -218,6 +237,11 @@
   }
 
   .event-chip {
+    font-size: 0.55rem;
+    padding: 2px 4px;
+  }
+
+  .birthday-chip {
     font-size: 0.55rem;
     padding: 2px 4px;
   }

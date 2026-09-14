@@ -6,11 +6,13 @@ import { MatIconModule } from '@angular/material/icon';
 import { Router } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
 import { SidebarStateService } from '../../services/sidebar-state.service';
+import { TranslationService } from '../../services/translation.service';
+import { TranslatePipe } from '../../pipes/translate.pipe';
 
 @Component({
   selector: 'header',
   standalone: true,
-  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule],
+  imports: [CommonModule, MatToolbarModule, MatButtonModule, MatIconModule, TranslatePipe],
   templateUrl: './header.html',
   styleUrl: './header.css',
 })
@@ -18,6 +20,7 @@ export class HeaderComponent {
   private readonly auth = inject(AuthService);
   private readonly router = inject(Router);
   readonly sidebarState = inject(SidebarStateService);
+  readonly i18n = inject(TranslationService);
 
   currentDate: Date = new Date();
 

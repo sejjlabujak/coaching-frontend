@@ -15,6 +15,7 @@ export interface Recommendation {
   analysis: string;
   recommendedDrills: RecommendedDrill[];
 }
+export interface RecommendationFeedback { recommendationId: string; feedbackType: 'USEFUL' | 'NOT_USEFUL'; reason?: string; comment?: string; }
 
 @Injectable({ providedIn: 'root' })
 export class RecommendationService {
@@ -24,4 +25,6 @@ export class RecommendationService {
   getRecommendations(): Observable<Recommendation[]> {
     return this.http.get<Recommendation[]>(this.baseUrl);
   }
+  feedback(payload: RecommendationFeedback): Observable<void> { return this.http.post<void>(`${this.baseUrl}/feedback`, payload); }
+  track(recommendationId: string, eventType: 'VIEWED' | 'DRILL_SELECTED' | 'DRILLS_ADDED'): Observable<void> { return this.http.post<void>(`${this.baseUrl}/events`, { recommendationId, eventType }); }
 }

@@ -1,32 +1,10 @@
-<app-shell>
-  <div class="page-wrapper">
-    <h2 class="dashboard-title">Performance Dashboard</h2>
-
-    <!-- Metric Cards -->
-    <div class="stats-grid">
-      <app-stat-card
-        *ngFor="let stat of stats()"
-        [label]="stat.label"
-        [value]="stat.value"
-        [icon]="stat.icon"
-        [color]="stat.color"
-      ></app-stat-card>
-    </div>
-
-    <!-- Error banner -->
-    <div *ngIf="error()" class="error-banner">
-      {{ error() }}
-    </div>
-
-    <!-- Charts and Analysis -->
-    <div class="analytics-grid">
-      <!-- Recent Home Games -->
-      <app-recent-team-games [games]="recentGames()"></app-recent-team-games>
-
-      <!-- Team Analysis -->
-      <div class="analysis-wrapper">
-        <app-team-analysis [teamAnalysis]="teamAnalysis()"></app-team-analysis>
-      </div>
-    </div>
-  </div>
-</app-shell>
+<app-shell><main class="page-wrapper"><header class="page-header"><div><p class="eyebrow">{{ 'dashboard.teamPerformance' | t }}</p><h1>{{ auth.teamName() ?? 'Your team' }}</h1><p class="dashboard-subtitle">{{ periodLabel() }} · {{ 'dashboard.coachDecision' | t }}</p></div><button-2 (click)="importGame()">{{ 'dashboard.importGame' | t }}</button-2></header>
+  @if (error()) { <div class="error-banner"><span>{{ error() }}</span><button class="retry" (click)="load()">{{ 'common.retry' | t }}</button></div> }
+  @if (loading()) { <div class="loading-state">{{ 'dashboard.loading' | t }}</div> } @else if (!games().length) { <section class="empty-state"><h2>{{ 'dashboard.noGameData' | t }}</h2><p>{{ 'dashboard.noGameDataHint' | t }}</p><button-2 (click)="importGame()">{{ 'dashboard.importGame' | t }}</button-2></section> } @else {
+    <section class="stats-grid" aria-label="Quick performance summary">@for (stat of summary(); track stat.label) { <app-stat-card [label]="stat.label" [value]="stat.value" [icon]="stat.icon" [color]="stat.color" /> }</section>
+    <section class="panel performance-panel"><div class="section-header"><div><p class="eyebrow">{{ 'dashboard.recentPerformance' | t }}</p><h2>{{ 'dashboard.teamPerformance' | t }}</h2></div><select class="form-select metric-select" [(ngModel)]="selectedMetric"><option *ngFor="let metric of metrics" [value]="metric[0]">{{ metric[1] }}</option></select></div><div class="trend-chart"><svg viewBox="0 0 100 100" preserveAspectRatio="none" role="img" [attr.aria-label]="metricLabels[selectedMetric] + ' across recent games'"><line x1="5" y1="90" x2="95" y2="90" class="axis"/><path [attr.d]="chartPath()" class="trend-line"/>@for(point of chartData(); track point.game.gameId){<circle [attr.cx]="point.x" [attr.cy]="point.y" r="2" class="trend-point"><title>{{ point.game.opponent }}: {{ point.value }}</title></circle>}</svg><div class="chart-labels">@for(point of chartData(); track point.game.gameId){<span>vs {{ point.game.opponent }}</span>}</div></div></section>
+    <section class="insight-grid"><article class="panel strength-panel"><h2>{{ 'dashboard.strengths' | t }}</h2>@if (strengths().length) {@for(item of strengths();track item.title){<div class="insight-item success"><strong>✓ {{ item.title }}</strong><span>{{ item.detail }}</span></div>}} @else {<p class="muted">More game data is needed to identify clear strengths.</p>}</article><article class="panel improve-panel"><h2>{{ 'dashboard.improve' | t }}</h2>@if (improvements().length) {@for(item of improvements();track item.title){<div class="insight-item warning"><strong>⚠ {{ item.title }}</strong><span>{{ item.detail }}</span></div>}} @else {<p class="muted">No priority concerns identified from recent results.</p>}</article></section>
+    <section class="panel coaching-insights"><div class="insights-header"><p class="eyebrow">{{ 'dashboard.coachingInsights' | t }}</p><h2>{{ 'dashboard.focusNext' | t }}</h2></div>@if (insights().length) {<div class="recommendation-grid">@for(insight of insights();track insight.id;let i=$index){<app-coaching-insight-card [insight]="insight" [rank]="i + 1" (viewRecommendation)="openInsight($event)" />}</div>} @else {<p class="muted">{{ 'dashboard.noRecommendations' | t }}</p>}</section>
+    <section class="games-section"><div class="section-header"><div><p class="eyebrow">{{ 'dashboard.gameLog' | t }}</p><h2>{{ 'dashboard.recentGames' | t }}</h2></div><span class="muted">{{ periodLabel() }}</span></div><app-recent-team-games [games]="games()" /></section>
+  }
+</main></app-shell>

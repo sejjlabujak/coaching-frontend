@@ -5,6 +5,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SidebarStateService } from '../../services/sidebar-state.service';
 import { AuthService } from '../../services/auth.service';
+import { TranslationService } from '../../services/translation.service';
 
 interface MenuItem {
   icon: string;
@@ -13,15 +14,16 @@ interface MenuItem {
 }
 
 const COACH_MENU: MenuItem[] = [
-  { icon: 'dashboard',         label: 'Dashboard', route: '/dashboard' },
-  { icon: 'groups',            label: 'Roster',    route: '/roster' },
-  { icon: 'fitness_center',    label: 'Drills',    route: '/drills' },
-  { icon: 'sports_basketball', label: 'Playbook',  route: '/playbook' },
-  { icon: 'calendar_month',    label: 'Planner',   route: '/planner' },
+  { icon: 'dashboard',         label: 'nav.dashboard', route: '/dashboard' },
+  { icon: 'groups',            label: 'nav.roster',    route: '/roster' },
+  { icon: 'upload_file',       label: 'nav.importStatistics', route: '/statistics-import' },
+  { icon: 'fitness_center',    label: 'nav.drills',    route: '/drills' },
+  { icon: 'sports_basketball', label: 'nav.playbook',  route: '/playbook' },
+  { icon: 'calendar_month',    label: 'nav.planner',   route: '/planner' },
 ];
 
 const ADMIN_MENU: MenuItem[] = [
-  { icon: 'manage_accounts', label: 'Coaches', route: '/admin' },
+  { icon: 'manage_accounts', label: 'nav.coaches', route: '/admin' },
 ];
 
 @Component({
@@ -34,6 +36,7 @@ const ADMIN_MENU: MenuItem[] = [
 export class SidebarComponent {
   private readonly sidebarState = inject(SidebarStateService);
   private readonly auth = inject(AuthService);
+  readonly i18n = inject(TranslationService);
 
   get isExpanded(): boolean {
     return this.sidebarState.isExpanded;

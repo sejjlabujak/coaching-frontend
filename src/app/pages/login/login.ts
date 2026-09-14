@@ -36,6 +36,7 @@ export class LoginComponent {
 
       if (!result.success) {
         this.error.set(result.error ?? 'Login failed.');
+        if (result.error?.includes('verify your email')) this.router.navigate(['/verify-email'], { state: { email: this.username } });
         return;
       }
 
@@ -49,4 +50,6 @@ export class LoginComponent {
       }
     });
   }
+
+  createAccount(): void { this.router.navigate(['/register']); }
 }

@@ -1,5 +1,7 @@
 import { Routes } from '@angular/router';
 import { LoginComponent } from './pages/login/login';
+import { RegisterComponent } from './pages/register/register';
+import { VerifyEmailComponent } from './pages/verify-email/verify-email';
 import { ChangePasswordComponent } from './pages/change-password/change-password';
 import { AdminComponent } from './pages/admin/admin';
 import { TrainingPlan } from './pages/training-plan/training-plan';
@@ -10,12 +12,15 @@ import { PlayerRosterComponent } from './pages/player-roster/player-roster';
 import { EditProfileComponent } from './pages/edit-profile/edit-profile';
 import { PlaybookComponent } from './pages/playbook/playbook';
 import { PlaybookListComponent } from './pages/playbook-list/playbook-list';
+import { StatisticsImportComponent } from './pages/statistics-import/statistics-import';
 import { authGuard } from './guards/auth.guard';
 import { adminGuard, coachGuard } from './guards/role.guard';
 
 export const routes: Routes = [
   // Public
   { path: 'login', component: LoginComponent },
+  { path: 'register', component: RegisterComponent },
+  { path: 'verify-email', component: VerifyEmailComponent },
   { path: 'change-password', component: ChangePasswordComponent, canActivate: [authGuard] },
 
   // Admin
@@ -30,6 +35,7 @@ export const routes: Routes = [
   { path: 'planner',          component: TrainingPlan,            canActivate: [authGuard, coachGuard] },
   { path: 'training-builder', component: TrainingBuilderComponent, canActivate: [authGuard, coachGuard] },
   { path: 'settings',         component: EditProfileComponent,    canActivate: [authGuard, coachGuard] },
+  { path: 'statistics-import', component: StatisticsImportComponent, canActivate: [authGuard, coachGuard] },
 
   // Fallback
   { path: '',   redirectTo: '/login', pathMatch: 'full' },

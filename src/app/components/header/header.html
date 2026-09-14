@@ -1,17 +1,21 @@
 <mat-toolbar class="top-header">
   <!-- Mobile hamburger -->
-  <button class="hamburger-btn" (click)="sidebarState.toggleMobile()" aria-label="Open menu">
+  <button class="hamburger-btn" (click)="sidebarState.toggleMobile()" [attr.aria-label]="'header.openMenu' | t">
     <mat-icon>menu</mat-icon>
   </button>
 
   <span class="spacer"></span>
 
   <div class="header-actions">
+    <div class="language-switcher" aria-label="Language">
+      <button [class.active]="i18n.language() === 'en'" (click)="i18n.setLanguage('en')">EN</button>
+      <button [class.active]="i18n.language() === 'bs'" (click)="i18n.setLanguage('bs')">BS</button>
+    </div>
     <span class="current-date">
       {{ currentDate | date:'MMMM d, y' }}
     </span>
 
-    <div class="user-info" *ngIf="username" (click)="goToProfile()" title="Edit profile">
+    <div class="user-info" *ngIf="username" (click)="goToProfile()" [title]="'header.editProfile' | t">
       <div class="user-avatar">{{ username[0].toUpperCase() }}</div>
       <div class="user-meta">
         <span class="user-name">{{ username }}</span>
@@ -19,7 +23,7 @@
       </div>
     </div>
 
-    <button mat-icon-button title="Logout" (click)="logout()">
+    <button mat-icon-button [title]="'header.logout' | t" (click)="logout()">
       <mat-icon>logout</mat-icon>
     </button>
   </div>

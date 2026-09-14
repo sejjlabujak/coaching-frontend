@@ -20,6 +20,8 @@ import { LibraryDrill } from '../../models/library-drill.model';
 import { Drill } from '../../models/drill.model';
 import { MatDialog } from '@angular/material/dialog';
 import { OcrUploadDialog } from '../../components/dialogs/ocr-upload-dialog/ocr-upload-dialog';
+import { AddDrillDialogComponent } from '../../components/dialogs/add-drill-dialog/add-drill-dialog';
+import { ManualDrillDialogComponent } from '../../components/dialogs/manual-drill-dialog/manual-drill-dialog';
 
 @Component({
   selector: 'app-drill-library',
@@ -155,6 +157,15 @@ export class DrillLibraryComponent implements OnInit {
         this.libraryService.loadDrills();
         this.cdr.markForCheck();
       }
+    });
+  }
+
+  onAddDrill(): void {
+    this.dialog.open(AddDrillDialogComponent, { width: '490px', maxWidth: '94vw', panelClass: 'add-drill-panel' }).afterClosed().subscribe(choice => {
+      if (choice === 'ai') this.onImportFromPdf();
+      if (choice === 'manual') this.dialog.open(ManualDrillDialogComponent, { width: '620px', maxWidth: '94vw', maxHeight: '98vh', panelClass: 'manual-drill-panel' }).afterClosed().subscribe(result => {
+        if (result?.saved) { this.libraryService.loadDrills(); this.cdr.markForCheck(); }
+      });
     });
   }
 

@@ -28,6 +28,14 @@
       <span class="day-number">{{ day }}</span>
       <div class="events">
         <div
+          class="birthday-chip"
+          *ngFor="let birthday of getBirthdays(day)"
+          [title]="birthday.name + '\'s birthday'"
+          (click)="$event.stopPropagation()"
+        >
+          <span aria-hidden="true">🎂</span> {{ birthday.name }}'s birthday
+        </div>
+        <div
           class="event-chip"
           *ngFor="let ev of getEvents(day)"
           [class.chip-high]="ev.intensity === 'HIGH'"

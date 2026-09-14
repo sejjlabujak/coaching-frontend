@@ -14,11 +14,11 @@
 
   <mat-nav-list>
     @for (item of menuItems(); track item.label) {
-    <a mat-list-item [routerLink]="item.route" routerLinkActive="active-link" [title]="item.label">
+    <a mat-list-item [routerLink]="item.route" routerLinkActive="active-link" [title]="i18n.translate(item.label)">
       <mat-icon matListItemIcon [fontIcon]="item.icon" aria-hidden="true"></mat-icon>
 
       @if (isExpanded) {
-      <span matListItemTitle>{{ item.label }}</span>
+      <span matListItemTitle>{{ i18n.translate(item.label) }}</span>
       }
     </a>
     }
