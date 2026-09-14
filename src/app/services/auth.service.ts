@@ -91,6 +91,9 @@ export class AuthService {
   }
 
   initialize(): Observable<void> {
+    // Route extraction runs on Node during a production build. It must not make
+    // a browser API request or wait for the deployed backend from that process.
+    if (!this.isBrowser) return of(undefined);
     return this.refreshCsrfToken().pipe(catchError(() => of(undefined)));
   }
 
