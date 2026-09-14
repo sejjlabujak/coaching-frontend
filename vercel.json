@@ -1,0 +1,15 @@
+{
+  "$schema": "https://openapi.vercel.sh/vercel.json",
+  "buildCommand": "npm run build:prod",
+  "outputDirectory": "dist/coaching-app/browser",
+  "rewrites": [
+    {
+      "source": "/api/:path*",
+      "destination": "https://coaching-app-api-498s.onrender.com/api/:path*"
+    },
+    {
+      "source": "/:path*",
+      "destination": "/index.html"
+    }
+  ]
+}

@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
-  apiUrl: 'https://coaching-backend-6b4431222d56.herokuapp.com',
+  // Vercel proxies /api to Render so auth cookies remain first-party.
+  apiUrl: '/api',
 };
 
